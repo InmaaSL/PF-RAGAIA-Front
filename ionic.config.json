@@ -1,0 +1,7 @@
+{
+  "name": "RAGAIA-Front",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
