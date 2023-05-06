@@ -1,0 +1,36 @@
+<div class="card cascading-right login-container">
+  <div class="card-body p-4 shadow-5 text-center">
+    <h2 class="fw-bold mb-5"> Inicar Sesión </h2>
+    <form [formGroup]="loginForm">
+      <!-- Email input -->
+      <div class="form-outline mb-4">
+        <label class="form-label" for="email"> Correo electrónico </label>
+        <input type="email" id="email" class="form-control" formControlName="email" />
+      </div>
+
+      <!-- Password input -->
+      <div class="form-outline mb-4">
+        <label class="form-label" for="password"> Contraseña </label>
+        <input type="password" id="password" class="form-control" formControlName="password"/>
+      </div>
+
+      <!-- Checkbox -->
+      <div class="d-flex justify-content-center align-items-center mb-4">
+        <input class="form-check-input m-0 me-2" type="checkbox" value="" id="remember-me" [formControl]="guardarSesion" />
+        <label class="form-check-label" for="remember-me">
+          Recuérdame
+        </label>
+      </div>
+
+      <!-- Link -->
+      <div class="form-check d-flex justify-content-center mb-4">
+        <a href="#"> ¿Has olviado tu contraseña? </a>
+      </div>
+
+      <!-- Submit button -->
+      <button type="button" class="btn btn-primary btn-block mb-4" (click)="login()">
+        Acceder
+      </button>
+    </form>
+  </div>
+</div>
