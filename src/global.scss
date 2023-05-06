@@ -24,3 +24,84 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
+
+
+html, body {
+  height: 100%;
+}
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding-inline: 1.5rem;
+  height: 100px;
+}
+
+.header-img-logo {
+  display: inline-flex;
+  text-decoration: none;
+  max-width: 120px;
+}
+
+.main-container {
+  min-height: calc(100% - 100px); /* 100px es la altura del footer */
+  display: flex;
+  flex-direction: row;
+  background: #C9D6FF;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #E2E2E2, #C9D6FF);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #E2E2E2, #C9D6FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.main-sidebar {
+  width: 225px;
+  position: fixed;
+  left: 0;
+  top: 100px;
+  bottom: 0;
+  padding: 20px;
+}
+
+.main-components-container {
+  flex: 1;
+  margin-left: 225px; /* Para que el contenido no se superponga al sidebar */
+  padding: 20px;
+}
+
+.rrss-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  list-style: none;
+}
+
+.rrss-icon {
+  font-size: 30px;
+  color: rgb(29, 163, 216);
+}
+
+footer {
+  height: 100px;
+}
+
+
+@media only screen and (max-width: 768px) {
+
+  .header-img-logo {
+    display: inline-flex;
+    text-decoration: none;
+    max-width: 100px;
+  }
+
+}
+
+@media only screen and (max-width: 576px) {
+
+  .header-img-logo {
+    display: inline-flex;
+    text-decoration: none;
+    max-width: 80px;
+  }
+
+}

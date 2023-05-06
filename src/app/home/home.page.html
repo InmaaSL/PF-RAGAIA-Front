@@ -1,20 +1,140 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <header class="justify-content-center justify-content-md-between">
+      <div class="col-md-3 mb-2 mb-md-0">
+        <a href="/" class="header-img-logo link-body-emphasis">
+          <img src="../../assets/logo/logo-fsyc.png" alt="lgo-fsys">
+        </a>
+      </div>
+    </header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+    <div class="main-container">
+      <div class="main-sidebar flex-shrink-0">
+        <button class="btn d-inline-flex align-items-center rounded border-0">
+          Home
+        </button>
+
+        <ul class="list-unstyled ps-0">
+          <li class="mb-1">
+            <button class="btn d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
+              Personal
+            </button>
+            <div class="collapse" id="home-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded"> Administrador </a></li>
+                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded"> Equipo de atención directa </a></li>
+                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Servicio de apoyo doméstico </a></li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="mb-1">
+            <button class="btn d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+              NNA
+            </button>
+            <div class="collapse" id="dashboard-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Overview</a></li>
+                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Weekly</a></li>
+                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Monthly</a></li>
+                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Annually</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="mb-1">
+            <button class="btn d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+              Orders
+            </button>
+            <div class="collapse" id="orders-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">New</a></li>
+                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Processed</a></li>
+                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Shipped</a></li>
+                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Returned</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="border-top my-3"></li>
+          <li class="mb-1">
+            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+              Account
+            </button>
+            <div class="collapse" id="account-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">New...</a></li>
+                <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Profile</a></li>
+                <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Settings</a></li>
+                <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Sign out</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="main-components-container">
+        <div class="text-container">
+          <h2>Título del contenedor de texto</h2>
+          <p>Texto de ejemplo en el contenedor de texto</p>
+        </div>
+        <div class="card-container">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Título de la tarjeta 1</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              Contenido de la tarjeta 1
+            </ion-card-content>
+          </ion-card>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Título de la tarjeta 2</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              Contenido de la tarjeta 2
+            </ion-card-content>
+          </ion-card>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Columna 1</th>
+                <th>Columna 2</th>
+                <th>Columna 3</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Dato 1</td>
+                <td>Dato 2</td>
+                <td>Dato 3</td>
+              </tr>
+              <tr>
+                <td>Dato 4</td>
+                <td>Dato 5</td>
+                <td>Dato 6</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <footer class="pt-3">
+      <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+      </ul>
+
+      <ul class="nav rrss-container">
+        <li class=""><a class="rrss-icon" href="https://www.twitter.com/fundsalcom"><i class="fa fa-twitter"></i></a></li>
+        <li class=""><a class="rrss-icon" href="https://www.instagram.com/fundsalcom/"><i class="fa fa-instagram"></i></a></li>
+        <li class=""><a class="rrss-icon" href="https://www.facebook.com/fundsalcom"><i class="fa fa-facebook"></i></a></li>
+        <li class=""><a class="rrss-icon" href="https://www.linkedin.com/company/fundacion-salud-y-comunidad"><i class="fa fa-linkedin"></i></a></li>
+        <li class=""><a class="rrss-icon" href="https://www.youtube.com/user/fsyc"><i class="fa fa-youtube"></i></a></li>
+      </ul>
+      <p class="text-center text-body-secondary">&copy; 2023 Fundación Salud y Comunidad </p>
+    </footer>
 </ion-content>
