@@ -1,13 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { API_URL } from 'src/environments/environment';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiUserService {
 
-  urlGetUserData = API_URL + '/user/userData';
+  urlGetUserData = environment.API_URL + '/user/userData';
 
   constructor(
     public http: HttpClient

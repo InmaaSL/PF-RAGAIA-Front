@@ -60,18 +60,21 @@
             </button>
             <div class="collapse" id="account-collapse">
               <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">New...</a></li>
                 <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Profile</a></li>
-                <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Settings</a></li>
                 <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Sign out</a></li>
               </ul>
             </div>
           </li>
         </ul>
+
+        <button class="btn d-inline-flex align-items-center rounded border-0 mt-auto" (click)="logout()">
+          Cerrar Sesión
+        </button>
       </div>
 
       <div class="main-components-container">
-        <app-main-component></app-main-component>
+        <app-main-component class="full-width-component"></app-main-component>
+        <!-- <app-main-component class="full-width-component" *ngIf="selectedComponent === 'mainPage'"></app-main-component> -->
       </div>
 
     </div>

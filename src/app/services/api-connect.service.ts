@@ -1,40 +1,46 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { API_URL } from 'src/environments/environment';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiConnectService {
 
-  urlRegister = API_URL + '/register';
-  urlGetUserId = API_URL + '/getId';
-  urlGetUserInfo = API_URL + '/getInfo';
+  urlRegister = environment.API_URL + '/register';
+  urlGetUserId = environment.API_URL + '/user/getUserId';
+  urlGetUserInfo = environment.API_URL + '/user/getUserData';
   constructor(
     public http: HttpClient
   ) { }
 
   loginTest(postData: any) {
     const requestOptions = {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       headers: new HttpHeaders({ Accept: 'application/json' }),
     };
-    return this.http.post(API_URL+ '/login_check', postData);
+    return this.http.post(environment.API_URL+ '/login_check', postData);
   }
 
   register(postData: any) {
     const requestOptions = {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       headers: new HttpHeaders({ Accept: 'application/json' }),
     };
     return this.http.post(this.urlRegister, postData, requestOptions);
   }
 
   getUserId() {
+    const requestOptions = {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      headers: new HttpHeaders({ Accept: 'application/json' }),
+    };
     return this.http.get(this.urlGetUserId);
   }
 
   getUserInfo() {
+    const requestOptions = {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      headers: new HttpHeaders({ Accept: 'application/json' }),
+    };
     return this.http.get(this.urlGetUserInfo);
   }
 
