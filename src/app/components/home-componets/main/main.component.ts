@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-main-component',
@@ -7,8 +8,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainComponent  implements OnInit {
 
-  constructor() { }
+  userName = '';
 
-  ngOnInit() {}
+  constructor(
+    public authService: AuthService
+  ) { }
+
+  ngOnInit() {
+    this.loadData();
+  }
+
+  loadData(){
+    this.authService.getUserData().subscribe({
+      next: (userData:any) => {
+        if(userData) {
+          console.log(userData);
+          this.userName = userData['name'] + ' ' + userData['surname'];
+        }
+      }
+    })
+  }
 
 }
