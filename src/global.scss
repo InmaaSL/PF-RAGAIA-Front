@@ -98,6 +98,13 @@ header {
   margin-inline: 1.5rem;
 }
 
+.main-container-components {
+  min-height: calc(100% - 230px); /* 100px es la altura del footer */
+  display: flex;
+  justify-content: center;
+  margin-inline: 1.5rem;
+}
+
 footer {
   height: 150px;
   width: 95%;

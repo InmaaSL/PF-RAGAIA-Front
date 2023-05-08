@@ -10,6 +10,28 @@
   user-select: none;
 }
 
+.btn-collapse {
+  display: inline-flex;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+}
+
+.container-toggle {
+  list-style: none;
+  padding-bottom: 0.25rem;
+  cursor: pointer;
+}
+
+.btn-toggl {
+  display: inline-flex;
+  text-decoration: none;
+  padding-block: 0.25rem;
+  color: var(--primary-color);
+}
+
+
+
 @media (min-width: 768px) {
   .bd-placeholder-img-lg {
     font-size: 3.5rem;

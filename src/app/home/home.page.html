@@ -1,68 +1,65 @@
 <ion-content [fullscreen]="true">
-    <header class="justify-content-center justify-content-md-between">
-      <div class="col-md-3 mb-2 mb-md-0">
-        <a href="/" class="header-img-logo link-body-emphasis">
-          <img src="../../assets/logo/logo-fsyc.png" alt="lgo-fsys">
-        </a>
-      </div>
-    </header>
+  <header class="justify-content-center justify-content-md-between mx-3">
+    <div class="col-md-3 mb-2 mb-md-0">
+      <a href="/" class="header-img-logo link-body-emphasis">
+        <img src="../../assets/logo/logo-fsyc.png" alt="lgo-fsys">
+      </a>
+    </div>
+  </header>
 
-    <div class="main-container">
-      <div class="main-sidebar flex-shrink-0">
-        <ul class="list-unstyled ps-0">
-          <ng-container *ngFor="let menuItem of menuItems">
-            <li class="mb-1">
-              <ng-container *ngIf="menuItem.pages">
-                <button class="btn d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+ menuItem.value + 'collapse'" aria-expanded="false">
-                  {{ menuItem.name }}
-                </button>
-                <div class="collapse" [attr.id]="menuItem.value + 'collapse'">
-                  <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                    <li *ngFor="let subpage of menuItem.pages">
-                      <a class="link-body-emphasis d-inline-flex text-decoration-none rounded" (click)="goTo(subpage.value)"> {{ subpage.name }} </a>
-                    </li>
-                  </ul>
-                </div>
-              </ng-container>
-              <ng-container *ngIf="!menuItem.pages">
-                <button class="btn d-inline-flex align-items-center rounded border-0" (click)="goTo(menuItem.value)">
-                  {{ menuItem.name }}
-                </button>
-              </ng-container>
-            </li>
-          </ng-container>
-        </ul>
+  <div class="main-container-components">
+    <div class="main-sidebar flex-shrink-0">
+      <ul class="list-unstyled ps-0">
+        <ng-container *ngFor="let menuItem of menuItems">
+          <li class="mb-1">
+            <ng-container *ngIf="menuItem.pages">
+              <button class="btn btn-collapse collapsed" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+ menuItem.value + 'collapse'" aria-expanded="false">
+                {{ menuItem.name }}
+              </button>
+              <div class="collapse" [attr.id]="menuItem.value + 'collapse'">
+                <ul class="container-toggle">
+                  <li *ngFor="let subpage of menuItem.pages">
+                    <a class="btn-toggl" (click)="goTo(subpage.value)"> {{ subpage.name }} </a>
+                  </li>
+                </ul>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="!menuItem.pages">
+              <button class="btn btn-collapse" (click)="goTo(menuItem.value)">
+                {{ menuItem.name }}
+              </button>
+            </ng-container>
+          </li>
+        </ng-container>
+      </ul>
 
-        <button class="btn d-inline-flex align-items-center rounded border-0 mt-auto" (click)="logout()">
-          Cerrar Sesión
-        </button>
-      </div>
-
-      <div class="main-components-container">
-        <app-main-component class="full-width-component" *ngIf="selectedComponent === 'main'"></app-main-component>
-        <app-user-register class="full-width-component" *ngIf="selectedComponent === 'user-register'"></app-user-register>
-      </div>
-
+      <button class="btn d-inline-flex align-items-center rounded border-0 mt-auto" (click)="logout()">
+        Cerrar Sesión
+      </button>
     </div>
 
+    <div class="main-components-container">
+      <app-main-component class="full-width-component" *ngIf="selectedComponent === 'main'"></app-main-component>
+      <app-user-register class="full-width-component" *ngIf="selectedComponent === 'user-register'"></app-user-register>
+    </div>
+  </div>
 
-    <footer class="pt-3">
-      <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
-      </ul>
+  <footer class="py-3">
+    <ul class="nav justify-content-center border-bottom pb-1">
+      <li class="nav-item"><a href="#" class="nav-link footer-text px-2">Home</a></li>
+      <li class="nav-item"><a href="#" class="nav-link footer-text px-2">Features</a></li>
+      <li class="nav-item"><a href="#" class="nav-link footer-text px-2">Pricing</a></li>
+      <li class="nav-item"><a href="#" class="nav-link footer-text px-2">FAQs</a></li>
+      <li class="nav-item"><a href="#" class="nav-link footer-text px-2">About</a></li>
+    </ul>
 
-      <ul class="nav rrss-container">
-        <li class=""><a class="rrss-icon" href="https://www.twitter.com/fundsalcom"><i class="fa fa-twitter"></i></a></li>
-        <li class=""><a class="rrss-icon" href="https://www.instagram.com/fundsalcom/"><i class="fa fa-instagram"></i></a></li>
-        <li class=""><a class="rrss-icon" href="https://www.facebook.com/fundsalcom"><i class="fa fa-facebook"></i></a></li>
-        <li class=""><a class="rrss-icon" href="https://www.linkedin.com/company/fundacion-salud-y-comunidad"><i class="fa fa-linkedin"></i></a></li>
-        <li class=""><a class="rrss-icon" href="https://www.youtube.com/user/fsyc"><i class="fa fa-youtube"></i></a></li>
-      </ul>
-
-      <p class="text-center text-body-secondary">&copy; 2023 Fundación Salud y Comunidad </p>
-    </footer>
+    <ul class="nav rrss-container">
+      <li class=""><a class="rrss-icon" href="https://www.twitter.com/fundsalcom"><i class="fa fa-twitter"></i></a></li>
+      <li class=""><a class="rrss-icon" href="https://www.instagram.com/fundsalcom/"><i class="fa fa-instagram"></i></a></li>
+      <li class=""><a class="rrss-icon" href="https://www.facebook.com/fundsalcom"><i class="fa fa-facebook"></i></a></li>
+      <li class=""><a class="rrss-icon" href="https://www.linkedin.com/company/fundacion-salud-y-comunidad"><i class="fa fa-linkedin"></i></a></li>
+      <li class=""><a class="rrss-icon" href="https://www.youtube.com/user/fsyc"><i class="fa fa-youtube"></i></a></li>
+    </ul>
+    <p class="copy-right">&copy; 2023 Fundación Salud y Comunidad </p>
+  </footer>
 </ion-content>
