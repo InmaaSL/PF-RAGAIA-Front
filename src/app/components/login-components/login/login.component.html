@@ -1,6 +1,5 @@
 <div class="card cascading-right login-container">
   <div class="card-body p-4 shadow-5 text-center">
-    <h2 class="fw-bold mb-5"> Inicar Sesión </h2>
     <form [formGroup]="loginForm">
       <!-- Email input -->
       <div class="form-outline mb-4">
@@ -23,13 +22,13 @@
       </div>
 
       <!-- Link -->
-      <div class="form-check d-flex justify-content-center mb-4">
+      <div class="form-check forgotten-password">
         <a href="#"> ¿Has olviado tu contraseña? </a>
       </div>
 
       <!-- Submit button -->
-      <button type="button" class="btn btn-primary btn-block mb-4" (click)="login()">
-        Acceder
+      <button type="button" class="btn btn-primary btn-block" (click)="login()">
+        Iniciar Sesión
       </button>
     </form>
   </div>

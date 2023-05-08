@@ -2,13 +2,38 @@
   margin-right: -50px;
 }
 
-@media (max-width: 991.98px) {
+.login-container {
+  background: hsla(0, 0%, 100%, 0.55);
+  backdrop-filter: blur(30px);
+}
+
+.forgotten-password {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.forgotten-password a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
   .cascading-right {
     margin-right: 0;
   }
 }
 
-.login-container {
-  background: hsla(0, 0%, 100%, 0.55);
-  backdrop-filter: blur(30px);
+
+
+@media only screen and (max-width: 768px) {
+
+
+
+}
+
+@media only screen and (max-width: 576px) {
+
+
+
 }
