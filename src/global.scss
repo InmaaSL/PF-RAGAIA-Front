@@ -25,6 +25,48 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
+:root {
+  --main-color: #FE5000;
+  --primary-color: #333333;
+  --primary-color-opc05: rgb(51, 51, 51, 0.5);
+  --secondary-color: #F6F8F9;
+  --third-color: #FFFFFF;
+  --third-color-opc07: rgba(255, 255, 255, 0.7);
+  --fourth-color: #9AA0AC;
+  --fifth-color: #818181;
+  --sixth-color: #E2E2E2;
+  --seventh-color: #4498D9;
+  --eighth-color: #9598A7;
+  --ninth-color: #363434;
+  --tenth-color: #ECEFF1;
+  --eleventh-color: #B2B6BD;
+  --twelfth-color: #F15D5D;
+  --thirteenth-color: #7FB77F;
+  --fourteenth-color: #F9D46D;
+  --fifteenth-color: #CFCFCF;
+  --sixteenth-color: #495057;
+  --seventeenth-color: #E5E5E5;
+
+  --font1: 10px;
+  --font2: 12px;
+  --font3: 14px;
+  --font4: 16px;
+  --font5: 18px;
+  --font6: 20px;
+  --font7: 22px;
+  --font8: 24px;
+  --font9: 26px;
+  --font10: 30px;
+  --font11: 35px;
+  --font12: 40px;
+  --font13: 45px;
+
+  --fontWeight300: 300;
+  --fontWeight400: 400;
+  --fontWeight600: 600;
+  --fontBold: bold;
+}
+
 
 html, body {
   height: 100%;
@@ -60,7 +102,7 @@ header {
 
 .main-components-container {
   flex: 1;
-  margin-left: 225px; /* Para que el contenido no se superponga al sidebar */
+  // margin-left: 225px; /* Para que el contenido no se superponga al sidebar */
   padding: 20px;
 }
 
@@ -79,6 +121,19 @@ header {
 
 footer {
   height: 100px;
+}
+
+.main-title {
+  font-size: var(--font9);
+  font-weight: var(--fontWeight400);
+
+  margin-top: 0;
+}
+
+.sub-title {
+  font-size: var(--font6);
+
+  margin-top: 0;
 }
 
 

@@ -6,6 +6,7 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { MainComponent } from '../components/home-componets/main/main.component';
+import { UserRegisterComponent } from '../components/home-componets/user-register/user-register.component';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { MainComponent } from '../components/home-componets/main/main.component'
   ],
   declarations: [
     HomePage,
-    MainComponent
+    MainComponent,
+    UserRegisterComponent
   ]
 })
 export class HomePageModule {}
