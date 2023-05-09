@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 export class ApiUserService {
 
   urlGetUserData = environment.API_URL + '/user/userData';
+  urlGetAllUserData = environment.API_URL + '/user/usersData';
   urlGetProfesionalCategories = environment.API_URL + '/getProfesionalCategories'
   urlGetCentres = environment.API_URL + '/getCentres'
 
@@ -39,6 +40,14 @@ export class ApiUserService {
       .set('Content-Type', 'application/x-www-form-urlencoded');
     const requestOptions = { headers };
     return this.http.get(this.urlGetCentres, requestOptions);
+  }
+
+  getAllUsersData() {
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/x-www-form-urlencoded')
+      .set('Content-Type', 'application/x-www-form-urlencoded');
+    const requestOptions = { headers };
+    return this.http.get(this.urlGetAllUserData, requestOptions);
   }
 
   registerUserData(id: string, postData: any) {

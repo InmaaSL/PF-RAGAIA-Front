@@ -23,7 +23,7 @@ export class HomePage implements OnInit {
       value: 'super-admin',
       pages : [
         {name: 'Registro de usuarios', value: 'user-register'},
-        {name: 'Gestión de usuarios', value: 'user-gestion'}
+        {name: 'Gestión de usuarios', value: 'user-management'}
       ]
     },
     {
