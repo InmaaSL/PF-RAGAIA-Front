@@ -1,6 +1,8 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ApiConnectService } from 'src/app/services/api-connect.service';
+import { ApiUserService } from 'src/app/services/api-user.service';
 
 @Component({
   selector: 'app-user-register',
@@ -26,9 +28,30 @@ export class UserRegisterComponent implements OnInit {
   isLoading = false;
   registerSubmitted = false;
 
-  constructor() { }
+  profesionalCategories = [];
+  centres = [];
+
+  constructor(
+    private apiConnectService: ApiConnectService,
+    private apiUserService: ApiUserService
+  ) { }
 
   ngOnInit() {
+    this.apiUserService.getProfesionalCategories().subscribe({
+      next: (e: any) => {
+        this.profesionalCategories = e;
+      }
+    })
+
+    this.apiUserService.getCentres().subscribe({
+      next: (e: any) => {
+        this.centres = e;
+      }
+    })
+
+    this.apiUserService.getUserData('1').subscribe({
+      next: (e) => console.log(e)
+    })
   }
 
   submitRegister(){
@@ -49,14 +72,27 @@ export class UserRegisterComponent implements OnInit {
       .set('phone', this.registerForm.value.inputPhone ?? '' )
       .set('email', this.registerForm.value.inputEmail ?? '' )
       .set('address', this.registerForm.value.inputAddress ?? '' )
-      .set('provincia', this.registerForm.value.inputProvincia ?? '' )
-      .set('municipio', this.registerForm.value.inputMunicipio ?? '' )
+      .set('province', this.registerForm.value.inputProvincia ?? '' )
+      .set('town', this.registerForm.value.inputMunicipio ?? '' )
       .set('postal_code', this.registerForm.value.inputCP ?? '' )
       .set('profesional_category', this.registerForm.value.profesionalCategory ?? '' )
       .set('centre', this.registerForm.value.centre ?? '' );
 
       console.log(infoUser);
       console.log(infoUserData);
+
+      this.apiConnectService.register(infoUser).subscribe({
+        next: (newUser: any) => {
+          console.log(newUser);
+          this.apiUserService.registerUserData(newUser['id'], infoUserData).subscribe({
+            next: (newUserData: any) => {
+              console.log(newUserData);
+            },
+            error: (e) => console.log(e)
+          });
+        },
+        error: (e) => console.log(e),
+      })
 
       this.isLoading = false;
     }

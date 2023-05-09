@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiUserService } from 'src/app/services/api-user.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -11,7 +12,8 @@ export class MainComponent  implements OnInit {
   userName = '';
 
   constructor(
-    public authService: AuthService
+    public authService: AuthService,
+    private apiUserService: ApiUserService
   ) { }
 
   ngOnInit() {
@@ -24,9 +26,11 @@ export class MainComponent  implements OnInit {
         if(userData) {
           console.log(userData);
           this.userName = userData['name'] + ' ' + userData['surname'];
+          // this.apiUserService.getCentres().subscribe({
+          //   next: (e) => console.log(e)
+          // })
         }
       }
-    })
+    });
   }
-
 }

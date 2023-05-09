@@ -59,23 +59,18 @@
                 <div class="col-12 col-md-6" id="catProfesional">
                     <label for="selectPefil" class="form-label mt-2">Categoría profesional: </label>
                     <select class="form-select" id="perfilProfesional" size="3" formControlName="profesionalCategory" required>
-                        <option value="dir">Director/a</option>
-                        <option value="trabajoSocial">Trabajadora/or Social</option>
-                        <option value="psicologia">Psicólogo/a</option>
-                        <option value="educacionSocial">Educadora/o Social</option>
-                        <option value="integracionSocial">Integradora/o Social</option>
-                        <option value="apoyoDomestico">Apoyo doméstico</option>
-                        <option value="otroPerfil">Otro</option>
+                      <ng-container *ngFor="let item of profesionalCategories">
+                        <option value="{{ item['id'] }}"> {{ item['name'] }} </option>
+                      </ng-container>
                     </select>
                     <div class="invalid-feedback">Por favor, seleccione un perfil profesional.</div>
                 </div>
                 <div class="col-12 col-md-6" id="recurso">
                     <label for="selectRecurso" class="form-label mt-2">Recurso: </label>
                     <select class="form-select" size="3" formControlName="centre" required>
-                        <option value="camAltea">CAM Altea</option>
-                        <option value="camCastell">CAM Castell</option>
-                        <option value="camVerdaderI">CAM Verdader I</option>
-                        <option value="camVerdaderII">CAM Verdader II</option>
+                      <ng-container *ngFor="let item of centres">
+                        <option value="{{ item['id'] }}"> {{ item['name'] }} </option>
+                      </ng-container>
                     </select>
                     <div class="invalid-feedback">Por favor, seleccione un recurso.</div>
                 </div>
