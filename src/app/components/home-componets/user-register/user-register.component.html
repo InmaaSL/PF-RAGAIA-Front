@@ -1,131 +1,85 @@
+<div class="loader-parent" *ngIf="isLoading">
+  <div class="loader-container">
+    <span class="loader"></span>
+  </div>
+</div>
 <div class="col-12">
-  <h1 class="main-title"> Nuevo usuario </h1>
+  <h1 class="main-title"> Nuevo usuario: </h1>
 </div>
 
-<form class="container needs-validation" novalidate>
+<form class="container needs-validation" [formGroup]="registerForm"  novalidate>
     <div class="row">
-        <div class="col-12">
-            <div class="row">
-                <div class="col-md-6 col-lg-3">
+        <div class="col-12 p-0">
+            <div class="row gy-3">
+                <div class="col-12 col-md-6 col-lg-4">
                     <label for="inputName" class="form-label mt-2">Nombre:</label>
-                    <input type="text" class="form-control" id="inputName" required>
+                    <input type="text" class="form-control" id="inputName" formControlName="inputName" required>
                     <div class="invalid-feedback">Por favor, rellene el campo.</div>
                 </div>
-                <div class="col-md-6 col-lg-6">
-                    <label for="inputSubname" class="form-label mt-2">Apellidos:</label>
-                    <input type="text" class="form-control" id="inputSubname" required>
+                <div class="col-12 col-md-6 col-lg-8">
+                    <label for="inputSurname" class="form-label mt-2">Apellidos:</label>
+                    <input type="text" class="form-control" id="inputSurname" formControlName="inputSurname" required>
                     <div class="invalid-feedback">Por favor, rellene el campo.</div>
                 </div>
-                <div class="col-md-6 col-lg-3">
+                <div class="col-12 col-md-6 col-lg-4">
                     <label for="inputDNI" class="form-label mt-2">DNI:</label>
-                    <input type="text" class="form-control" id="inputDNI" required>
+                    <input type="text" class="form-control" id="inputDNI" formControlName="inputDNI" required>
                     <div class="invalid-feedback">Por favor, rellene el campo.</div>
                 </div>
-                <div class="col-md-6 col-lg-2">
+                <div class="col-12 col-md-6 col-lg-3">
                     <label for="inputTelefono" class="form-label mt-2">Teléfono:</label>
-                    <input type="tel" class="form-control" id="inputTelefono" required>
+                    <input type="tel" class="form-control" id="inputTelefono" formControlName="inputPhone" required>
                     <div class="invalid-feedback">Por favor, rellene el campo.</div>
                 </div>
-                <div class="col-md-6 col-lg-5">
+                <div class="col-12 col-md-6 col-lg-5">
                     <label for="inputEmail" class="form-label mt-2">Email:</label>
-                    <input type="email" class="form-control" id="inputEmail" placeholder="name@example.com" required>
-                    <div class="invalid-feedback">Por favor, rellene el campo.</div>
-                    <!-- <div id="emailHelp" class="form-text ms-3"><small>No compartiremos tu email con nadie mas.</small> </div> -->
-                </div>
-                <div class="col-md-6 col-lg-5">
-                    <label for="inputEmail2" class="form-label mt-2"> Repita su email:</label>
-                    <input type="email" class="form-control" id="inputEmail2" placeholder="name@example.com" required>
+                    <input type="email" class="form-control" id="inputEmail" placeholder="name@example.com" formControlName="inputEmail" required>
                     <div class="invalid-feedback">Por favor, rellene el campo.</div>
                 </div>
-                <div class="col-12">
-                    <label for="checkContacto" class="form-label mt-2"> ¿Cómo desea ser contactado?</label>
-                    <div>
-                        <div class="form-check-inline">
-                            <input type="radio" class="form-check-input" id="radio1" name="optradio" value="telefono" required>
-                            <label class="form-check-label" for="radio1">Por teléfono</label>
-                        </div>
-                        <div class="form-check-inline">
-                            <input type="radio" class="form-check-input" id="radio2" name="optradio" value="email" required>
-                            <label class="form-check-label" for="radio2">Por email</label>
-                        </div>
-                        <div class="form-check-inline">
-                            <input type="radio" class="form-check-input" id="radio3" name="optradio" value="noContactado" required>
-                            <label class="form-check-label" for="radio3">No deseo ser contactado</label>
-                            <div class="invalid-feedback">Por favor, seleccione un campo.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="row">
-                <div class="col-md-12 col-lg-8">
+                <div class="col-12 col-md-7">
                     <label for="inputAddress" class="form-label mt-2">Dirección:</label>
-                    <input type="text" class="form-control" id="inputAddress" required>
+                    <input type="text" class="form-control" id="inputAddress" formControlName="inputAddress" required>
                     <div class="invalid-feedback">Por favor, rellene el campo.</div>
                 </div>
-                <div class="col-md-4 col-lg-4">
+                <div class="col-12 col-md-4 col-lg-5">
                     <label for="inputProvincia" class="form-label mt-2">Provincia:</label>
-                    <select class="form-select" id="inputProvincia" required>
-                        <option selected disabled value="">Seleccione una provincia</option>
-                        <option value="Alicante">Alicante</option>
-                        <option value="Calencia">Valencia</option>
-                        <option value="Castellon">Castellón</option>
-                        <option value="Granada">Granada</option>
-                    </select>
+                    <input type="text" class="form-control" id="inputProvincia" formControlName="inputProvincia" required>
                     <div class="invalid-feedback"> Por favor, seleccione una provincia. </div>
                 </div>
-                <div class="col-md-5 col-lg-6">
+                <div class="col-12 col-md-4">
                     <label for="inputMunicipio" class="form-label mt-2">Municipio:</label>
-                    <input type="text" class="form-control" id="inputMunicipio" required>
+                    <input type="text" class="form-control" id="inputMunicipio" formControlName="inputMunicipio" required>
                     <div class="invalid-feedback">Por favor, rellene el campo.</div>
                 </div>
-                <div class="col-md-3 col-lg-6">
+                <div class="col-12 col-md-3">
                     <label for="inputCP" class="form-label mt-2">Código postal:</label>
-                    <input type="text" class="form-control" id="inputCP" required>
+                    <input type="text" class="form-control" id="inputCP" formControlName="inputCP" required>
                     <div class="invalid-feedback">Por favor, rellene el campo.</div>
                 </div>
-            </div>
-        </div>
-
-        <div class="col-12">
-            <div class="row">
-                <div class="col-md-6" id="catProfesional">
+                <div class="col-12 col-md-6" id="catProfesional">
                     <label for="selectPefil" class="form-label mt-2">Categoría profesional: </label>
-                    <select class="form-select" id="perfilProfesional" size="3" required>
-                        <option value="dir">Director/a</option>
-                        <option value="trabajoSocial">Trabajadora/or Social</option>
-                        <option value="psicologia">Psicólogo/a</option>
-                        <option value="educacionSocial">Educadora/o Social</option>
-                        <option value="integracionSocial">Integradora/o Social</option>
-                        <option value="apoyoDomestico">Apoyo doméstico</option>
-                        <option value="otroPerfil">Otro</option>
+                    <select class="form-select" id="perfilProfesional" size="5" formControlName="profesionalCategory" required>
+                      <ng-container *ngFor="let item of profesionalCategories">
+                        <option value="{{ item['id'] }}"> {{ item['name'] }} </option>
+                      </ng-container>
                     </select>
                     <div class="invalid-feedback">Por favor, seleccione un perfil profesional.</div>
                 </div>
-
-                <div class="col-md-6 col-lg-4 d-none" id="otroPP">
-                        <label for="formControlTextarea" class="form-label mt-2">Especifique su función:</label>
-                        <textarea class="form-control" id="formControlTextarea" rows="3"></textarea>
-                        <div class="invalid-feedback">Por favor, rellene el campo.</div>
-                </div>
-
-                <div class="col-md-6" id="recurso">
+                <div class="col-12 col-md-6" id="recurso">
                     <label for="selectRecurso" class="form-label mt-2">Recurso: </label>
-                    <select class="form-select" size="3" required>
-                        <option value="camAltea">CAM Altea</option>
-                        <option value="camCastell">CAM Castell</option>
-                        <option value="camVerdaderI">CAM Verdader I</option>
-                        <option value="camVerdaderII">CAM Verdader II</option>
+                    <select class="form-select" size="5" formControlName="centre" required>
+                      <ng-container *ngFor="let item of centres">
+                        <option value="{{ item['id'] }}"> {{ item['name'] }} </option>
+                      </ng-container>
                     </select>
                     <div class="invalid-feedback">Por favor, seleccione un recurso.</div>
                 </div>
             </div>
         </div>
 
-        <div class="col-12">
+        <div class="col-12 my-5">
             <div class="d-grid gap-3 col-6 mx-auto">
-                <button type="submit" class="btn btn-primary"> Registrar </button>
+                <button type="button" class="btn btn-primary" (click)="submitRegister()"> Registrar </button>
             </div>
         </div>
     </div>

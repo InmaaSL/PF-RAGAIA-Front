@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { HomeService } from '../services/home.service';
 
@@ -23,7 +23,7 @@ export class HomePage implements OnInit {
       value: 'super-admin',
       pages : [
         {name: 'Registro de usuarios', value: 'user-register'},
-        {name: 'Gestión de usuarios', value: 'user-gestion'}
+        {name: 'Gestión de usuarios', value: 'user-management'}
       ]
     },
     {
@@ -57,9 +57,14 @@ export class HomePage implements OnInit {
   ]
 
   constructor(
-    public auth: AuthService,
+    public authService: AuthService,
     public homeService: HomeService
   ) {}
+
+  @HostListener('window:beforeunload', ['$event'])
+  clearLocalStorage() {
+    this.authService.clearLocalStorage();
+  }
 
   ngOnInit() {
     this.loadData();
@@ -76,29 +81,17 @@ export class HomePage implements OnInit {
     if(tk){
       const token = JSON.parse(tk);
       if (token) {
-        this.auth.loadToken();
-        this.auth.getUserInfo().subscribe({
-          next: (data: any) => {
-          if (data) {
-            if (data['name']) {
-              this.username = data['name'] + ' ' + data['surname'] ;
-            }
-            if (data['roles']) {
-              this.roles = data['roles'];
-            }
-          }
-        }});
+        this.authService.loadToken();
       }
     }
   }
 
 
   logout(){
-    this.auth.logout();
+    this.authService.logout();
   }
 
   goTo(component: string) {
-    console.log(component);
     if(component === 'logout'){
       this.logout();
     } else {

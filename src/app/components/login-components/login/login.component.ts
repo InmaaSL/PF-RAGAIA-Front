@@ -16,7 +16,7 @@ export class LoginComponent  implements OnInit {
     password: new FormControl('', Validators.required),
   });
 
-  guardarSesion = new FormControl();
+  saveSession = new FormControl();
   alertErrorLogin = false;
 
 
@@ -33,10 +33,10 @@ export class LoginComponent  implements OnInit {
 
     this.auth.login(this.loginForm.value.email, this.loginForm.value.password).subscribe({
       complete: () => {
-        if (this.guardarSesion.value) {
-          localStorage.setItem('guardarSesion', 'true');
+        if (this.saveSession.value) {
+          localStorage.setItem('saveSession', 'true');
         } else {
-          localStorage.setItem('guardarSesion', 'false');
+          localStorage.setItem('saveSession', 'false');
         }
 
         this.router.navigateByUrl('/home');
