@@ -8,6 +8,10 @@ import { HomePageRoutingModule } from './home-routing.module';
 import { MainComponent } from '../components/home-componets/main/main.component';
 import { UserRegisterComponent } from '../components/home-componets/user-register/user-register.component';
 import { UserManagementComponent } from '../components/home-componets/user-management/user-management.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   imports: [
@@ -15,7 +19,11 @@ import { UserManagementComponent } from '../components/home-componets/user-manag
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatMenuModule,
+    MatIconModule
   ],
   declarations: [
     HomePage,
