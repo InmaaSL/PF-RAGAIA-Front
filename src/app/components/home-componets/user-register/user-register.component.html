@@ -58,7 +58,7 @@
                 </div>
                 <div class="col-12 col-md-6" id="catProfesional">
                     <label for="selectPefil" class="form-label mt-2">Categoría profesional: </label>
-                    <select class="form-select" id="perfilProfesional" size="3" formControlName="profesionalCategory" required>
+                    <select class="form-select" id="perfilProfesional" size="5" formControlName="profesionalCategory" required>
                       <ng-container *ngFor="let item of profesionalCategories">
                         <option value="{{ item['id'] }}"> {{ item['name'] }} </option>
                       </ng-container>
@@ -67,7 +67,7 @@
                 </div>
                 <div class="col-12 col-md-6" id="recurso">
                     <label for="selectRecurso" class="form-label mt-2">Recurso: </label>
-                    <select class="form-select" size="3" formControlName="centre" required>
+                    <select class="form-select" size="5" formControlName="centre" required>
                       <ng-container *ngFor="let item of centres">
                         <option value="{{ item['id'] }}"> {{ item['name'] }} </option>
                       </ng-container>
@@ -77,7 +77,7 @@
             </div>
         </div>
 
-        <div class="col-12 mt-4">
+        <div class="col-12 my-5">
             <div class="d-grid gap-3 col-6 mx-auto">
                 <button type="button" class="btn btn-primary" (click)="submitRegister()"> Registrar </button>
             </div>

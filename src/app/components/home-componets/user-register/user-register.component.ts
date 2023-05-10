@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApiConnectService } from 'src/app/services/api-connect.service';
 import { ApiUserService } from 'src/app/services/api-user.service';
+import { HomeService } from 'src/app/services/home.service';
 
 @Component({
   selector: 'app-user-register',
@@ -33,7 +34,9 @@ export class UserRegisterComponent implements OnInit {
 
   constructor(
     private apiConnectService: ApiConnectService,
-    private apiUserService: ApiUserService
+    private apiUserService: ApiUserService,
+    public homeService: HomeService
+
   ) { }
 
   ngOnInit() {
@@ -48,10 +51,6 @@ export class UserRegisterComponent implements OnInit {
         this.centres = e;
       }
     })
-
-    this.apiUserService.getUserData('1').subscribe({
-      next: (e) => console.log(e)
-    })
   }
 
   submitRegister(){
@@ -60,6 +59,40 @@ export class UserRegisterComponent implements OnInit {
     this.isLoading = true;
 
     if(this.registerForm.valid){
+
+      let rol;
+      switch (this.registerForm.value.profesionalCategory) {
+        case '1':
+          rol = ["ROLE_SUPERADMIN"];
+          break;
+        case '2':
+          rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_PSYCHOLOGIST"];
+        break;
+        case '3':
+          rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_SOCIAL_WORKER"];
+          break;
+        case '4':
+          rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_EDUSOS_TICS_MEDIADORES"];
+        break;
+        case '5':
+          rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_EDUSOS_TICS_MEDIADORES"];
+          break;
+        case '6':
+          rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_EDUSOS_TICS_MEDIADORES"];
+        break;
+        case '7':
+          rol = ["ROLE_WORKER", "DOMESTIC_SUPPORT"];
+        break;
+        case '8':
+          rol = ["ROLE_WORKER", "ROLE_MANAGEMENT"];
+        break;
+        default:
+          rol = ["NNA"];
+          break;
+      }
+
+      const userRoles = new HttpParams()
+      .set('roles', rol.join(','));
 
       const infoUser = new HttpParams()
       .set('email', this.registerForm.value.inputEmail ?? '')
@@ -78,23 +111,22 @@ export class UserRegisterComponent implements OnInit {
       .set('profesional_category', this.registerForm.value.profesionalCategory ?? '' )
       .set('centre', this.registerForm.value.centre ?? '' );
 
-      console.log(infoUser);
-      console.log(infoUserData);
-
       this.apiConnectService.register(infoUser).subscribe({
         next: (newUser: any) => {
-          console.log(newUser);
+          this.apiUserService.setRoles(newUser['id'], userRoles).subscribe();
           this.apiUserService.registerUserData(newUser['id'], infoUserData).subscribe({
-            next: (newUserData: any) => {
-              console.log(newUserData);
-            },
-            error: (e) => console.log(e)
+            next: (newUserData: any) => {},
+            error: (e) => console.log(e),
+            complete: () => this.homeService.updateSelectedComponent('user-management')
           });
         },
         error: (e) => console.log(e),
       })
 
       this.isLoading = false;
+    } else {
+      this.isLoading =  false;
+      this.registerSubmitted = false;
     }
 
 

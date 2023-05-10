@@ -29,7 +29,6 @@ export class HomeService {
   }
 
   updateSelectedComponent(component: string) {
-    console.log(component);
     this.selectedComponent?.next(component);
     this.eventsService.publish('global:changedComponent', {component});
   }

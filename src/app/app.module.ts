@@ -8,10 +8,11 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SharedComponentsModule } from './share-material/shared-components.module';
 import { SharedMaterialsModule } from './share-material/shared-materials.module';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { AuthGuardService } from './services/auth-guard.service';
+import { AuthService } from './services/auth.service';
+import { HomePageModule } from './home/home.module';
 
 @NgModule({
   declarations: [
@@ -23,9 +24,12 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
     AppRoutingModule,
     FontAwesomeModule,
     HttpClientModule,
-    SharedMaterialsModule
+    SharedMaterialsModule,
+    HomePageModule
   ],
   providers: [
+    AuthService,
+    AuthGuardService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   ],

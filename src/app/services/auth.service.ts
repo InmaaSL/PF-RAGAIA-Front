@@ -196,9 +196,9 @@ export class AuthService {
   clearLocalStorage(forced = false) {
     if (
       forced ||
-      localStorage.getItem('guardarSesion') === 'false' ||
-      localStorage.getItem('guardarSesion') === null ||
-      localStorage.getItem('guardarSesion') === undefined
+      localStorage.getItem('saveSession') === 'false' ||
+      localStorage.getItem('saveSession') === null ||
+      localStorage.getItem('saveSession') === undefined
     ) {
       localStorage.clear();
     }

@@ -18,9 +18,7 @@ export class UserManagementComponent implements OnInit {
 
   loadUsers(){
     this.apiUserService.getAllUsersData().subscribe({
-      next: (allUsersData: any) => {
-        console.log(allUsersData);
-      }
+      next: (allUsersData: any) => {}
     })
   }
 

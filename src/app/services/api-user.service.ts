@@ -9,10 +9,11 @@ export class ApiUserService {
 
   urlGetUserData = environment.API_URL + '/user/userData';
   urlGetAllUserData = environment.API_URL + '/user/usersData';
-  urlGetProfesionalCategories = environment.API_URL + '/getProfesionalCategories'
-  urlGetCentres = environment.API_URL + '/getCentres'
+  urlGetProfesionalCategories = environment.API_URL + '/getProfesionalCategories';
+  urlGetCentres = environment.API_URL + '/getCentres';
 
-  urlRegisterUserData = environment.API_URL + '/user/userData'
+  urlRegisterUserData = environment.API_URL + '/user/userData';
+  urlSetRole = environment.API_URL + '/user/roles/';
 
   constructor(
     public http: HttpClient
@@ -55,6 +56,14 @@ export class ApiUserService {
       headers: new HttpHeaders({ Accept: 'application/json' }),
     };
     return this.http.post(this.urlRegisterUserData + '/' + id, postData, requestOptions);
+  }
+
+  setRoles(id: string, postData: any){
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/x-www-form-urlencoded')
+      .set('Content-Type', 'application/x-www-form-urlencoded');
+    const requestOptions = { headers };
+    return this.http.post(this.urlSetRole + id, postData, requestOptions);
   }
 
 }
