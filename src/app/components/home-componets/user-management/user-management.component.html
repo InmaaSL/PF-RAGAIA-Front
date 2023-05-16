@@ -9,10 +9,10 @@
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
     <div class="workers-table mt-4">
-      <table mat-table [dataSource]="dataSource" class="table">
+      <table mat-table [dataSource]="workerDataSource" class="table">
         <!-- Name Column -->
         <ng-container matColumnDef="name">
-          <th class="py-2" *matHeaderCellDef> Name </th>
+          <th class="py-2" *matHeaderCellDef> Nombre </th>
           <td class="align-middle py-2 my-4 px-2" mat-cell *matCellDef="let element">
             <span>
               {{element.userData.name +' '+ element.userData.surname}}
@@ -22,7 +22,7 @@
 
         <!-- Phone Column -->
         <ng-container matColumnDef="phone">
-          <th class="py-2" mat-header-cell *matHeaderCellDef> Phone no. </th>
+          <th class="py-2" mat-header-cell *matHeaderCellDef> Nº de Teléfono </th>
           <td class="align-middle py-2 my-4 px-2" mat-cell *matCellDef="let element"> {{element.userData.phone}} </td>
         </ng-container>
 
@@ -34,7 +34,7 @@
 
         <!-- Address Column -->
         <ng-container matColumnDef="address">
-          <th class="py-2" mat-header-cell *matHeaderCellDef> Address </th>
+          <th class="py-2" mat-header-cell *matHeaderCellDef> Dirección </th>
           <td class="align-middle py-2 my-4 px-2" mat-cell *matCellDef="let element">
             <div class="d-flex flex-column">
               <span class="name-text m-0 p-0"> {{element.userData.address}} </span>
@@ -46,24 +46,36 @@
 
         <!-- DNI Column -->
         <ng-container matColumnDef="dni">
-          <th class="d-none py-2" mat-header-cell *matHeaderCellDef> DNI </th>
-          <td class="d-none align-middle py-2 my-4 px-2" mat-cell *matCellDef="let element">
+          <th class="py-2" mat-header-cell *matHeaderCellDef> DNI </th>
+          <td class="align-middle py-2 my-4 px-2" mat-cell *matCellDef="let element">
             <div class="d-flex flex-column">
-              <span class="name-text m-0 p-0"> {{element.dni}}</span>
+              <span class="name-text m-0 p-0"> {{element.userData.dni}}</span>
             </div>
           </td>
         </ng-container>
 
         <!-- Categoría profesional Column -->
-        <ng-container matColumnDef="profesional_category">
+        <ng-container matColumnDef="professional_category">
           <th class="py-2" mat-header-cell *matHeaderCellDef> Categoría profesional </th>
-          <td class="align-middle py-2 my-4 px-2" mat-cell *matCellDef="let element"> {{element.profesional_category[0]?.name}} </td>
+          <td class="align-middle py-2 my-4 px-2" mat-cell *matCellDef="let element">
+            <ng-container *ngFor="let element of element.userProfessionalCategoryCentres">
+              <div>
+                {{element.professionalCategory?.name}}
+              </div>
+            </ng-container>
+          </td>
         </ng-container>
 
         <!-- Centro Column -->
         <ng-container matColumnDef="centre">
           <th class="py-2" mat-header-cell *matHeaderCellDef> Centro </th>
-          <td class="align-middle py-2 my-4 px-2" mat-cell *matCellDef="let element"> {{element.workplace[0]?.name}} </td>
+          <td class="align-middle py-2 my-4 px-2" mat-cell *matCellDef="let element">
+            <ng-container *ngFor="let element of element.userProfessionalCategoryCentres">
+              <div>
+                {{element.centre?.name}}
+              </div>
+            </ng-container>
+          </td>
         </ng-container>
 
         <!-- Menu Column -->
@@ -75,30 +87,30 @@
             </button>
             <mat-menu #menu="matMenu">
               <button mat-menu-item (click)="updateUser(element.id)">
-                <span> Update </span>
+                <span> Editar </span>
               </button>
               <!-- <button mat-menu-item (click)="resetPassword(element.id)">
                 <span> Resset password </span>
               </button> -->
               <button mat-menu-item (click)="deleteUser(element.id)">
-                <span> Delete </span>
+                <span> Eliminar </span>
               </button>
             </mat-menu>
           </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr class="tr-body" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedWorkerColumns"></tr>
+        <tr class="tr-body" mat-row *matRowDef="let row; columns: displayedWorkerColumns;"></tr>
       </table>
       <mat-paginator [pageSize]="10" [pageSizeOptions]="[1, 10, 25, 100]" aria-label="Select page"></mat-paginator>
     </div>
   </div>
   <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
     <div class="workers-table mt-4">
-      <table mat-table [dataSource]="dataSource" class="table">
+      <table mat-table [dataSource]="nnaDataSource" class="table">
         <!-- Name Column -->
         <ng-container matColumnDef="name">
-          <th class="py-2" *matHeaderCellDef> Name </th>
+          <th class="py-2" *matHeaderCellDef> Nombre </th>
           <td class="align-middle py-2 my-4 px-2" mat-cell *matCellDef="let element">
             <span>
               {{element.userData.name +' '+ element.userData.surname}}
@@ -106,50 +118,44 @@
           </td>
         </ng-container>
 
-        <!-- Phone Column -->
-        <ng-container matColumnDef="phone">
-          <th class="py-2" mat-header-cell *matHeaderCellDef> Phone no. </th>
-          <td class="align-middle py-2 my-4 px-2" mat-cell *matCellDef="let element"> {{element.userData.phone}} </td>
+        <!-- Birth date Column -->
+        <ng-container matColumnDef="birthDate">
+          <th class="py-2" mat-header-cell *matHeaderCellDef> F. Nacimiento </th>
+          <td class="align-middle py-2 my-4 px-2" mat-cell *matCellDef="let element"> {{ element.userData?.birth_date | date: 'shortDate'}} </td>
         </ng-container>
 
-        <!-- Email Column -->
-        <ng-container matColumnDef="email">
-          <th class="py-2" mat-header-cell *matHeaderCellDef> Email </th>
-          <td class="align-middle py-2 my-4 px-2" mat-cell *matCellDef="let element"> {{element.email}} </td>
+        <!-- Admission date Column -->
+        <ng-container matColumnDef="admissionDate">
+          <th class="py-2" mat-header-cell *matHeaderCellDef> D. Admisión </th>
+          <td class="align-middle py-2 my-4 px-2" mat-cell *matCellDef="let element"> {{element.userData?.admission_date | date: 'shortDate'}} </td>
         </ng-container>
 
-        <!-- Address Column -->
-        <ng-container matColumnDef="address">
-          <th class="py-2" mat-header-cell *matHeaderCellDef> Address </th>
+        <!-- Custody type Column -->
+        <ng-container matColumnDef="custodyType">
+          <th class="py-2" mat-header-cell *matHeaderCellDef> Custodia </th>
           <td class="align-middle py-2 my-4 px-2" mat-cell *matCellDef="let element">
-            <div class="d-flex flex-column">
-              <span class="name-text m-0 p-0"> {{element.userData.address}} </span>
-              <span class="name-text m-0 p-0"> {{element.userData.town}} </span>
-              <span class="name-text m-0 p-0"> {{element.userData.province}} </span>
-            </div>
+              <span class="name-text m-0 p-0"> {{element.userData.custody?.id}} </span>
           </td>
         </ng-container>
 
         <!-- DNI Column -->
         <ng-container matColumnDef="dni">
-          <th class="d-none py-2" mat-header-cell *matHeaderCellDef> DNI </th>
-          <td class="d-none align-middle py-2 my-4 px-2" mat-cell *matCellDef="let element">
+          <th class="py-2" mat-header-cell *matHeaderCellDef> DNI </th>
+          <td class="align-middle py-2 my-4 px-2" mat-cell *matCellDef="let element">
             <div class="d-flex flex-column">
-              <span class="name-text m-0 p-0"> {{element.dni}}</span>
+              <span class="name-text m-0 p-0"> {{element.userData.dni}}</span>
             </div>
           </td>
-        </ng-container>
-
-        <!-- Categoría profesional Column -->
-        <ng-container matColumnDef="profesional_category">
-          <th class="py-2" mat-header-cell *matHeaderCellDef> Categoría profesional </th>
-          <td class="align-middle py-2 my-4 px-2" mat-cell *matCellDef="let element"> {{element.profesional_category[0]?.name}} </td>
         </ng-container>
 
         <!-- Centro Column -->
         <ng-container matColumnDef="centre">
           <th class="py-2" mat-header-cell *matHeaderCellDef> Centro </th>
-          <td class="align-middle py-2 my-4 px-2" mat-cell *matCellDef="let element"> {{element.workplace[0]?.name}} </td>
+          <td class="align-middle py-2 my-4 px-2" mat-cell *matCellDef="let element">
+            <ng-container *ngFor="let element of element.userProfessionalCategoryCentres">
+              {{element.centre?.name}}
+            </ng-container>
+          </td>
         </ng-container>
 
         <!-- Menu Column -->
@@ -161,20 +167,20 @@
             </button>
             <mat-menu #menu="matMenu">
               <button mat-menu-item (click)="updateUser(element.id)">
-                <span> Update </span>
+                <span> Editar </span>
               </button>
               <!-- <button mat-menu-item (click)="resetPassword(element.id)">
                 <span> Resset password </span>
               </button> -->
               <button mat-menu-item (click)="deleteUser(element.id)">
-                <span> Delete </span>
+                <span> Eliminar </span>
               </button>
             </mat-menu>
           </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr class="tr-body" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedNNAColumns"></tr>
+        <tr class="tr-body" mat-row *matRowDef="let row; columns: displayedNNAColumns;"></tr>
       </table>
       <mat-paginator [pageSize]="10" [pageSizeOptions]="[1, 10, 25, 100]" aria-label="Select page"></mat-paginator>
     </div>
