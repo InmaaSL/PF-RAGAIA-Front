@@ -69,6 +69,10 @@
   --fontBold: bold;
 }
 
+.input-error{
+  border-color: red;
+}
+
 .footer-text {
   font-size: var(--font3);
   color: var(--primary-color);

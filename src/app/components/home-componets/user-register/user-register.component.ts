@@ -89,7 +89,6 @@ export class UserRegisterComponent implements OnInit {
 
   public onMainRoleChange(event: any){
     const isChecked = event.target.checked;
-
     if (isChecked) {
       this.workerRole = true;
 
@@ -144,7 +143,6 @@ export class UserRegisterComponent implements OnInit {
     this.registerForm.get('birthDate')?.updateValueAndValidity();
     this.registerForm.get('admissionDate')?.updateValueAndValidity();
     this.registerForm.get('custodyType')?.updateValueAndValidity();
-
   }
 
   public submitRegister(){
@@ -152,49 +150,11 @@ export class UserRegisterComponent implements OnInit {
     this.isLoading = true;
 
     if(this.registerForm.valid){
-      // let rol;
-      // switch (this.registerForm.value.profesionalCategory) {
-      //   case '1':
-      //     rol = ["ROLE_SUPERADMIN"];
-      //     break;
-      //   case '2':
-      //     rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_PSYCHOLOGIST"];
-      //   break;
-      //   case '3':
-      //     rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_SOCIAL_WORKER"];
-      //     break;
-      //   case '4':
-      //     rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_EDUSOS_TICS_MEDIADORES"];
-      //   break;
-      //   case '5':
-      //     rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_EDUSOS_TICS_MEDIADORES"];
-      //     break;
-      //   case '6':
-      //     rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_EDUSOS_TICS_MEDIADORES"];
-      //   break;
-      //   case '7':
-      //     rol = ["ROLE_WORKER", "DOMESTIC_SUPPORT"];
-      //   break;
-      //   case '8':
-      //     rol = ["ROLE_WORKER", "ROLE_MANAGEMENT"];
-      //   break;
-      //   default:
-      //     rol = ["ROLE_NNA"];
-      //     break;
-      // }
-
-      // const userRoles = new HttpParams()
-      // .set('roles', rol.join(','));
+      const rol =  this.setRoles(this.registerForm.value.professionalCategory);
+      const userRoles = new HttpParams()
+      .set('roles', rol.join(','));
 
       const mainRole =  this.registerForm.get('mainRole')?.value;
-      let userRoles: any;
-      if(mainRole){
-        userRoles = new HttpParams()
-        .set('roles', 'ROLE_WORKER');
-      } else {
-        userRoles = new HttpParams()
-        .set('roles', 'ROLE_NNA');
-      }
 
       const infoProfessionalCategoryCentre = new HttpParams()
       .set('professionalCategoryId', this.registerForm.value.professionalCategory ?? '' )
@@ -202,7 +162,6 @@ export class UserRegisterComponent implements OnInit {
 
       const infoCentre = new HttpParams()
       .set('centreId', this.registerForm.value.centre ?? '' );
-
 
       if(this.workerRole){
         this.infoUserData = new HttpParams()
@@ -265,6 +224,7 @@ export class UserRegisterComponent implements OnInit {
             })
           }
         })
+        this.isLoading = false;
       } else {
         //Creamos un usuario nuevo:
         const infoUser = new HttpParams()
@@ -304,7 +264,6 @@ export class UserRegisterComponent implements OnInit {
       this.isLoading = false;
     } else {
       this.isLoading =  false;
-      this.registerSubmitted = false;
     }
   }
 
@@ -394,15 +353,19 @@ export class UserRegisterComponent implements OnInit {
     .set('professionalCategoryId', '' )
     .set('centreId', this.registerForm.value.centre ?? '' );
 
-    console.log(upcc);
+    const rol =  this.setRoles(this.registerForm.value.professionalCategory);
+    console.log(rol);
+    const userRoles = new HttpParams()
+    .set('roles', rol.join(','));
+
     if(this.workerRole){
       this.apiUserService.updateUserProfessionalCategoryCentre(upcc.id, infoProfessionalCategoryCentre).subscribe({
         error: (e) => console.log(e),
         complete: () => {
+          this.apiUserService.setRoles(this.userId, userRoles).subscribe();
           this.apiUserService.getUserCentreProfessionalCategory(this.userId).subscribe({
             next: (userCentreCategory: any) => {
               this.userProfessionalCategoryCenter = userCentreCategory;
-              console.log(this.userProfessionalCategoryCenter);
               if(this.userProfessionalCategoryCenter.length == 0){
                 this.isEmpty = true;
               }
@@ -411,14 +374,12 @@ export class UserRegisterComponent implements OnInit {
         }
       })
     } else {
-      console.log(upcc.id);
       this.apiUserService.updateUserProfessionalCategoryCentre(upcc.id, infoCentre).subscribe({
         error: (e) => console.log(e),
         complete: () => {
           this.apiUserService.getUserCentreProfessionalCategory(this.userId).subscribe({
             next: (userCentreCategory: any) => {
               this.userProfessionalCategoryCenter = userCentreCategory;
-              console.log(this.userProfessionalCategoryCenter);
               if(this.userProfessionalCategoryCenter.length == 0){
                 this.isEmpty = true;
               }
@@ -427,5 +388,43 @@ export class UserRegisterComponent implements OnInit {
         }
       });
     }
+  }
+
+  public setRoles(professionalCategory: any){
+      let rol;
+      switch (professionalCategory) {
+        case '1':
+          rol = ["ROLE_SUPERADMIN"];
+          break;
+        case '2':
+          rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_PSYCHOLOGIST"];
+          break;
+        case '3':
+          rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_SOCIAL_WORKER"];
+          break;
+        case '4':
+          rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_EDUSOS_TICS_MEDIADORES"];
+          break;
+        case '5':
+          rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_EDUSOS_TICS_MEDIADORES"];
+          break;
+        case '6':
+          rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_EDUSOS_TICS_MEDIADORES"];
+          break;
+        case '7':
+          rol = ["ROLE_WORKER", "DOMESTIC_SUPPORT"];
+          break;
+        case '8':
+          rol = ["ROLE_WORKER", "ROLE_MANAGEMENT"];
+          break;
+        default:
+          rol = ["ROLE_NNA"];
+          break;
+      }
+      return rol;
+  }
+
+  public controlRequired(){
+
   }
 }

@@ -19,20 +19,11 @@ export class HomePage implements OnInit {
       value: 'main'
     },
     {
-      name: 'SuperAdmin',
-      value: 'super-admin',
-      pages : [
-        {name: 'Registro de usuarios', value: 'user-register'},
-        {name: 'Gestión de usuarios', value: 'user-management'}
-      ]
-    },
-    {
       name: 'Personal',
       value: '/personal',
       pages: [
-        {name: 'Equipo de Atención Directa', value: 'direct-action'},
-        {name: 'Servicio de Apoyo Doméstico', value: 'domestic-support'},
-        {name: 'Administrador', value: 'management'}
+        {name: 'Registro de usuarios', value: 'user-register'},
+        {name: 'Equipo de Atención Directa', value: 'user-management'},
       ]
     },
     {

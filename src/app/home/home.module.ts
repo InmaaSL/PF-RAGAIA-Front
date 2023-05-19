@@ -36,7 +36,7 @@ import { UpdateUserComponent } from '../components/modal-components/update-user/
     MainComponent,
     UserRegisterComponent,
     UserManagementComponent,
-    UpdateUserComponent
+    UpdateUserComponent,
   ]
 })
 export class HomePageModule {}
