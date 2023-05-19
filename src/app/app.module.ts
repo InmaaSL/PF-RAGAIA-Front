@@ -13,6 +13,8 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { AuthGuardService } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
 import { HomePageModule } from './home/home.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -24,8 +26,10 @@ import { HomePageModule } from './home/home.module';
     AppRoutingModule,
     FontAwesomeModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     SharedMaterialsModule,
-    HomePageModule
+    HomePageModule,
+    MatDialogModule
   ],
   providers: [
     AuthService,

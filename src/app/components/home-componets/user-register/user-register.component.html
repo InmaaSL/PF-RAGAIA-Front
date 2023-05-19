@@ -3,77 +3,161 @@
     <span class="loader"></span>
   </div>
 </div>
-<div class="col-12">
-  <h1 class="main-title"> Nuevo usuario: </h1>
-</div>
+<ng-container *ngIf="!userId">
+  <div class="col-12">
+    <h1 class="main-title"> Nuevo usuario: </h1>
+  </div>
+</ng-container>
 
 <form class="container needs-validation" [formGroup]="registerForm"  novalidate>
     <div class="row">
         <div class="col-12 p-0">
             <div class="row gy-3">
+              <div class="col-12">
+                <div class="form-switch p-0">
+                  <label class="form-check-label pe-5" for="mainRoleSwitch"> NNA </label>
+                  <input class="form-check-input" type="checkbox" role="switch" id="mainRoleSwitch" formControlName="mainRole" formControlName="mainRole" (change)="onMainRoleChange($event)" checked>
+                  <label class="form-check-label" for="mainRoleSwitch"> Trabajador </label>
+                </div>
+              </div>
                 <div class="col-12 col-md-6 col-lg-4">
-                    <label for="inputName" class="form-label mt-2">Nombre:</label>
-                    <input type="text" class="form-control" id="inputName" formControlName="inputName" required>
-                    <div class="invalid-feedback">Por favor, rellene el campo.</div>
+                    <label for="name" class="form-label mt-2">Nombre: <span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control" id="name" formControlName="name" required
+                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.name.invalid}">
+                    <div *ngIf="registerSubmitted && registerForm.controls.name.invalid">Por favor, rellene el campo.</div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-8">
-                    <label for="inputSurname" class="form-label mt-2">Apellidos:</label>
-                    <input type="text" class="form-control" id="inputSurname" formControlName="inputSurname" required>
-                    <div class="invalid-feedback">Por favor, rellene el campo.</div>
+                    <label for="surname" class="form-label mt-2">Apellidos: <span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control" id="surname" formControlName="surname" required
+                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.surname.invalid}">
+                    <div *ngIf="registerSubmitted && registerForm.controls.surname.invalid">Por favor, rellene el campo.</div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4">
-                    <label for="inputDNI" class="form-label mt-2">DNI:</label>
-                    <input type="text" class="form-control" id="inputDNI" formControlName="inputDNI" required>
-                    <div class="invalid-feedback">Por favor, rellene el campo.</div>
+                    <label for="DNI" class="form-label mt-2">DNI: <span class="text-danger">*</span> </label>
+                    <input type="text" class="form-control" id="DNI" formControlName="DNI" required
+                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.DNI.invalid}">
+                    <div *ngIf="registerSubmitted && registerForm.controls.DNI.invalid">Por favor, rellene el campo.</div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-3">
-                    <label for="inputTelefono" class="form-label mt-2">Teléfono:</label>
-                    <input type="tel" class="form-control" id="inputTelefono" formControlName="inputPhone" required>
-                    <div class="invalid-feedback">Por favor, rellene el campo.</div>
+                    <label for="phone" class="form-label mt-2">Teléfono: <span *ngIf="phoneRequired" class="text-danger">*</span></label>
+                    <input type="tel" class="form-control" id="phone" formControlName="phone" required
+                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.phone.invalid}">
+                    <div *ngIf="registerSubmitted && registerForm.controls.phone.invalid">Por favor, rellene el campo.</div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-5">
-                    <label for="inputEmail" class="form-label mt-2">Email:</label>
-                    <input type="email" class="form-control" id="inputEmail" placeholder="name@example.com" formControlName="inputEmail" required>
-                    <div class="invalid-feedback">Por favor, rellene el campo.</div>
+                    <label for="email" class="form-label mt-2">Email: <span *ngIf="emailRequired" class="text-danger">*</span> </label>
+                    <input type="email" class="form-control" id="email" placeholder="name@example.com" formControlName="email" required
+                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.email.invalid}">
+                    <div *ngIf="registerSubmitted && registerForm.controls.email.invalid">Por favor, rellene el campo.</div>
                 </div>
-                <div class="col-12 col-md-7">
-                    <label for="inputAddress" class="form-label mt-2">Dirección:</label>
-                    <input type="text" class="form-control" id="inputAddress" formControlName="inputAddress" required>
-                    <div class="invalid-feedback">Por favor, rellene el campo.</div>
-                </div>
-                <div class="col-12 col-md-4 col-lg-5">
-                    <label for="inputProvincia" class="form-label mt-2">Provincia:</label>
-                    <input type="text" class="form-control" id="inputProvincia" formControlName="inputProvincia" required>
-                    <div class="invalid-feedback"> Por favor, seleccione una provincia. </div>
-                </div>
-                <div class="col-12 col-md-4">
-                    <label for="inputMunicipio" class="form-label mt-2">Municipio:</label>
-                    <input type="text" class="form-control" id="inputMunicipio" formControlName="inputMunicipio" required>
-                    <div class="invalid-feedback">Por favor, rellene el campo.</div>
+                <div class="col-12 col-md-6">
+                    <label for="address" class="form-label mt-2">Dirección:</label>
+                    <input type="text" class="form-control" id="address" formControlName="address">
                 </div>
                 <div class="col-12 col-md-3">
-                    <label for="inputCP" class="form-label mt-2">Código postal:</label>
-                    <input type="text" class="form-control" id="inputCP" formControlName="inputCP" required>
-                    <div class="invalid-feedback">Por favor, rellene el campo.</div>
+                    <label for="town" class="form-label mt-2">Municipio:</label>
+                    <input type="text" class="form-control" id="town" formControlName="town">
                 </div>
-                <div class="col-12 col-md-6" id="catProfesional">
-                    <label for="selectPefil" class="form-label mt-2">Categoría profesional: </label>
-                    <select class="form-select" id="perfilProfesional" size="5" formControlName="profesionalCategory" required>
-                      <ng-container *ngFor="let item of profesionalCategories">
-                        <option value="{{ item['id'] }}"> {{ item['name'] }} </option>
-                      </ng-container>
+                <div class="col-12 col-md-4 col-lg-3">
+                  <label for="province" class="form-label mt-2">Provincia:</label>
+                  <input type="text" class="form-control" id="province" formControlName="province">
+                </div>
+                <div class="col-12 col-md-3">
+                    <label for="postal_code" class="form-label mt-2">Código postal:</label>
+                    <input type="text" class="form-control" id="postal_code" formControlName="postal_code">
+                </div>
+
+                <ng-container *ngIf="!workerRole">
+                  <!-- En caso de ser NNA -->
+                  <div class="col-12 col-md-3">
+                    <label for="birthDate" class="form-label mt-2"> Fecha de nacimiento <span *ngIf="birthDateRequired" class="text-danger">*</span> </label>
+                    <input type="date" class="form-control" id="birthDate" formControlName="birthDate"
+                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.birthDate.invalid}">
+                    <div *ngIf="registerSubmitted && registerForm.controls.birthDate.invalid">Por favor, rellene el campo.</div>
+                  </div>
+                  <div class="col-12 col-md-3">
+                    <label for="admissionDate" class="form-label mt-2"> Fecha de ingreso <span *ngIf="admissionDateRequired" class="text-danger">*</span></label>
+                    <input type="date" class="form-control" id="admissionDate" formControlName="admissionDate"
+                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.admissionDate.invalid}">
+                    <div *ngIf="registerSubmitted && registerForm.controls.admissionDate.invalid">Por favor, rellene el campo.</div>
+                  </div>
+                  <div class="col-12 col-md-3">
+                    <label for="custodyType" class="form-label mt-2">Custodia: <span *ngIf="custodyTypeRequired" class="text-danger">*</span></label>
+                    <select id="custodyType" class="form-select" formControlName="custodyType"
+                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.custodyType.invalid}">
+                        <option value="1"> Tutela </option>
+                        <option value="2"> Guarda </option>
+                        <option value="3"> Custodia </option>
                     </select>
-                    <div class="invalid-feedback">Por favor, seleccione un perfil profesional.</div>
+                    <div *ngIf="registerSubmitted && registerForm.controls.custodyType.invalid">Por favor, seleccione un tipo de custodia.</div>
+                  </div>
+                </ng-container>
+
+                <div class="w-100 m-0"></div>
+
+                <!-- Este contenedor se va a mostrar a la hora de registrar un nuevo usuario o si el usuario a editar no tiene registros: -->
+
+                <div class="col-12 col-md-4" *ngIf="workerRole">
+                  <span> Categoría profesional <span *ngIf="!userId && professionalCategoryRequired || editingUpcc" class="text-danger">*</span> </span>
                 </div>
-                <div class="col-12 col-md-6" id="recurso">
-                    <label for="selectRecurso" class="form-label mt-2">Recurso: </label>
-                    <select class="form-select" size="5" formControlName="centre" required>
+                <div class="col-12 col-md-4">
+                  <span> Recurso <span *ngIf="!userId || editingUpcc" class="text-danger">*</span> </span>
+                </div>
+
+                <div class="w-100 m-0"></div>
+                <ng-container *ngIf="workerRole">
+                  <div class="col-12 col-md-4" *ngIf="isEmpty || !userId">
+                      <select class="form-select" id="professionalCategory" formControlName="professionalCategory"
+                      [ngClass]="{'input-error': registerSubmitted && registerForm.controls.professionalCategory.invalid}">
+                        <ng-container *ngFor="let item of professionalCategories">
+                          <option value="{{ item['id'] }}"> {{ item['name'] }} </option>
+                        </ng-container>
+                      </select>
+                      <div *ngIf="registerSubmitted && registerForm.controls.professionalCategory.invalid">Por favor, seleccione un perfil profesional.</div>
+                  </div>
+                </ng-container>
+
+                <div class="col-12 col-md-4" *ngIf="isEmpty || !userId">
+                    <select class="form-select" formControlName="centre" required
+                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.centre.invalid}">
                       <ng-container *ngFor="let item of centres">
                         <option value="{{ item['id'] }}"> {{ item['name'] }} </option>
                       </ng-container>
                     </select>
-                    <div class="invalid-feedback">Por favor, seleccione un recurso.</div>
+                    <div *ngIf="registerSubmitted && registerForm.controls.centre.invalid">Por favor, seleccione un recurso.</div>
                 </div>
+
+                <ng-container *ngFor="let upcc of userProfessionalCategoryCenter">
+                  <div class="col-12 col-md-4" *ngIf="workerRole">
+                    <span *ngIf="!editingUpcc || upccBeingEdited !== upcc"> {{ upcc['professionalCategory']['name'] }} </span>
+                    <select *ngIf="editingUpcc && upccBeingEdited === upcc" class="form-select" formControlName="professionalCategory" [(ngModel)]="professionalCategorySelected"
+                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.professionalCategory.invalid}">
+                      <ng-container *ngFor="let item of professionalCategories">
+                        <option [value]="item['id']"> {{ item['name'] }} </option>
+                      </ng-container>
+                    </select>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <span *ngIf="upccBeingEdited !== upcc"> {{ upcc['centre']['name'] }} </span>
+                    <select *ngIf="!userId || editingUpcc && upccBeingEdited === upcc" class="form-select" formControlName="centre" [(ngModel)]="centreSelected"
+                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.centre.invalid}">
+                      <ng-container *ngFor="let item of centres">
+                        <option [value]="item['id']"> {{ item['name'] }} </option>
+                      </ng-container>
+                    </select>
+                  </div>
+                  <div *ngIf="!isEmpty" class="col-12 col-md-2">
+                    <button mat-icon-button (click)="editUserProfessionalCategoryCenter(upcc)" *ngIf="!editingUpcc || upccBeingEdited !== upcc">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="saveUserProfessionalCategoryCenter(upcc)" *ngIf="editingUpcc && upccBeingEdited === upcc">
+                      <mat-icon>save</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="deleteUserProfessionalCategoryCenter(upcc)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </ng-container>
             </div>
         </div>
 

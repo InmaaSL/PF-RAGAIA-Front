@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ResetPasswordComponent } from './reset-password.component';
 
 describe('ResetPasswordComponent', () => {
@@ -10,7 +10,7 @@ describe('ResetPasswordComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ResetPasswordComponent ],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule.forRoot(), HttpClientTestingModule ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ResetPasswordComponent);

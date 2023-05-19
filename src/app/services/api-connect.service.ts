@@ -1,6 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +13,7 @@ export class ApiConnectService {
   urlRegister = environment.API_URL + '/register';
   urlGetUserId = environment.API_URL + '/user/getUserId';
   urlGetUserInfo = environment.API_URL + '/user/getUserData';
+
   constructor(
     public http: HttpClient
   ) { }

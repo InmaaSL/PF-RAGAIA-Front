@@ -127,7 +127,7 @@ export class AuthService {
     this.apiUserService.getUserData(userId).subscribe({
       next: (userData: any) => {
         if(userData){
-          this.setUserData(userData['data']);
+          this.setUserData(userData);
         }
       },
       error: (e) => console.log(e)
@@ -145,7 +145,7 @@ export class AuthService {
   login(user: any, pass: any): Observable<any> {
     localStorage.setItem(
       'USER',
-      JSON.stringify({ username: user, password: pass })
+      JSON.stringify({ username: user })
     );
 
     return this.serverLogin(user, pass).pipe(
@@ -154,6 +154,12 @@ export class AuthService {
           TOKEN_KEY,
           JSON.stringify(res['token'])
         );
+
+        const storeRefresh  = localStorage.setItem(
+          REFRESH_TOKEN_KEY,
+          JSON.stringify(res['refresh_token'])
+        );
+
 
         this.currentAccessToken = res['token'];
 
@@ -164,7 +170,7 @@ export class AuthService {
             JSON.parse(atob(this.currentAccessToken.split('.')[1]))['roles']
           );
         }
-        return from(Promise.all([storeAccess]));
+        return from(Promise.all([storeAccess, storeRefresh]));
       }),
       tap((_: any) => {
         this.isAuthenticated.next(true);
