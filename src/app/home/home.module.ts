@@ -15,6 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 import { UpdateUserComponent } from '../components/modal-components/update-user/update-user.component';
+import { NnaMainComponent } from '../components/home-componets/nna-main/nna-main.component';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { UpdateUserComponent } from '../components/modal-components/update-user/
     UserRegisterComponent,
     UserManagementComponent,
     UpdateUserComponent,
+    NnaMainComponent
   ]
 })
 export class HomePageModule {}

@@ -17,7 +17,7 @@ export class CommonDataSource implements DataSource<any> {
 
     private resultsSubject = new BehaviorSubject<any[]>([]);
 
-    constructor(private restService: RestService) {}
+    constructor(public restService: RestService) {}
 
     loadData(
     ) {

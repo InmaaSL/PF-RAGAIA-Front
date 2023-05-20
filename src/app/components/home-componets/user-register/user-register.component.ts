@@ -31,6 +31,7 @@ export class UserRegisterComponent implements OnInit {
     custodyType: new FormControl(''),
     professionalCategory: new FormControl(''),
     centre: new FormControl('', Validators.required),
+    case_number: new FormControl(''),
   });
 
   public phoneRequired = true;
@@ -39,6 +40,7 @@ export class UserRegisterComponent implements OnInit {
   public birthDateRequired = false;
   public admissionDateRequired = false;
   public custodyTypeRequired = false;
+  public caseNumberRequired = false;
 
   public isLoading = false;
   public registerSubmitted = false;
@@ -50,12 +52,14 @@ export class UserRegisterComponent implements OnInit {
   public professionalCategories = [];
   public centres = [];
   public userProfessionalCategoryCenter = [];
+  public custodiesType = [];
   public userId: string = '';
 
   public upcc = [];
   public infoUserData: HttpParams | undefined;
   public centreSelected = '';
   public professionalCategorySelected = '';
+  public custodySelected = '';
   public upccBeingEdited: any = null;
 
   constructor(
@@ -73,7 +77,13 @@ export class UserRegisterComponent implements OnInit {
     })
 
     this.apiUserService.getCentres().subscribe({
-      next: (e: any) => this.centres = e
+      next: (e: any) => this.centres = e,
+      error: (e) => console.log(e)
+    })
+
+    this.apiUserService.getCustodies().subscribe({
+      next: (e: any) => this.custodiesType = e,
+      error: (e) => console.log(e)
     })
 
     if(this.toEdit){
@@ -99,6 +109,8 @@ export class UserRegisterComponent implements OnInit {
       this.registerForm.get('professionalCategory')?.setValidators([Validators.required]);
       document.getElementById('professionalCategory')?.setAttribute('required', '');
 
+      this.registerForm.get('case_number')?.clearValidators();
+      document.getElementById('case_number')?.removeAttribute('required');
       this.registerForm.get('birthDate')?.clearValidators();
       document.getElementById('birthDate')?.removeAttribute('required');
       this.registerForm.get('admissionDate')?.clearValidators();
@@ -122,6 +134,8 @@ export class UserRegisterComponent implements OnInit {
       this.registerForm.get('professionalCategory')?.clearValidators();
       document.getElementById('professionalCategory')?.removeAttribute('required');
 
+      this.registerForm.get('case_number')?.setValidators([Validators.required]);
+      document.getElementById('case_number')?.setAttribute('required', '');
       this.registerForm.get('birthDate')?.setValidators([Validators.required]);
       document.getElementById('birthDate')?.setAttribute('required', '');
       this.registerForm.get('admissionDate')?.setValidators([Validators.required]);
@@ -187,7 +201,8 @@ export class UserRegisterComponent implements OnInit {
         .set('postal_code', this.registerForm.value.postal_code ?? '' )
         .set('birth_date', this.registerForm.value.birthDate ?? '' )
         .set('admission_date', this.registerForm.value.admissionDate ?? '' )
-        .set('custody_id', this.registerForm.value.custodyType ?? '' );
+        .set('custody_id', this.registerForm.value.custodyType ?? '' )
+        .set('case_number', this.registerForm.value.case_number ?? '' );
       }
 
       if(this.userId){
@@ -198,7 +213,7 @@ export class UserRegisterComponent implements OnInit {
               next: () => {
                 this.apiUserService.getUserCentreProfessionalCategory(this.userId).subscribe({
                   next: (register: any) => {
-                    if(register.length == 0){
+                    // if(register.length == 0){
                       if(mainRole){
                         this.apiUserService.setUserProfessionalCategoryCentre(this.userId, infoProfessionalCategoryCentre).subscribe({
                           error: (e) => console.log(e),
@@ -214,9 +229,6 @@ export class UserRegisterComponent implements OnInit {
                           }
                         });
                       }
-                    } else {
-                      this.dialog.closeAll();
-                    }
                   }
                 })
               },
@@ -279,19 +291,43 @@ export class UserRegisterComponent implements OnInit {
         this.registerForm.patchValue({ province: userData.province });
         this.registerForm.patchValue({ postal_code: userData.postal_code });
         this.registerForm.patchValue({ town: userData.town });
+        this.registerForm.patchValue({ case_number: userData.case_number });
+
+        this.registerForm.patchValue({ birthDate: this.getDate(userData.birth_date) });
+        this.registerForm.patchValue({ admissionDate: this.getDate(userData.admission_date) });
+        this.registerForm.patchValue({ custodyType: userData.custody });
+
+        if(userData.custody){
+          this.custodySelected = userData.custody.id;
+        } else {
+          this.custodySelected = '0';
+        }
 
         //Vamos a obtener los centros y categorías profesionales del usuario:
         this.apiUserService.getUserCentreProfessionalCategory(id).subscribe({
           next: (userCentreCategory: any) => {
             this.userProfessionalCategoryCenter = userCentreCategory;
-            console.log(this.userProfessionalCategoryCenter);
-            if(this.userProfessionalCategoryCenter.length == 0){
+
+            if(this.userProfessionalCategoryCenter.length != 0){
+              if(this.userProfessionalCategoryCenter[0]['centre']){
+                this.centreSelected = this.userProfessionalCategoryCenter[0]['centre']['id'];
+              } else {
+                this.centreSelected = '0';
+              }
+
+              if(this.userProfessionalCategoryCenter[0]['professionalCategory']){
+                this.professionalCategorySelected = this.userProfessionalCategoryCenter[0]['professionalCategory']['id'];
+              } else {
+                this.professionalCategorySelected = '0';
+              }
+            } else {
               this.isEmpty = true;
+              this.centreSelected = '0';
+              this.professionalCategorySelected = '0';
             }
-            console.log(this.isEmpty);
           }
         })
-        if(userData.roles.includes('ROLE_WORKER')){
+        if(userData.user.roles.includes('ROLE_WORKER')){
           this.workerRole = true;
           this.registerForm.get('mainRole')?.setValue(true);
         } else {
@@ -303,128 +339,76 @@ export class UserRegisterComponent implements OnInit {
     })
   }
 
-  public editUserProfessionalCategoryCenter(upcc: any){
-    this.editingUpcc = true;
-    this.upccBeingEdited = upcc;
-
-    if(upcc.centre){
-      this.centreSelected = upcc.centre.id;
+  public getDate(date: string){
+    let stringDate;
+    if(!date){
+      stringDate = new Date();
     } else {
-      this.centreSelected = '1';
+      stringDate = new Date(date);
     }
+    const day = stringDate.getDate();
+    const month = stringDate.getMonth() + 1; // Los meses en JavaScript van de 0 a 11
+    const year = stringDate.getFullYear();
 
-    if(upcc.professionalCategory){
-      this.professionalCategorySelected = upcc.professionalCategory.id;
-    } else {
-      this.professionalCategorySelected = '1';
-    }
+    const typeDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+
+    return typeDate;
+
   }
 
-  public deleteUserProfessionalCategoryCenter(upcc: any){
-    this.editingUpcc = true;
+  public deleteUserProfessionalCategoryCenter(){
+    this.apiUserService.getUserCentreProfessionalCategory(this.userId).subscribe({
+      next: (userCentreCategory: any) => {
 
-    this.apiUserService.deleteUserProfessionalCategoryCentre(upcc.id).subscribe({
-      error: (e) => console.log(e),
-      complete: () => {
-          this.apiUserService.getUserCentreProfessionalCategory(this.userId).subscribe({
-            next: (userCentreCategory: any) => {
-              this.userProfessionalCategoryCenter = userCentreCategory;
-              console.log(this.userProfessionalCategoryCenter);
-              if(this.userProfessionalCategoryCenter.length == 0){
-                this.isEmpty = true;
-              }
-            }
-          })
-      },
+        console.log(userCentreCategory[0]['id']);
+
+        this.apiUserService.deleteUserProfessionalCategoryCentre(userCentreCategory[0]['id']).subscribe({
+          error: (e) => console.log(e),
+          complete: () => {
+            this.centreSelected = '0';
+            this.professionalCategorySelected = '0';
+          }
+        })
+      }
     })
-  }
-
-  public saveUserProfessionalCategoryCenter(upcc: any){
-    this.upcc = upcc;
-    this.editingUpcc = false;
-
-    const infoProfessionalCategoryCentre = new HttpParams()
-    .set('userId', this.userId )
-    .set('professionalCategoryId', this.registerForm.value.professionalCategory ?? '' )
-    .set('centreId', this.registerForm.value.centre ?? '' );
-
-    const infoCentre = new HttpParams()
-    .set('userId', this.userId )
-    .set('professionalCategoryId', '' )
-    .set('centreId', this.registerForm.value.centre ?? '' );
-
-    const rol =  this.setRoles(this.registerForm.value.professionalCategory);
-    console.log(rol);
-    const userRoles = new HttpParams()
-    .set('roles', rol.join(','));
-
-    if(this.workerRole){
-      this.apiUserService.updateUserProfessionalCategoryCentre(upcc.id, infoProfessionalCategoryCentre).subscribe({
-        error: (e) => console.log(e),
-        complete: () => {
-          this.apiUserService.setRoles(this.userId, userRoles).subscribe();
-          this.apiUserService.getUserCentreProfessionalCategory(this.userId).subscribe({
-            next: (userCentreCategory: any) => {
-              this.userProfessionalCategoryCenter = userCentreCategory;
-              if(this.userProfessionalCategoryCenter.length == 0){
-                this.isEmpty = true;
-              }
-            }
-          })
-        }
-      })
-    } else {
-      this.apiUserService.updateUserProfessionalCategoryCentre(upcc.id, infoCentre).subscribe({
-        error: (e) => console.log(e),
-        complete: () => {
-          this.apiUserService.getUserCentreProfessionalCategory(this.userId).subscribe({
-            next: (userCentreCategory: any) => {
-              this.userProfessionalCategoryCenter = userCentreCategory;
-              if(this.userProfessionalCategoryCenter.length == 0){
-                this.isEmpty = true;
-              }
-            }
-          })
-        }
-      });
-    }
   }
 
   public setRoles(professionalCategory: any){
       let rol;
-      switch (professionalCategory) {
-        case '1':
-          rol = ["ROLE_SUPERADMIN"];
-          break;
-        case '2':
-          rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_PSYCHOLOGIST"];
-          break;
-        case '3':
-          rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_SOCIAL_WORKER"];
-          break;
-        case '4':
-          rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_EDUSOS_TICS_MEDIADORES"];
-          break;
-        case '5':
-          rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_EDUSOS_TICS_MEDIADORES"];
-          break;
-        case '6':
-          rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_EDUSOS_TICS_MEDIADORES"];
-          break;
-        case '7':
-          rol = ["ROLE_WORKER", "DOMESTIC_SUPPORT"];
-          break;
-        case '8':
-          rol = ["ROLE_WORKER", "ROLE_MANAGEMENT"];
-          break;
-        default:
-          rol = ["ROLE_NNA"];
-          break;
+      if(professionalCategory === '0' && this.workerRole){
+        rol = ["ROLE_WORKER"];
+      } else {
+        switch (professionalCategory) {
+          case '1':
+            rol = ["ROLE_WORKER", "ROLE_SUPERADMIN"];
+            break;
+          case '2':
+            rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_PSYCHOLOGIST"];
+            break;
+          case '3':
+            rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_SOCIAL_WORKER"];
+            break;
+          case '4':
+            rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_EDUSOS_TICS_MEDIADORES"];
+            break;
+          case '5':
+            rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_EDUSOS_TICS_MEDIADORES"];
+            break;
+          case '6':
+            rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_EDUSOS_TICS_MEDIADORES"];
+            break;
+          case '7':
+            rol = ["ROLE_WORKER", "DOMESTIC_SUPPORT"];
+            break;
+          case '8':
+            rol = ["ROLE_WORKER", "ROLE_MANAGEMENT"];
+            break;
+          default:
+            rol = ["ROLE_NNA"];
+            break;
+        }
       }
       return rol;
   }
 
-  public controlRequired(){
-
-  }
 }

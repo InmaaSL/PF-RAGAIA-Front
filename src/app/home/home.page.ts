@@ -22,13 +22,13 @@ export class HomePage implements OnInit {
       name: 'Personal',
       value: '/personal',
       pages: [
-        {name: 'Registro de usuarios', value: 'user-register'},
-        {name: 'Equipo de Atención Directa', value: 'user-management'},
+        {name: 'Registro de Usuarios', value: 'user-register'},
+        {name: 'Usuarios Registrados', value: 'user-management'},
       ]
     },
     {
       name: 'NNA',
-      value: '/nna'},
+      value: 'nna'},
     {
       name: 'Registros',
       value: '/registres',
