@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+
+    <ng-container *ngFor="let n of nna">
+      <div class="card-container col mb-4">
+          <div class="card d-flex flex-column align-items-center justify-content-center">
+              <div class="inner-content d-flex flex-column justify-content-center mt-3">
+                  <div class="img-container rounded-circle">
+                    <img src="../../../../assets/imgs/user.png" alt="" class="rounded-circle">
+                  </div>
+              </div>
+              <div class="h3 my-auto"> {{ getInitial(n['userData']['name'])  + '. ' + n['userData']['surname'] }} </div>
+              <p class="designation text-muted text-uppercase"> {{ n['age']}} - {{ n['age'] >= 15 ? 'IES' : 'ESCOLARES'}} </p>
+              <p class="designation text-muted text-uppercase"> {{ n['userData']['case_number']}} </p>
+              <button class="btn btn-outline-secondary mt-auto mb-3 p-2"> Más Información </button>
+          </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

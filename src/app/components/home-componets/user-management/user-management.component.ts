@@ -32,7 +32,7 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
   public displayedNNAColumns: string[] = [
     'name',
     'birthDate',
-    'admissionDate',
+    'case_number',
     'custodyType',
     'dni',
     'centre',
@@ -87,7 +87,6 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
 
     this.paginator.page.subscribe(
       (data) => {
-        console.log(data);
         this.restServiceW.page.limit = data.pageSize;
         this.restServiceW.page.offset = data.pageIndex;
         this.workerDataSource.loadData();
@@ -120,7 +119,6 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
     this.nnaDataSource.loadData();
 
     this.paginator.page.subscribe((data) => {
-      console.log(data);
       this.restServiceN.page.limit = data.pageSize;
       this.restServiceN.page.offset = data.pageIndex;
       this.nnaDataSource.loadData();

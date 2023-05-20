@@ -125,16 +125,16 @@
         </ng-container>
 
         <!-- Admission date Column -->
-        <ng-container matColumnDef="admissionDate">
-          <th class="py-2" mat-header-cell *matHeaderCellDef> D. Admisión </th>
-          <td class="align-middle py-2 my-4 px-2" mat-cell *matCellDef="let element"> {{element.userData?.admission_date | date: 'shortDate'}} </td>
+        <ng-container matColumnDef="case_number">
+          <th class="py-2" mat-header-cell *matHeaderCellDef> Nº Expediente </th>
+          <td class="align-middle py-2 my-4 px-2" mat-cell *matCellDef="let element"> {{element.userData?.case_number }} </td>
         </ng-container>
 
         <!-- Custody type Column -->
         <ng-container matColumnDef="custodyType">
           <th class="py-2" mat-header-cell *matHeaderCellDef> Custodia </th>
           <td class="align-middle py-2 my-4 px-2" mat-cell *matCellDef="let element">
-              <span class="name-text m-0 p-0"> {{element.userData.custody?.id}} </span>
+              <span class="name-text m-0 p-0"> {{element.userData.custody?.name}} </span>
           </td>
         </ng-container>
 

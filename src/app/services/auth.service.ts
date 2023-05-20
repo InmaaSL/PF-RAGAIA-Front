@@ -105,9 +105,9 @@ export class AuthService {
   getUserInfoApi() {
     this.apiConnectService.getUserInfo().subscribe({
       next: (userInfo: any) => {
-        this.setUserInfo(userInfo['data']);
-          if (userInfo['data']['id']) {
-            this.getUserDataAPI(userInfo['data']['id']);
+        this.setUserInfo(userInfo);
+          if (userInfo.id) {
+            this.getUserDataAPI(userInfo.id);
           }
       },
       error: (e) => console.log(e),

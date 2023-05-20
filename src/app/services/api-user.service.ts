@@ -11,7 +11,9 @@ export class ApiUserService {
   urlGetAllUserData = environment.API_URL + '/user/usersData';
   urlGetProfessionalCategories = environment.API_URL + '/getProfessionalCategories';
   urlGetCentres = environment.API_URL + '/getCentres';
+  urlGetCustodies = environment.API_URL + '/getCustodies';
   urlGetUserCentreProfessionalCategory = environment.API_URL + '/user/getUserCentreProfessionalCategory/';
+
 
   urlRegisterUserData = environment.API_URL + '/user/userData/';
   urlSetRole = environment.API_URL + '/user/roles/';
@@ -50,12 +52,28 @@ export class ApiUserService {
     return this.http.get(this.urlGetCentres, requestOptions);
   }
 
+  getCustodies() {
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/x-www-form-urlencoded')
+      .set('Content-Type', 'application/x-www-form-urlencoded');
+    const requestOptions = { headers };
+    return this.http.get(this.urlGetCustodies, requestOptions);
+  }
+
   getUsersData() {
     const headers = new HttpHeaders()
       .set('Accept', 'application/x-www-form-urlencoded')
       .set('Content-Type', 'application/x-www-form-urlencoded');
     const requestOptions = { headers };
     return this.http.get(this.urlGetAllUserData, requestOptions);
+  }
+
+  getUsersDataType(type: string) {
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/x-www-form-urlencoded')
+      .set('Content-Type', 'application/x-www-form-urlencoded');
+    const requestOptions = { headers };
+    return this.http.get(this.urlGetAllUserData+ '/' + type, requestOptions);
   }
 
   getUserCentreProfessionalCategory(id: string) {

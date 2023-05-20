@@ -9,7 +9,7 @@
   </div>
 </ng-container>
 
-<form class="container needs-validation" [formGroup]="registerForm"  novalidate>
+<form class="container needs-validation" [formGroup]="registerForm">
     <div class="row">
         <div class="col-12 p-0">
             <div class="row gy-3">
@@ -69,6 +69,13 @@
 
                 <ng-container *ngIf="!workerRole">
                   <!-- En caso de ser NNA -->
+                  <div class="w-100 m-0"></div>
+                  <div class="col-12 col-md-3">
+                    <label for="birthDate" class="form-label mt-2"> Número de expediente <span *ngIf="caseNumberRequired" class="text-danger">*</span> </label>
+                    <input type="text" class="form-control" id="case_number" formControlName="case_number"
+                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.case_number.invalid}">
+                    <div *ngIf="registerSubmitted && registerForm.controls.case_number.invalid">Por favor, rellene el campo.</div>
+                  </div>
                   <div class="col-12 col-md-3">
                     <label for="birthDate" class="form-label mt-2"> Fecha de nacimiento <span *ngIf="birthDateRequired" class="text-danger">*</span> </label>
                     <input type="date" class="form-control" id="birthDate" formControlName="birthDate"
@@ -83,11 +90,12 @@
                   </div>
                   <div class="col-12 col-md-3">
                     <label for="custodyType" class="form-label mt-2">Custodia: <span *ngIf="custodyTypeRequired" class="text-danger">*</span></label>
-                    <select id="custodyType" class="form-select" formControlName="custodyType"
+                    <select id="custodyType" class="form-select" formControlName="custodyType" [(ngModel)]="custodySelected"
                     [ngClass]="{'input-error': registerSubmitted && registerForm.controls.custodyType.invalid}">
-                        <option value="1"> Tutela </option>
-                        <option value="2"> Guarda </option>
-                        <option value="3"> Custodia </option>
+                      <option value="0"> Selecciona un tipo de custodia </option>
+                      <ng-container *ngFor="let item of custodiesType">
+                        <option value="{{ item['id'] }}" [selected]="item['id'] === custodySelected"> {{ item['name'] }} </option>
+                      </ng-container>
                     </select>
                     <div *ngIf="registerSubmitted && registerForm.controls.custodyType.invalid">Por favor, seleccione un tipo de custodia.</div>
                   </div>
@@ -95,70 +103,36 @@
 
                 <div class="w-100 m-0"></div>
 
-                <!-- Este contenedor se va a mostrar a la hora de registrar un nuevo usuario o si el usuario a editar no tiene registros: -->
-
                 <div class="col-12 col-md-4" *ngIf="workerRole">
-                  <span> Categoría profesional <span *ngIf="!userId && professionalCategoryRequired || editingUpcc" class="text-danger">*</span> </span>
-                </div>
-                <div class="col-12 col-md-4">
-                  <span> Recurso <span *ngIf="!userId || editingUpcc" class="text-danger">*</span> </span>
-                </div>
-
-                <div class="w-100 m-0"></div>
-                <ng-container *ngIf="workerRole">
-                  <div class="col-12 col-md-4" *ngIf="isEmpty || !userId">
-                      <select class="form-select" id="professionalCategory" formControlName="professionalCategory"
-                      [ngClass]="{'input-error': registerSubmitted && registerForm.controls.professionalCategory.invalid}">
-                        <ng-container *ngFor="let item of professionalCategories">
-                          <option value="{{ item['id'] }}"> {{ item['name'] }} </option>
-                        </ng-container>
-                      </select>
-                      <div *ngIf="registerSubmitted && registerForm.controls.professionalCategory.invalid">Por favor, seleccione un perfil profesional.</div>
-                  </div>
-                </ng-container>
-
-                <div class="col-12 col-md-4" *ngIf="isEmpty || !userId">
-                    <select class="form-select" formControlName="centre" required
-                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.centre.invalid}">
-                      <ng-container *ngFor="let item of centres">
-                        <option value="{{ item['id'] }}"> {{ item['name'] }} </option>
-                      </ng-container>
-                    </select>
-                    <div *ngIf="registerSubmitted && registerForm.controls.centre.invalid">Por favor, seleccione un recurso.</div>
-                </div>
-
-                <ng-container *ngFor="let upcc of userProfessionalCategoryCenter">
-                  <div class="col-12 col-md-4" *ngIf="workerRole">
-                    <span *ngIf="!editingUpcc || upccBeingEdited !== upcc"> {{ upcc['professionalCategory']['name'] }} </span>
-                    <select *ngIf="editingUpcc && upccBeingEdited === upcc" class="form-select" formControlName="professionalCategory" [(ngModel)]="professionalCategorySelected"
-                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.professionalCategory.invalid}">
+                  <label for="custodyType" class="form-label mt-2"> Categoría Profesional: <span *ngIf="!userId && professionalCategoryRequired || editingUpcc" class="text-danger">*</span></label>
+                  <select class="form-select" id="professionalCategory" formControlName="professionalCategory"
+                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.professionalCategory.invalid}" [(ngModel)]="professionalCategorySelected">
+                      <option value="0"> Selecciona una categoría profesional </option>
                       <ng-container *ngFor="let item of professionalCategories">
-                        <option [value]="item['id']"> {{ item['name'] }} </option>
+                      <option value="{{ item['id'] }}" [selected]="item['id'] === professionalCategorySelected"> {{ item['name'] }} </option>
                       </ng-container>
                     </select>
-                  </div>
-                  <div class="col-12 col-md-4">
-                    <span *ngIf="upccBeingEdited !== upcc"> {{ upcc['centre']['name'] }} </span>
-                    <select *ngIf="!userId || editingUpcc && upccBeingEdited === upcc" class="form-select" formControlName="centre" [(ngModel)]="centreSelected"
-                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.centre.invalid}">
-                      <ng-container *ngFor="let item of centres">
-                        <option [value]="item['id']"> {{ item['name'] }} </option>
-                      </ng-container>
-                    </select>
-                  </div>
-                  <div *ngIf="!isEmpty" class="col-12 col-md-2">
-                    <button mat-icon-button (click)="editUserProfessionalCategoryCenter(upcc)" *ngIf="!editingUpcc || upccBeingEdited !== upcc">
-                      <mat-icon>edit</mat-icon>
-                    </button>
-                    <button mat-icon-button (click)="saveUserProfessionalCategoryCenter(upcc)" *ngIf="editingUpcc && upccBeingEdited === upcc">
-                      <mat-icon>save</mat-icon>
-                    </button>
-                    <button mat-icon-button (click)="deleteUserProfessionalCategoryCenter(upcc)">
-                      <mat-icon>delete</mat-icon>
-                    </button>
-                  </div>
-                </ng-container>
-            </div>
+                    <div *ngIf="registerSubmitted && registerForm.controls.professionalCategory.invalid">Por favor, seleccione un perfil profesional.</div>
+                </div>
+
+                <div class="col-12 col-md-4" >
+                  <label for="custodyType" class="form-label mt-2"> Centro: <span *ngIf="!userId || editingUpcc" class="text-danger">*</span></label>
+                  <select class="form-select" formControlName="centre" required
+                  [ngClass]="{'input-error': registerSubmitted && registerForm.controls.centre.invalid}" [(ngModel)]="centreSelected">
+                    <option value="0"> Selecciona un centro </option>
+                    <ng-container *ngFor="let item of centres">
+                      <option value="{{ item['id'] }}" [selected]="item['id'] === centreSelected"> {{ item['name'] }} </option>
+                    </ng-container>
+                  </select>
+                  <div *ngIf="registerSubmitted && registerForm.controls.centre.invalid">Por favor, seleccione un recurso.</div>
+                </div>
+
+                <div *ngIf="!isEmpty && userId" class="col-12 col-md-2 mt-auto">
+                  <button class="pb-0" mat-icon-button (click)="deleteUserProfessionalCategoryCenter()">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
         </div>
 
         <div class="col-12 my-5">
