@@ -1,0 +1,65 @@
+<div class="w-100 d-flex justify-content-between">
+  <i class="fa-solid fa-circle-chevron-left"></i>
+  <i class="fa-solid fa-circle-xmark"></i>
+</div>
+
+<div class="row g-3 p-2">
+  <span class="col-12 col-sm-6 col-md-4 col-xl-3">
+    <span> Nombre y apellidos: </span>
+    <div class="w-100"></div>
+    {{ userData.name + ' ' + userData.surname}}
+  </span>
+  <span class="col-12 col-sm-6 col-md-4 col-xl-3">
+    <span> DNI: </span>
+    <div class="w-100"></div>
+    {{ userData.dni}}
+  </span>
+  <span class="col-12 col-sm-6 col-md-4 col-xl-3">
+    <span> Fecha de nacimiento: </span>
+    <div class="w-100"></div>
+    {{ userData.birth_date | date:'dd/MM/yyyy' }}
+  </span>
+  <span class="col-12 col-sm-6 col-md-4 col-xl-3">
+        <span> Nº Expdiente: </span>
+    <div class="w-100"></div>
+    {{ userData.case_number }}
+  </span>
+  <span class="col-12 col-sm-6 col-md-4 col-xl-3">
+        <span> Custodia: </span>
+    <div class="w-100"></div>
+    {{ userData.custody.name }}
+  </span>
+  <span class="col-12 col-sm-6 col-md-4 col-xl-3">
+        <span> Fecha de Ingreso: </span>
+    <div class="w-100"></div>
+    {{ userData.admission_date | date:'dd/MM/yyyy' }}
+  </span>
+</div>
+
+<div class="container-fluid px-0 py-3">
+  <section class="">
+    <div class="row g-3">
+      <ng-container *ngFor="let item of folderItems">
+        <div class="col-xl-2 col-md-4 col-sm-6 col-12">
+          <div class="card folder-card">
+            <div class="card-content">
+              <div class="card-body">
+                <div class="media d-flex justify-content-between">
+                  <div class="align-self-center">
+                    <i class="{{ item.icon }} folder-icon"></i>
+                  </div>
+                  <div class="media-body text-right">
+                    <span class="folder-name"> {{ item.name }} </span>
+                    <span class="btn-go">
+                      <p class="w-100 align-self-center mb-0"> Ir </p>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </section>
+</div>

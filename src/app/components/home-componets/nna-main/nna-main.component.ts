@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { ApiUserService } from 'src/app/services/api-user.service';
+import { ComponentsService } from 'src/app/services/components.service';
 import { CommonDataSource } from 'src/app/services/dataSources/common.datasource';
-import { MainService } from 'src/app/services/main.service';
-import { Filtering } from 'src/app/services/rest/Filtering';
+import { HomeService } from 'src/app/services/home.service';
 import { RestService } from 'src/app/services/rest/Rest.Service';
 
 @Component({
@@ -21,14 +21,12 @@ export class NnaMainComponent implements OnInit, AfterViewInit {
   nna = [];
 
   constructor(
-    private http: HttpClient,
-    private changeDetectorRef: ChangeDetectorRef,
     private apiUserService: ApiUserService,
+    private homeService: HomeService,
+    private componentsService: ComponentsService
   ) { }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   ngAfterViewInit(){
     setTimeout(() => {
@@ -37,26 +35,6 @@ export class NnaMainComponent implements OnInit, AfterViewInit {
   }
 
   public getNNA(){
-    // this.restServiceN = new RestService(this.http, this.changeDetectorRef);
-
-    // this.restServiceN.url = 'v2/user';
-
-    // this.restServiceN.filterDefault = [
-    //   // new Filtering('user_data.name+user_data.surname:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
-    //   // new Filtering('user_data.phone_number:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
-    //   // new Filtering('email', 'like', null),
-    //   // new Filtering('user_data.address:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
-    //   new Filtering('roles', 'like', 'ROLE_NNA'),
-    //   new Filtering('deleted', 'exact', 0)
-    // ];
-
-    // this.restServiceN.filter = MainService.deepCopy(this.restServiceN.filterDefault);
-    // this.restServiceN.setPageCallBack = (r: any) => {
-    //     //console.log('received data in users page', r);
-    // };
-
-    // this.nnaDataSource = new CommonDataSource(this.restServiceN);
-    // this.nnaDataSource.loadData();
     this.apiUserService.getUsersDataType('nna').subscribe({
       next: (nna: any) => {
 
@@ -72,12 +50,16 @@ export class NnaMainComponent implements OnInit, AfterViewInit {
 
   }
 
-  getInitial(name: string): string {
+  public getInitial(name: string): string {
     if (name && name.length > 0) {
       return name.charAt(0);
     }
     return '';
   }
 
+  public goToNna(userId: any){
+    this.componentsService.updateSelectedUser(userId);
+    this.homeService.updateSelectedComponent('main-individual-nna');
+  }
 
 }
