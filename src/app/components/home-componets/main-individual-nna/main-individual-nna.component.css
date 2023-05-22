@@ -1,0 +1,41 @@
+.folder-card {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.card-body {
+  padding-block: 0.75rem;
+}
+
+.folder-icon{
+  font-size: var(--font9);
+  color: var(--secondary-color);
+  float: left;
+}
+
+.folder-name {
+  font-size: var(--font5);
+  font-weight: var(--fontWeight600);
+}
+
+.btn-go {
+  cursor: pointer;
+  display: flex;
+  justify-content: end;
+
+  background-color: var(--quaternary-color);
+  color: var(--white-color);
+  border: solid 1px var(--quaternary-color);
+
+  max-width: 40px;
+  margin-left: auto;
+
+  border-radius: 5px;
+  text-align: center;
+  font-size: var(--font3);
+}
+
+.btn-go:hover {
+  background-color: var(--white-color);
+  color: var(--quaternary-color);
+  border: solid 1px var(--quaternary-color);
+}

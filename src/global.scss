@@ -28,25 +28,29 @@
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 :root {
-  --main-color: #FE5000;
-  --primary-color: #333333;
+  --dark-color: #333333;
+  --white-color: #FFFFFF;
+  --white-color-opc07: rgba(255, 255, 255, 0.7);
+
+  --main-color: #00A07C;
+  --secondary-color: #3693CE;
+  --tertiary-color: #88D1BD;
+  --quaternary-color: #BACDE7;
+
+  --error-color: #F15D5D;
+  --success-color: #7FB77F;
+  --warning-color: #F9D46D;
+
+  --sixteenth-color: #495057;
+  --sixth-color: #E2E2E2;
+
   --primary-color-opc05: rgb(51, 51, 51, 0.5);
-  --secondary-color: #F6F8F9;
-  --third-color: #FFFFFF;
-  --third-color-opc07: rgba(255, 255, 255, 0.7);
   --fourth-color: #9AA0AC;
   --fifth-color: #818181;
-  --sixth-color: #E2E2E2;
-  --seventh-color: #4498D9;
   --eighth-color: #9598A7;
-  --ninth-color: #363434;
   --tenth-color: #ECEFF1;
   --eleventh-color: #B2B6BD;
-  --twelfth-color: #F15D5D;
-  --thirteenth-color: #7FB77F;
-  --fourteenth-color: #F9D46D;
   --fifteenth-color: #CFCFCF;
-  --sixteenth-color: #495057;
   --seventeenth-color: #E5E5E5;
 
   --font1: 10px;
@@ -69,13 +73,30 @@
   --fontBold: bold;
 }
 
+.btn-main {
+  background-color: var(--main-color);
+  color: var(--white-color);
+}
+
+.btn-main:hover {
+  background-color: var(--white-color);
+  color: var(--main-color);
+  border: solid 1px var(--main-color);
+}
+
 .input-error{
   border-color: red;
 }
 
+.fa-circle-chevron-left, .fa-circle-xmark{
+  color: var(--secondary-color);
+  font-size: var(--font6);
+  cursor: pointer;
+}
+
 .footer-text {
   font-size: var(--font3);
-  color: var(--primary-color);
+  color: var(--dark-color);
 }
 
 html, body {
@@ -116,7 +137,6 @@ header {
   min-height: calc(100% - 230px); /* 100px es la altura del footer */
   display: flex;
   justify-content: center;
-  margin-inline: 1.5rem;
 }
 
 footer {
@@ -154,13 +174,13 @@ ion-content {
 
 .rrss-icon {
   font-size: 30px;
-  color: rgb(29, 163, 216);
+  color: var(--secondary-color);
 }
 
 .copy-right {
   font-size: var(--font3);
   text-align: center;
-  color: var(--primary-color);
+  color: var(--dark-color);
   margin-top: 0.25rem;
 }
 
@@ -206,7 +226,7 @@ ion-content {
   position: absolute;
   width: 100%;
   z-index: 1;
-  background-color: var(--third-color-opc07);
+  background-color: var(--white-color-opc07);
 }
 
 .loader {
@@ -217,7 +237,7 @@ ion-content {
 
   width: 48px;
   height: 48px;
-  border: 5px solid var(--third-color);
+  border: 5px solid var(--white-color);
   border-bottom-color: var(--main-color);
   border-radius: 50%;
   display: inline-block;
