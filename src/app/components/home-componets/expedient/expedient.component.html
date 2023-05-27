@@ -1,0 +1,55 @@
+<div class="component-container">
+  <div class="w-100 d-flex justify-content-between mb-2">
+    <i class="fa-solid fa-circle-chevron-left" (click)="goBack()"></i>
+    <i class="fa-solid fa-circle-xmark" (click)="close()"></i>
+  </div>
+
+  <div class="w-100 d-flex justify-content-center">
+    <label for="fileToUpload" class="btn-update-document">
+      <span> Seleccionar archivo</span>
+      <input id="fileToUpload" type="file" name="fileToUpload" style="display: none" (change)="addExpedientDocument($event.target)" #file>
+    </label>
+  </div>
+
+
+  <div class="media-table">
+    <table mat-table [dataSource]="documentDataSource" class="table">
+      <!-- Name Column -->
+      <ng-container matColumnDef="file_name">
+        <th class="py-2" mat-header-cell *matHeaderCellDef> Nombre </th>
+        <td class="align-middle py-2 px-2" mat-cell *matCellDef="let element">
+          <i class="pdf-icon fa-regular fa-file-pdf"></i>
+          <span> {{element.name_file}} </span>
+        </td>
+      </ng-container>
+
+      <!-- Date Column -->
+      <ng-container matColumnDef="date">
+        <th class="py-2" mat-header-cell *matHeaderCellDef> Fecha </th>
+        <td class="align-middle py-2 px-2" mat-cell *matCellDef="let element"> {{element.date | date:'dd/MM/yyyy'}} </td>
+      </ng-container>
+
+      <!-- Menu Column -->
+      <ng-container matColumnDef="menu">
+        <th class="py-2" mat-header-cell *matHeaderCellDef> </th>
+        <td class="align-middle py-2 my-4 px-2" mat-cell  *matCellDef="let element">
+          <button class="workers-table-mat-icon" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="showDocument(element.id)">
+              <span> Mostrar documento</span>
+            </button>
+            <button mat-menu-item (click)="deleteDocument(element.id)">
+              <span> Eliminar documento </span>
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="documentColumns"></tr>
+      <tr class="tr-body" mat-row *matRowDef="let row; columns: documentColumns;"></tr>
+    </table>
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[1, 10, 25, 100]" aria-label="Select page"></mat-paginator>
+  </div>
+</div>

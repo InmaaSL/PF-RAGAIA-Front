@@ -8,6 +8,7 @@ import { Filtering } from 'src/app/services/rest/Filtering';
 import { RestService } from 'src/app/services/rest/Rest.Service';
 import { UpdateUserComponent } from '../../modal-components/update-user/update-user.component';
 import { MatDialog } from '@angular/material/dialog';
+import { HomeService } from 'src/app/services/home.service';
 
 @Component({
   selector: 'app-user-management',
@@ -49,7 +50,8 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
     private apiUserService: ApiUserService,
     private http: HttpClient,
     private changeDetectorRef: ChangeDetectorRef,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private homeService: HomeService
   ) { }
 
   ngOnInit() {
@@ -82,6 +84,7 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
     };
 
     this.workerDataSource = new CommonDataSource(this.restServiceW);
+    console.log(this.workerDataSource);
     this.workerDataSource.paginator = this.paginator;
     this.workerDataSource.loadData();
 
@@ -147,6 +150,10 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
         this.workerDataSource.loadData();
       }
     })
+  }
+
+  goBack(){
+    this.homeService.updateSelectedComponent('main-individual-nna');
   }
 
 }
