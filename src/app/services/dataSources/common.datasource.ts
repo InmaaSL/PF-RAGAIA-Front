@@ -25,6 +25,7 @@ export class CommonDataSource implements DataSource<any> {
 
         this.restService.setPage().then((data: any) => {
             if (this.paginator) {
+              console.log(data);
                 this.paginator.length = data['count'];
             }
             this.numItems = data['count'];

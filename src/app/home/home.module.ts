@@ -17,6 +17,8 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { UpdateUserComponent } from '../components/modal-components/update-user/update-user.component';
 import { NnaMainComponent } from '../components/home-componets/nna-main/nna-main.component';
 import { MainIndividualNnaComponent } from '../components/home-componets/main-individual-nna/main-individual-nna.component';
+import { ExpedientComponent } from '../components/home-componets/expedient/expedient.component';
+import { ShowDocumentComponent } from '../components/modal-components/show-document/show-document.component';
 
 
 @NgModule({
@@ -40,7 +42,9 @@ import { MainIndividualNnaComponent } from '../components/home-componets/main-in
     UserManagementComponent,
     UpdateUserComponent,
     NnaMainComponent,
-    MainIndividualNnaComponent
+    MainIndividualNnaComponent,
+    ExpedientComponent,
+    ShowDocumentComponent
   ]
 })
 export class HomePageModule {}

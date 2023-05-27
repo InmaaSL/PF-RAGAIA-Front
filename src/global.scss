@@ -84,6 +84,36 @@
   border: solid 1px var(--main-color);
 }
 
+.btn-update-document {
+  border: solid 1px var(--secondary-color);
+  border-radius: 5px;
+  color: var(--secondary-color);
+  font-weight: var(--fontWeight600);
+  padding: 0.75rem 2.5rem;
+  margin-bottom: 1.75rem;
+  cursor: pointer;
+}
+
+.btn-update-document:hover {
+  border: solid 1px var(--white-color);
+  background-color: var(--secondary-color);
+  color: var(--white-color);
+}
+
+.pdf-file {
+  display: flex;
+  align-items: center;
+  font-size: var(--font3);
+  gap: 10px;
+  margin-bottom: 0.75rem;
+}
+
+.pdf-icon {
+  font-size: var(--font8);
+  color: var(--secondary-color);
+}
+
+
 .input-error{
   border-color: red;
 }
@@ -184,6 +214,9 @@ ion-content {
   margin-top: 0.25rem;
 }
 
+.component-container {
+  padding-inline: 1rem;
+}
 
 .main-title {
   font-size: var(--font9);
@@ -256,6 +289,11 @@ ion-content {
   }
 }
 
+.media-table {
+  width: 75%;
+  margin-inline: auto;
+}
+
 
 @media only screen and (max-width: 768px) {
 
@@ -263,6 +301,11 @@ ion-content {
     display: inline-flex;
     text-decoration: none;
     max-width: 100px;
+  }
+
+  .media-table {
+    width: 100%;
+    margin-inline: auto;
   }
 
 }
@@ -273,6 +316,11 @@ ion-content {
     display: inline-flex;
     text-decoration: none;
     max-width: 80px;
+  }
+
+  .media-table {
+    width: 100%;
+    margin-inline: auto;
   }
 
 }

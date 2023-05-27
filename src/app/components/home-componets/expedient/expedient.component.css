@@ -1,0 +1,13 @@
+/* Estilo personalizado para el botón de selección de archivos */
+.custom-file-button {
+  padding: 10px 20px;
+  background-color: #337ab7;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Ocultar el input de tipo "file" */
+input[type="file"] {
+  display: none;
+}

@@ -12,36 +12,45 @@ export class MainIndividualNnaComponent implements OnInit {
 
   public userId = '';
   public userData: any;
+  public showInfo = false;
 
   public folderItems = [
     {
       name: 'Expediente',
-      icon: 'fa-solid fa-folder-open'
+      icon: 'fa-solid fa-folder-open',
+      component: 'nna-expedient'
     },
     {
       name: 'Educación',
-      icon: 'fa-solid fa-pencil'
+      icon: 'fa-solid fa-pencil',
+      component: 'nna-expedient'
     },
     {
       name: 'Sanidad',
-      icon: 'fa-solid fa-briefcase-medical'
+      icon: 'fa-solid fa-briefcase-medical',
+      component: 'nna-expedient'
     },
-    {
-      name: 'Ocio',
-      icon: 'fa-solid fa-ranking-star'
-    },
+
     {
       name: 'Objetivos',
-      icon: 'fa-solid fa-star-half-stroke'
+      icon: 'fa-solid fa-star-half-stroke',
+      component: 'nna-expedient'
     },
-    {
-      name: 'Ropa',
-      icon: 'fa-solid fa-shirt'
-    },
-    {
-      name: 'Tutorías',
-      icon: 'fa-solid fa-comments'
-    }
+    // {
+    //   name: 'Ocio',
+    //   icon: 'fa-solid fa-ranking-star',
+    //   component: 'nna-expedient'
+    // },
+    // {
+    //   name: 'Ropa',
+    //   icon: 'fa-solid fa-shirt',
+    //   component: 'nna-expedient'
+    // },
+    // {
+    //   name: 'Tutorías',
+    //   icon: 'fa-solid fa-comments',
+    //   component: 'nna-expedient'
+    // }
   ]
 
 
@@ -60,10 +69,24 @@ export class MainIndividualNnaComponent implements OnInit {
   public getUserData(){
     this.apiUserService.getUserData(this.userId).subscribe({
       next: (userData: any) => {
+        this.showInfo = true;
         this.userData = userData;
       },
       error: (e) => console.log(e)
     })
+  }
+
+  public goToFolder(component: string ){
+    this.componentsService.updateSelectedUser(this.userId);
+    this.homeService.updateSelectedComponent(component);
+  }
+
+  goBack(){
+    this.homeService.updateSelectedComponent('nna');
+  }
+
+  close(){
+    this.homeService.updateSelectedComponent('main');
   }
 
 }

@@ -11,6 +11,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 
 .container .card::before {
@@ -28,7 +29,7 @@
 
 .container .card {
     width: 220px;
-    height: 275px;
+    height: 220px;
     overflow: hidden;
     z-index: 3;
     transition: all 0.5s ease-in-out;
@@ -37,7 +38,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-inline: 1rem;
+    padding: 1rem;
+}
+
+.container .card:hover {
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
 }
 
 .container .card .img-container {
@@ -75,20 +80,6 @@
     font-size: 0.85rem;
     letter-spacing: 2px;
     pointer-events: none;
-}
-
-.btn-outline-secondary{
-  margin-top: 1.5rem;
-  margin-bottom: 3rem;
-  padding-inline: 0.5rem;
-  padding-block: 0.25rem;
-  border: solid 1px var(--secondary-color);
-  color: var(--secondary-color);
-}
-
-.btn-outline-secondary:hover{
-  background-color: var(--secondary-color);
-  color: var(--white-color);
 }
 
 
