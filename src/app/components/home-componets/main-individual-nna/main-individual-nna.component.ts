@@ -21,16 +21,15 @@ export class MainIndividualNnaComponent implements OnInit {
       component: 'nna-expedient'
     },
     {
+      name: 'Sanidad',
+      icon: 'fa-solid fa-briefcase-medical',
+      component: 'nna-healthcare'
+    },
+    {
       name: 'Educación',
       icon: 'fa-solid fa-pencil',
       component: 'nna-expedient'
     },
-    {
-      name: 'Sanidad',
-      icon: 'fa-solid fa-briefcase-medical',
-      component: 'nna-expedient'
-    },
-
     {
       name: 'Objetivos',
       icon: 'fa-solid fa-star-half-stroke',

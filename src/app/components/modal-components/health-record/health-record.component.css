@@ -1,0 +1,18 @@
+input[type="text"],
+textarea {
+  width: 100%;
+}
+
+textarea {
+  height: 125px;
+}
+
+.form-title{
+  font-weight: var(--fontWeight600);
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

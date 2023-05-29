@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule, NgSelectOption, ReactiveFormsModule } from '@angular/forms';
@@ -14,11 +14,20 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatNativeDateModule} from '@angular/material/core';
+import { DatePipe } from '@angular/common';
+
 import { UpdateUserComponent } from '../components/modal-components/update-user/update-user.component';
 import { NnaMainComponent } from '../components/home-componets/nna-main/nna-main.component';
 import { MainIndividualNnaComponent } from '../components/home-componets/main-individual-nna/main-individual-nna.component';
 import { ExpedientComponent } from '../components/home-componets/expedient/expedient.component';
 import { ShowDocumentComponent } from '../components/modal-components/show-document/show-document.component';
+import { HealthcareComponent } from '../components/home-componets/healthcare/healthcare.component';
+import { HealthRecordComponent } from '../components/modal-components/health-record/health-record.component';
+import { PrintHealthRecordComponent } from '../components/modal-components/print-health-record/print-health-record.component';
 
 
 @NgModule({
@@ -33,7 +42,11 @@ import { ShowDocumentComponent } from '../components/modal-components/show-docum
     MatMenuModule,
     MatIconModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule
   ],
   declarations: [
     HomePage,
@@ -44,7 +57,14 @@ import { ShowDocumentComponent } from '../components/modal-components/show-docum
     NnaMainComponent,
     MainIndividualNnaComponent,
     ExpedientComponent,
-    ShowDocumentComponent
+    ShowDocumentComponent,
+    HealthcareComponent,
+    HealthRecordComponent,
+    PrintHealthRecordComponent
+  ],
+  providers: [
+    DatePipe,
+    { provide: LOCALE_ID, useValue: 'es' }
   ]
 })
 export class HomePageModule {}

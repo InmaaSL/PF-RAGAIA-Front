@@ -1,0 +1,58 @@
+<ng-container *ngFor="let page of pages; let _pageIndex = index;">
+</ng-container>
+
+<div class="p-3 pb-0" id="to-print">
+  <header class="justify-content-center justify-content-md-between mx-3">
+    <div class="col-md-3 mb-2 mb-md-0">
+      <a href="/" class="header-img-logo link-body-emphasis">
+        <img src="../../assets/logo/logo-fsyc.png" alt="lgo-fsys">
+      </a>
+    </div>
+    <button class="btn-update-document" (click)="generatePDF()"> Crear PDF </button>
+  </header>
+
+  <div>
+  </div>
+
+  <h1 class="d-flex justify-content-center">Registro Médico</h1>
+
+  <div class="px-3">
+    <div class="section-title">Información del Paciente</div>
+    <p class="ps-2">
+      <strong>Nombre completo:</strong>
+      {{ document.user.userData.name + ' ' + document.user.userData.surname }}
+    </p>
+
+    <div class="section-title">Detalles del Registro</div>
+    <p class="ps-2 pb-2">
+      <strong class="d-block">Fecha de la consulta:</strong>
+      <span [innerHTML]="formatDate(document.consultation_date)"></span>
+    </p>
+    <p class="ps-2 pb-2">
+      <strong class="d-block">Trabajador que lo acompaña:</strong>
+      {{ document.worker.userData.name + ' ' + document.worker.userData.surname }}
+    </p>
+    <p class="ps-2 pb-2">
+      <strong class="d-block">Tipo de consulta:</strong>
+      {{ document.type_consultation }}
+    </p>
+    <p class="ps-2 pb-2">
+      <strong class="d-block">Síntomas:</strong>
+      {{ document.what_happens }}
+    </p>
+    <p class="ps-2 pb-2">
+      <strong class="d-block">Diagnóstico:</strong>
+      {{ document.diagnostic }}
+    </p>
+    <p class="ps-2 pb-2">
+      <strong class="d-block">Tratamiento:</strong>
+      {{ document.treatment }}
+    </p>
+    <p class="ps-2 pb-2">
+      <strong class="d-block">Revisión:</strong>
+      {{ document.revision }}
+    </p>
+  </div>
+</div>
+
+

@@ -1,6 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { HomeService } from '../services/home.service';
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
 
 @Component({
   selector: 'app-home',
@@ -58,6 +60,8 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    registerLocaleData(localeEs);
+
     this.loadData();
 
     this.homeService.getSelectedComponent()?.subscribe((value) => {
