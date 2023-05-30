@@ -122,7 +122,8 @@ export class ExpedientComponent implements OnInit {
     dialogConfig.position = {
       top: '2rem',
     };
-    dialogConfig.data = {document_id: id};
+    dialogConfig.data = {document_id: id,
+                        type_document: 'expedient'};
     dialogConfig.hasBackdrop = true;
 
     const dialogRef = this.dialog.open(ShowDocumentComponent, dialogConfig);
@@ -135,12 +136,12 @@ export class ExpedientComponent implements OnInit {
     })
   }
 
-  goBack(){
+  public goBack(){
     this.componentsService.updateSelectedUser(this.userId);
     this.homeService.updateSelectedComponent('main-individual-nna');
   }
 
-  close(){
+  public close(){
     this.homeService.updateSelectedComponent('main');
   }
 

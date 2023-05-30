@@ -8,32 +8,32 @@
     <span class="col-12 col-sm-6 col-md-4 col-xl-3">
       <span class="span-title"> Nombre y apellidos: </span>
       <div class="w-100"></div>
-      <span class="ms-2"> {{ userData.name + ' ' + userData.surname}} </span>
+      <span class="ms-2"> {{ userData?.name + ' ' + userData?.surname}} </span>
     </span>
     <span class="col-12 col-sm-6 col-md-4 col-xl-3">
       <span class="span-title"> DNI: </span>
       <div class="w-100"></div>
-      <span class="ms-2"> {{ userData.dni}} </span>
+      <span class="ms-2"> {{ userData?.dni}} </span>
     </span>
     <span class="col-12 col-sm-6 col-md-4 col-xl-3">
       <span class="span-title"> Fecha de nacimiento: </span>
       <div class="w-100"></div>
-      <span class="ms-2"> {{ userData.birth_date | date:'dd/MM/yyyy' }} </span>
+      <span class="ms-2"> {{ userData?.birth_date | date:'dd/MM/yyyy' }} </span>
     </span>
     <span class="col-12 col-sm-6 col-md-4 col-xl-3">
       <span class="span-title"> Nº Expdiente: </span>
       <div class="w-100"></div>
-      <span class="ms-2"> {{ userData.case_number }} </span>
+      <span class="ms-2"> {{ userData?.case_number }} </span>
     </span>
     <span class="col-12 col-sm-6 col-md-4 col-xl-3">
       <span class="span-title"> Custodia: </span>
       <div class="w-100"></div>
-      <span class="ms-2"> {{ userData.custody.name }}</span>
+      <span class="ms-2"> {{ userData?.custody?.name }}</span>
     </span>
     <span class="col-12 col-sm-6 col-md-4 col-xl-3">
       <span class="span-title"> Fecha de Ingreso: </span>
       <div class="w-100"></div>
-      <span class="ms-2"> {{ userData.admission_date | date:'dd/MM/yyyy' }}</span>
+      <span class="ms-2"> {{ userData?.admission_date | date:'dd/MM/yyyy' }}</span>
     </span>
   </div>
 

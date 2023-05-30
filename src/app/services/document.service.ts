@@ -11,11 +11,14 @@ export class DocumentService {
   urlSetExpedientDocument = environment.API_URL + '/setExpedientDocument/';
   urlSetHealthRecord = environment.API_URL + '/setHealthRecord/';
   urlEditHealthRecord = environment.API_URL + '/editHealthRecord/';
+  urlSetHealthDocument = environment.API_URL + '/setHealthDocument/';
 
   urlGetExpedientDocument = environment.API_URL + '/getExpedientDocument/';
+  urlGetHealthDocument = environment.API_URL + '/getHealthDocument/';
 
   urlDeleteExpedientDocument = environment.API_URL + '/deleteExpedientDocument/';
   urlDeleteHealthRecord = environment.API_URL + '/deleteHealthRecord/';
+  urlDeleteHealthDocument = environment.API_URL + '/deleteHealthDocument/';
 
 constructor(public http: HttpClient) { }
 
@@ -71,6 +74,32 @@ deleteHealthRecord(id: string) {
   return this.http.post(this.urlDeleteHealthRecord + id, requestOptions);
 }
 
+setUserHealthDocument(id: string, documentInfo: any) {
+  const headers = new HttpHeaders()
+    .set('Accept', 'application/x-www-form-urlencoded')
+    .set('Content-Type', 'application/x-www-form-urlencoded');
+  const requestOptions = { headers };
+  return this.http.post(
+    this.urlSetHealthDocument + id,
+    documentInfo
+  );
+}
+
+getHealthDocument(id: string) {
+  const headers = new HttpHeaders()
+    .set('Accept', 'application/x-www-form-urlencoded')
+    .set('Content-Type', 'application/x-www-form-urlencoded');
+  const requestOptions = { headers };
+  return this.http.get(this.urlGetHealthDocument + id, requestOptions);
+}
+
+deleteHealthDocument(id: string) {
+  const headers = new HttpHeaders()
+    .set('Accept', 'application/x-www-form-urlencoded')
+    .set('Content-Type', 'application/x-www-form-urlencoded');
+  const requestOptions = { headers };
+  return this.http.delete(this.urlDeleteHealthDocument + id, requestOptions);
+}
 // FOTO DE PERFIL, en PRUEBAS!!
 
 

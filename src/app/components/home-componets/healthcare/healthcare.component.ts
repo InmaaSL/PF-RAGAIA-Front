@@ -13,6 +13,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { PrintHealthRecordComponent } from '../../modal-components/print-health-record/print-health-record.component';
 import * as moment from 'moment';
 import 'moment/locale/es';
+import { ShowDocumentComponent } from '../../modal-components/show-document/show-document.component';
 
 @Component({
   selector: 'app-healthcare',
@@ -24,10 +25,13 @@ export class HealthcareComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   public userId = '';
-  public documentDataSource!: CommonDataSource;
+  public recordDataSource!: CommonDataSource;
   public restService!: RestService;
 
-  public documentColumns: string[] = [
+  public documentDataSource!: CommonDataSource;
+  public restServiceDocument!: RestService;
+
+  public recordColumns: string[] = [
     'date',
     'type_consultation',
     'what_happens',
@@ -37,6 +41,14 @@ export class HealthcareComponent implements OnInit {
     'worker',
     'menu'
   ];
+
+  public documentColumns: string[] = [
+    'file_name',
+    'date',
+    'menu'
+  ];
+
+  public profilePictureToUpload: File | undefined;
 
   constructor(
     private homeService: HomeService,
@@ -54,9 +66,10 @@ export class HealthcareComponent implements OnInit {
     this.componentsService.updateSelectedUser('');
 
     this.getHealthRecord();
+    this.getHealthDocument()
   }
 
-  createHealthRecord(){
+  public createHealthRecord(){
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.autoFocus = true;
@@ -70,11 +83,11 @@ export class HealthcareComponent implements OnInit {
 
     const dialogRef = this.dialog.open(HealthRecordComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
-      this.documentDataSource.loadData();
+      this.recordDataSource.loadData();
     });
   }
 
-  getHealthRecord(){
+  public getHealthRecord(){
     this.restService = new RestService(this.http, this.changeDetectorRef);
     this.restService.url = 'v2/healthRecord';
     this.restService.filterDefault = [
@@ -90,15 +103,46 @@ export class HealthcareComponent implements OnInit {
         // console.log('received data in users page', r);
     };
 
-    this.documentDataSource = new CommonDataSource(this.restService);
-    this.documentDataSource.paginator = this.paginator;
-    this.documentDataSource.loadData();
+    this.recordDataSource = new CommonDataSource(this.restService);
+    this.recordDataSource.paginator = this.paginator;
+    this.recordDataSource.loadData();
 
     if(this.paginator && this.paginator.page){
       this.paginator.page.subscribe(
         (data) => {
           this.restService.page.limit = data.pageSize;
           this.restService.page.offset = data.pageIndex;
+          this.recordDataSource.loadData();
+        },
+        (error) => {console.log(error)}
+      );
+    }
+  }
+
+  public getHealthDocument(){
+    this.restServiceDocument = new RestService(this.http, this.changeDetectorRef);
+    this.restServiceDocument.url = 'v2/getAllUserHealthDocument';
+    this.restServiceDocument.filterDefault = [
+      // new Filtering('user_data.name+user_data.surname:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
+      // new Filtering('user_data.phone_number:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
+      // new Filtering('email', 'like', null),
+      // new Filtering('user_data.address:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
+      new Filtering('user', 'exact', this.userId)
+    ];
+    this.restServiceDocument.filter = MainService.deepCopy(this.restServiceDocument.filterDefault);
+    this.restServiceDocument.setPageCallBack = (r: any) => {
+        // console.log('received data in users page', r);
+    };
+
+    this.documentDataSource = new CommonDataSource(this.restServiceDocument);
+    this.documentDataSource.paginator = this.paginator;
+    this.documentDataSource.loadData();
+
+    if(this.paginator && this.paginator.page){
+      this.paginator.page.subscribe(
+        (data) => {
+          this.restServiceDocument.page.limit = data.pageSize;
+          this.restServiceDocument.page.offset = data.pageIndex;
           this.documentDataSource.loadData();
         },
         (error) => {console.log(error)}
@@ -106,11 +150,11 @@ export class HealthcareComponent implements OnInit {
     }
   }
 
-  formatDate(date: string): string {
+  public formatDate(date: string): string {
     return moment.utc(date).format('LLL');
   }
 
-  editDocument(document: any){
+  public editRecord(document: any){
 
     const dialogConfig = new MatDialogConfig();
 
@@ -125,21 +169,21 @@ export class HealthcareComponent implements OnInit {
 
     const dialogRef = this.dialog.open(HealthRecordComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
-      this.documentDataSource.loadData();
+      this.recordDataSource.loadData();
     });
   }
 
-  deleteDocument(id: string){
+  public deleteRecord(id: string){
     this.apiDocumentService.deleteHealthRecord(id).subscribe({
       complete: () => {
         console.log('Registro eliminado');
-        this.documentDataSource.loadData();
+        this.recordDataSource.loadData();
       },
       error: (e) => console.log(e)
     });
   }
 
-  viewRegister(document: any){
+  public viewRegister(document: any){
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.autoFocus = true;
@@ -153,11 +197,11 @@ export class HealthcareComponent implements OnInit {
 
     const dialogRef = this.dialog.open(PrintHealthRecordComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
-      this.documentDataSource.loadData();
+      this.recordDataSource.loadData();
     });
   }
 
-  truncateText(text: string, limit: number) {
+  public truncateText(text: string, limit: number) {
     const words = text.split(' ');
     if (words.length > limit) {
       return words.slice(0, limit).join(' ') + '...';
@@ -165,13 +209,62 @@ export class HealthcareComponent implements OnInit {
     return text;
   }
 
+  public addExpedientDocument(event: any){
+    this.profilePictureToUpload = event.files.item(0);
 
-  goBack(){
+    if (this.profilePictureToUpload != null) {
+      if (this.profilePictureToUpload.type.split('/')[0] === 'application') {
+        let pictureInfo: FormData = new FormData();
+        pictureInfo.append(
+          'document',
+          this.profilePictureToUpload,
+          this.profilePictureToUpload.name
+          );
+          pictureInfo.append('file_name', this.profilePictureToUpload.name);
+
+          this.apiDocumentService.setUserHealthDocument(this.userId, pictureInfo).subscribe(
+            {
+              next : (info) => {
+                this.documentDataSource.loadData();
+              },
+              error: (e) => {
+                console.log(e)
+                alert('Solo está permitido subir PDF!');
+              }
+            }
+          )
+      }
+    }
+  }
+
+  public showHealthDocument(id: string){
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '80%';
+    dialogConfig.position = {
+      top: '2rem',
+    };
+    dialogConfig.data = {document_id: id,
+                        type_document: 'health'};
+    dialogConfig.hasBackdrop = true;
+
+    const dialogRef = this.dialog.open(ShowDocumentComponent, dialogConfig);
+  }
+
+  public deleteHealthDocument(id: string){
+    this.apiDocumentService.deleteHealthDocument(id).subscribe({
+      error: (e) => console.log(e),
+      complete: () => this.documentDataSource.loadData()
+    })
+  }
+
+  public goBack(){
     this.componentsService.updateSelectedUser(this.userId);
     this.homeService.updateSelectedComponent('main-individual-nna');
   }
 
-  close(){
+  public close(){
     this.homeService.updateSelectedComponent('main');
   }
 
