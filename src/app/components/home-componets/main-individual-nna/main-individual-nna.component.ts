@@ -28,7 +28,7 @@ export class MainIndividualNnaComponent implements OnInit {
     {
       name: 'Educación',
       icon: 'fa-solid fa-pencil',
-      component: 'nna-expedient'
+      component: 'nna-education'
     },
     {
       name: 'Objetivos',

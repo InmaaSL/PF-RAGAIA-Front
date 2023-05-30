@@ -48,6 +48,17 @@ export class ShowDocumentComponent implements OnInit {
           error: (e) => console.log(e)
         })
         break;
+      case 'education':
+        this.apiDocumentService.getEducationDocument(this.data.document_id).subscribe({
+          next: (document: any) => {
+            console.log(document);
+            this.nameDocument = document['data'].name_file;
+            const url = DOCUMENTS_URL +  document['url'];
+            this.urlDocument = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+          },
+          error: (e) => console.log(e)
+        })
+        break;
       default:
         break;
     }

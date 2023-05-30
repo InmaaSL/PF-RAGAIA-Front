@@ -1,0 +1,75 @@
+<div class="component-container">
+  <div class="w-100 d-flex justify-content-between mb-2">
+    <i class="fa-solid fa-circle-chevron-left" (click)="goBack()"></i>
+    <i class="fa-solid fa-circle-xmark" (click)="close()"></i>
+  </div>
+
+  <div class="w-100 d-flex justify-content-center gap-4">
+    <label for="fileToUpload" class="btn-update-document">
+      <span> Seleccionar archivo </span>
+      <input id="fileToUpload" type="file" name="fileToUpload" style="display: none" (change)="addEducationDocument($event.target)" #file>
+    </label>
+
+    <!-- <label for="fileToUpload" class="btn-update-document" (click)="createHealthRecord()"> -->
+      <label for="fileToUpload" class="btn-update-document">
+      <span> Generar registro </span>
+    </label>
+  </div>
+
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true"> Documentos </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false"> Registros </button>
+    </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+      <div class="media-table">
+        <table mat-table [dataSource]="documentDataSource" class="table">
+          <!-- Name Column -->
+          <ng-container matColumnDef="file_name">
+            <th class="py-2" mat-header-cell *matHeaderCellDef> Nombre </th>
+            <td class="align-middle py-2 px-2" mat-cell *matCellDef="let element">
+              <i class="pdf-icon fa-regular fa-file-pdf"></i>
+              <span> {{element.name_file}} </span>
+            </td>
+          </ng-container>
+
+          <!-- Date Column -->
+          <ng-container matColumnDef="date">
+            <th class="py-2" mat-header-cell *matHeaderCellDef> Fecha </th>
+            <td class="align-middle py-2 px-2" mat-cell *matCellDef="let element"> {{element.date | date:'dd/MM/yyyy'}} </td>
+          </ng-container>
+
+          <!-- Menu Column -->
+          <ng-container matColumnDef="menu">
+            <th class="py-2" mat-header-cell *matHeaderCellDef> </th>
+            <td class="align-middle py-2 my-4 px-2" mat-cell  *matCellDef="let element">
+              <button class="workers-table-mat-icon" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="showEducationDocument(element.id)">
+                  <span> Mostrar documento</span>
+                </button>
+                <button mat-menu-item (click)="deleteEducationDocument(element.id)">
+                  <span> Eliminar documento </span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="documentColumns"></tr>
+          <tr class="tr-body" mat-row *matRowDef="let row; columns: documentColumns;"></tr>
+        </table>
+        <mat-paginator [pageSize]="10" [pageSizeOptions]="[1, 10, 25, 100]" aria-label="Select page"></mat-paginator>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+    </div>
+  </div>
+
+
+</div>

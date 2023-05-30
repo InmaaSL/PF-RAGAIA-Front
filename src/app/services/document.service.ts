@@ -12,17 +12,20 @@ export class DocumentService {
   urlSetHealthRecord = environment.API_URL + '/setHealthRecord/';
   urlEditHealthRecord = environment.API_URL + '/editHealthRecord/';
   urlSetHealthDocument = environment.API_URL + '/setHealthDocument/';
+  urlSetEducationDocument = environment.API_URL + '/setEducationDocument/';
 
   urlGetExpedientDocument = environment.API_URL + '/getExpedientDocument/';
   urlGetHealthDocument = environment.API_URL + '/getHealthDocument/';
+  urlGetEducationDocument = environment.API_URL + '/getEducationDocument/';
 
   urlDeleteExpedientDocument = environment.API_URL + '/deleteExpedientDocument/';
   urlDeleteHealthRecord = environment.API_URL + '/deleteHealthRecord/';
   urlDeleteHealthDocument = environment.API_URL + '/deleteHealthDocument/';
+  urlDeleteEducationDocument = environment.API_URL + '/deleteEducationDocument/';
 
 constructor(public http: HttpClient) { }
 
-
+// EXPEDIENT:
 setUserExpedient(id: string, documentInfo: any) {
   const headers = new HttpHeaders()
     .set('Accept', 'application/x-www-form-urlencoded')
@@ -32,22 +35,6 @@ setUserExpedient(id: string, documentInfo: any) {
     this.urlSetExpedientDocument + id,
     documentInfo
   );
-}
-
-setHealthRecord(id: string, postData: any){
-  const headers = new HttpHeaders()
-    .set('Accept', 'application/x-www-form-urlencoded')
-    .set('Content-Type', 'application/x-www-form-urlencoded');
-  const requestOptions = { headers };
-  return this.http.post(this.urlSetHealthRecord + id, postData, requestOptions);
-}
-
-editHealthRecord(id: string, postData: any){
-  const headers = new HttpHeaders()
-    .set('Accept', 'application/x-www-form-urlencoded')
-    .set('Content-Type', 'application/x-www-form-urlencoded');
-  const requestOptions = { headers };
-  return this.http.post(this.urlEditHealthRecord + id, postData, requestOptions);
 }
 
 getExpedientDocument(id: string) {
@@ -64,6 +51,23 @@ deleteExpedientDocument(id: string) {
     .set('Content-Type', 'application/x-www-form-urlencoded');
   const requestOptions = { headers };
   return this.http.delete(this.urlDeleteExpedientDocument + id, requestOptions);
+}
+
+// HEALTH:
+setHealthRecord(id: string, postData: any){
+  const headers = new HttpHeaders()
+    .set('Accept', 'application/x-www-form-urlencoded')
+    .set('Content-Type', 'application/x-www-form-urlencoded');
+  const requestOptions = { headers };
+  return this.http.post(this.urlSetHealthRecord + id, postData, requestOptions);
+}
+
+editHealthRecord(id: string, postData: any){
+  const headers = new HttpHeaders()
+    .set('Accept', 'application/x-www-form-urlencoded')
+    .set('Content-Type', 'application/x-www-form-urlencoded');
+  const requestOptions = { headers };
+  return this.http.post(this.urlEditHealthRecord + id, postData, requestOptions);
 }
 
 deleteHealthRecord(id: string) {
@@ -100,6 +104,35 @@ deleteHealthDocument(id: string) {
   const requestOptions = { headers };
   return this.http.delete(this.urlDeleteHealthDocument + id, requestOptions);
 }
+
+// EDUCATION:
+setUserEducationDocument(id: string, documentInfo: any) {
+  const headers = new HttpHeaders()
+    .set('Accept', 'application/x-www-form-urlencoded')
+    .set('Content-Type', 'application/x-www-form-urlencoded');
+  const requestOptions = { headers };
+  return this.http.post(
+    this.urlSetEducationDocument + id,
+    documentInfo
+  );
+}
+
+getEducationDocument(id: string) {
+  const headers = new HttpHeaders()
+    .set('Accept', 'application/x-www-form-urlencoded')
+    .set('Content-Type', 'application/x-www-form-urlencoded');
+  const requestOptions = { headers };
+  return this.http.get(this.urlGetEducationDocument + id, requestOptions);
+}
+
+deleteEducationDocument(id: string) {
+  const headers = new HttpHeaders()
+    .set('Accept', 'application/x-www-form-urlencoded')
+    .set('Content-Type', 'application/x-www-form-urlencoded');
+  const requestOptions = { headers };
+  return this.http.delete(this.urlDeleteEducationDocument + id, requestOptions);
+}
+
 // FOTO DE PERFIL, en PRUEBAS!!
 
 
