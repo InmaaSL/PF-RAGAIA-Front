@@ -1,0 +1,146 @@
+<div class="component-container">
+  <div class="w-100 d-flex justify-content-between mb-2">
+    <i class="fa-solid fa-circle-chevron-left" (click)="goBack()"></i>
+    <i class="fa-solid fa-circle-xmark" (click)="close()"></i>
+  </div>
+
+  <div class="w-100 d-flex justify-content-center gap-4">
+    <label for="fileToUpload" class="btn-update-document">
+      <span> Seleccionar archivo </span>
+      <input id="fileToUpload" type="file" name="fileToUpload" style="display: none" (change)="addExpedientDocument($event.target)" #file>
+    </label>
+
+    <label for="fileToUpload" class="btn-update-document" (click)="createHealthRecord()">
+      <span> Generar registro </span>
+    </label>
+  </div>
+
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true"> Documentos </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false"> Registros </button>
+    </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+      <div class="media-table">
+        <table mat-table [dataSource]="documentDataSource" class="table">
+          <!-- Name Column -->
+          <ng-container matColumnDef="file_name">
+            <th class="py-2" mat-header-cell *matHeaderCellDef> Nombre </th>
+            <td class="align-middle py-2 px-2" mat-cell *matCellDef="let element">
+              <i class="pdf-icon fa-regular fa-file-pdf"></i>
+              <span> {{element.name_file}} </span>
+            </td>
+          </ng-container>
+
+          <!-- Date Column -->
+          <ng-container matColumnDef="date">
+            <th class="py-2" mat-header-cell *matHeaderCellDef> Fecha </th>
+            <td class="align-middle py-2 px-2" mat-cell *matCellDef="let element"> {{element.date | date:'dd/MM/yyyy'}} </td>
+          </ng-container>
+
+          <!-- Menu Column -->
+          <ng-container matColumnDef="menu">
+            <th class="py-2" mat-header-cell *matHeaderCellDef> </th>
+            <td class="align-middle py-2 my-4 px-2" mat-cell  *matCellDef="let element">
+              <button class="workers-table-mat-icon" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="showHealthDocument(element.id)">
+                  <span> Mostrar documento</span>
+                </button>
+                <button mat-menu-item (click)="deleteHealthDocument(element.id)">
+                  <span> Eliminar documento </span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="documentColumns"></tr>
+          <tr class="tr-body" mat-row *matRowDef="let row; columns: documentColumns;"></tr>
+        </table>
+        <mat-paginator [pageSize]="10" [pageSizeOptions]="[1, 10, 25, 100]" aria-label="Select page"></mat-paginator>
+      </div>
+
+    </div>
+    <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+      <div class="worker-table">
+        <table mat-table [dataSource]="recordDataSource" class="table">
+          <!-- Date Column -->
+          <ng-container matColumnDef="date">
+            <th class="py-2" mat-header-cell *matHeaderCellDef> Fecha de la consulta </th>
+            <!-- <td class="align-middle py-2 px-2 max-height-cell" mat-cell *matCellDef="let element"> {{element.consultation_date | date:'MMM d, y, HH:mm':'Europe/Madrid'}} </td> -->
+            <td class="align-middle py-2 px-2 max-height-cell" mat-cell *matCellDef="let element" [innerHTML]="formatDate(element.consultation_date)"> </td>
+          </ng-container>
+
+          <!-- Type consultation Column -->
+          <ng-container matColumnDef="type_consultation">
+            <th class="py-2" mat-header-cell *matHeaderCellDef> Tipo de consulta </th>
+            <td class="align-middle py-2 px-2 max-height-cell" mat-cell *matCellDef="let element" [innerHTML]="truncateText(element.type_consultation, 60)"> </td>
+          </ng-container>
+
+          <!-- What happen Column -->
+          <ng-container matColumnDef="what_happens">
+            <th class="py-2" mat-header-cell *matHeaderCellDef> ¿Por qué acude? </th>
+            <td class="align-middle py-2 px-2 max-height-cell" mat-cell *matCellDef="let element" [innerHTML]="truncateText(element.what_happens, 60)"> </td>
+          </ng-container>
+
+          <!-- Diagnostic Column -->
+          <ng-container class="d-none" matColumnDef="diagnostic">
+            <th class="d-none py-2" mat-header-cell *matHeaderCellDef> Diagnóstico médico </th>
+            <td class="d-none align-middle py-2 px-2 max-height-cell" mat-cell *matCellDef="let element" [innerHTML]="truncateText(element.diagnostic, 60)"> </td>
+          </ng-container>
+
+          <!-- Tratamiento Column -->
+          <ng-container class="d-none" matColumnDef="treatment">
+            <th class="d-none py-2" mat-header-cell *matHeaderCellDef> Tratamiento propuesto </th>
+            <td class="d-none align-middle py-2 px-2 max-height-cell" mat-cell *matCellDef="let element" [innerHTML]="truncateText(element.treatment, 60)"> </td>
+          </ng-container>
+
+          <!-- Revision Column -->
+          <ng-container class="d-none" matColumnDef="revision">
+            <th class="d-none py-2" mat-header-cell *matHeaderCellDef> Revisión </th>
+            <td class="d-none align-middle py-2 px-2 max-height-cell" mat-cell *matCellDef="let element"> {{element.revision}} </td>
+          </ng-container>
+
+          <!-- Worker Column -->
+          <ng-container matColumnDef="worker">
+            <th class="py-2" mat-header-cell *matHeaderCellDef> Trabajador que acompaña </th>
+            <td class="align-middle py-2 px-2 max-height-cell" mat-cell *matCellDef="let element"> {{element.worker.userData.name + ' ' + element.worker.userData.surname }} </td>
+          </ng-container>
+
+          <!-- Menu Column -->
+          <ng-container matColumnDef="menu">
+            <th class="py-2" mat-header-cell *matHeaderCellDef> </th>
+            <td class="align-middle py-2 my-4 px-2 max-height-cell" mat-cell  *matCellDef="let element">
+              <button class="workers-table-mat-icon" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="viewRegister(element)">
+                  <span> Ver registro </span>
+                </button>
+                <button mat-menu-item (click)="editRecord(element)">
+                  <span> Editar documento</span>
+                </button>
+                <button mat-menu-item (click)="deleteRecord(element.id)">
+                  <span> Eliminar documento </span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="recordColumns; sticky: true"></tr>
+          <tr class="tr-body" mat-row *matRowDef="let row; columns: recordColumns;"></tr>
+        </table>
+        <mat-paginator [pageSize]="10" [pageSizeOptions]="[1, 10, 25, 100]" aria-label="Select page"></mat-paginator>
+      </div>
+    </div>
+  </div>
+
+
+</div>

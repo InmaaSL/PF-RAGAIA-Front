@@ -13,6 +13,8 @@ export class ShowDocumentComponent implements OnInit {
 
   public documentId : string | undefined;
   public urlDocument: SafeResourceUrl | undefined;
+  public typeDocument: string | undefined;
+  public nameDocument: string | undefined;
 
   constructor(
     private apiDocumentService: DocumentService,
@@ -21,14 +23,35 @@ export class ShowDocumentComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.apiDocumentService.getExpedientDocument(this.data.document_id).subscribe({
-      next: (document: any) => {
-        console.log(document);
-        const url = DOCUMENTS_URL +  document['data'];
-        this.urlDocument = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-      },
-      error: (e) => console.log(e)
-    })
+    this.typeDocument = this.data.type_document;
+
+    switch (this.typeDocument) {
+      case 'expedient':
+        this.apiDocumentService.getExpedientDocument(this.data.document_id).subscribe({
+          next: (document: any) => {
+            console.log(document);
+            this.nameDocument = document['data'].name_file;
+            const url = DOCUMENTS_URL +  document['url'];
+            this.urlDocument = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+          },
+          error: (e) => console.log(e)
+        })
+        break;
+      case 'health':
+        this.apiDocumentService.getHealthDocument(this.data.document_id).subscribe({
+          next: (document: any) => {
+            console.log(document);
+            this.nameDocument = document['data'].name_file;
+            const url = DOCUMENTS_URL +  document['url'];
+            this.urlDocument = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+          },
+          error: (e) => console.log(e)
+        })
+        break;
+      default:
+        break;
+    }
+
   }
 
 }
