@@ -10,8 +10,7 @@
       <input id="fileToUpload" type="file" name="fileToUpload" style="display: none" (change)="addEducationDocument($event.target)" #file>
     </label>
 
-    <!-- <label for="fileToUpload" class="btn-update-document" (click)="createHealthRecord()"> -->
-      <label for="fileToUpload" class="btn-update-document">
+    <label class="btn-update-document" (click)="createEducationRecord()">
       <span> Generar registro </span>
     </label>
   </div>
@@ -68,6 +67,58 @@
       </div>
     </div>
     <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+      <div class="worker-table">
+        <table mat-table [dataSource]="recordDataSource" class="table">
+          <!-- Date Column -->
+          <ng-container matColumnDef="date">
+            <th class="py-2" mat-header-cell *matHeaderCellDef> Fecha </th>
+            <td class="align-middle py-2 px-2 max-height-cell" mat-cell *matCellDef="let element" [innerHTML]="formatDate(element.date)"> </td>
+          </ng-container>
+
+          <!-- type record Column -->
+          <ng-container matColumnDef="type_record">
+            <th class="py-2" mat-header-cell *matHeaderCellDef> Tipo de consulta </th>
+            <td class="align-middle py-2 px-2 max-height-cell" mat-cell *matCellDef="let element" [innerHTML]="truncateText(element.type_record, 60)"> </td>
+          </ng-container>
+
+          <!-- Description Column -->
+          <ng-container matColumnDef="description">
+            <th class="py-2" mat-header-cell *matHeaderCellDef> Descripción </th>
+            <td class="align-middle py-2 px-2 max-height-cell" mat-cell *matCellDef="let element" [innerHTML]="truncateText(element.description, 60)"> </td>
+          </ng-container>
+
+          <!-- Worker Column -->
+          <ng-container matColumnDef="worker">
+            <th class="py-2" mat-header-cell *matHeaderCellDef> Trabajador que acompaña </th>
+            <td class="align-middle py-2 px-2 max-height-cell" mat-cell *matCellDef="let element"> {{element.worker.userData.name + ' ' + element.worker.userData.surname }} </td>
+          </ng-container>
+
+          <!-- Menu Column -->
+          <ng-container matColumnDef="menu">
+            <th class="py-2" mat-header-cell *matHeaderCellDef> </th>
+            <td class="align-middle py-2 my-4 px-2 max-height-cell" mat-cell  *matCellDef="let element">
+              <button class="workers-table-mat-icon" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="viewRecord(element)">
+                  <span> Ver Registro </span>
+                </button>
+                <button mat-menu-item (click)="editRecord(element)">
+                  <span> Editar Registro</span>
+                </button>
+                <button mat-menu-item (click)="deleteRecord(element.id)">
+                  <span> Eliminar Registro </span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="recordColumns; sticky: true"></tr>
+          <tr class="tr-body" mat-row *matRowDef="let row; columns: recordColumns;"></tr>
+        </table>
+        <mat-paginator [pageSize]="10" [pageSizeOptions]="[1, 10, 25, 100]" aria-label="Select page"></mat-paginator>
+      </div>
     </div>
   </div>
 

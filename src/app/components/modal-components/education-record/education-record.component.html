@@ -1,0 +1,30 @@
+<div class="p-3 pb-0">
+  <h2> Registro Escolar </h2>
+
+  <form class="register-form" [formGroup]="myForm">
+      <div class="w-25">
+        <label for="type_record" class="form-title"> Tipo de registro: </label>
+        <input type="text" id="type_record" formControlName="type_record"
+        [ngClass]="{'input-error': myForm.get('type_record')?.invalid && myForm.get('type_record')?.touched && registerSubmitted}">
+      </div>
+
+      <!-- <div class="w-25">
+        <label for="consultation_date" class="form-title"> Fecha y hora de la consulta: </label>
+        <input type="datetime-local" id="consultation_date" formControlName="consultation_date"
+        [ngClass]="{'input-error': myForm.get('consultation_date')?.invalid && myForm.get('consultation_date')?.touched && registerSubmitted}">
+      </div> -->
+
+      <div>
+        <label for="description" class="form-title">¿Qué sucede?:</label>
+      <div class="w-100"></div>
+        <textarea id="description" formControlName="description"
+        [ngClass]="{'input-error': myForm.get('description')?.invalid && myForm.get('description')?.touched && registerSubmitted}"></textarea>
+      </div>
+
+      <div class="save-record">
+        <button class="btn-update-document" (click)="onSubmit()"> Guardar </button>
+      </div>
+
+  </form>
+</div>
+

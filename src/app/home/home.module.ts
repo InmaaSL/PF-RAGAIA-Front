@@ -29,6 +29,8 @@ import { HealthcareComponent } from '../components/home-componets/healthcare/hea
 import { HealthRecordComponent } from '../components/modal-components/health-record/health-record.component';
 import { PrintHealthRecordComponent } from '../components/modal-components/print-health-record/print-health-record.component';
 import { EducationComponent } from '../components/home-componets/education/education.component';
+import { EducationRecordComponent } from '../components/modal-components/education-record/education-record.component';
+import { PrintEducationRecordComponent } from '../components/modal-components/print-education-record/print-education-record.component';
 
 
 @NgModule({
@@ -62,7 +64,9 @@ import { EducationComponent } from '../components/home-componets/education/educa
     HealthcareComponent,
     HealthRecordComponent,
     PrintHealthRecordComponent,
-    EducationComponent
+    EducationComponent,
+    EducationRecordComponent,
+    PrintEducationRecordComponent
   ],
   providers: [
     DatePipe,

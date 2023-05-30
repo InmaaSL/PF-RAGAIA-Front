@@ -1,0 +1,43 @@
+<div class="p-3 pb-0" id="to-print">
+  <header class="justify-content-center justify-content-md-between mx-3">
+    <div class="col-md-3 mb-2 mb-md-0">
+      <a href="/" class="header-img-logo link-body-emphasis">
+        <img src="../../assets/logo/logo-fsyc.png" alt="lgo-fsys">
+      </a>
+    </div>
+    <button class="btn-update-document" (click)="generatePDF()"> Crear PDF </button>
+  </header>
+
+  <div>
+  </div>
+
+  <h1 class="d-flex justify-content-center">Tutoría Educativa</h1>
+
+  <div class="px-3">
+    <div class="section-title">Información del NNA</div>
+    <p class="ps-2">
+      <strong>Nombre completo:</strong>
+      {{ document.user.userData.name + ' ' + document.user.userData.surname }}
+    </p>
+
+    <div class="section-title">Detalles de la Tutoría </div>
+    <p class="ps-2 pb-2">
+      <strong class="d-block">Fecha:</strong>
+      <span [innerHTML]="formatDate(document.date)"></span>
+    </p>
+    <p class="ps-2 pb-2">
+      <strong class="d-block">Trabajador que la realiza:</strong>
+      {{ document.worker.userData.name + ' ' + document.worker.userData.surname }}
+    </p>
+    <p class="ps-2 pb-2">
+      <strong class="d-block">Tipo de tutoría:</strong>
+      {{ document.type_record }}
+    </p>
+    <p class="ps-2 pb-2">
+      <strong class="d-block">Descripción:</strong>
+      {{ document.description }}
+    </p>
+  </div>
+</div>
+
+

@@ -8,17 +8,16 @@ import * as moment from 'moment';
 import 'moment/locale/es';
 
 @Component({
-  selector: 'app-print-health-record',
-  templateUrl: './print-health-record.component.html',
-  styleUrls: ['./print-health-record.component.css']
+  selector: 'app-print-education-record',
+  templateUrl: './print-education-record.component.html',
+  styleUrls: ['./print-education-record.component.css']
 })
-export class PrintHealthRecordComponent implements OnInit {
+export class PrintEducationRecordComponent implements OnInit {
 
   public document: any;
-  public pages = [];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     moment.locale('es');
   }

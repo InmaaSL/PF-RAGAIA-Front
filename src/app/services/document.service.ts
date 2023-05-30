@@ -13,6 +13,8 @@ export class DocumentService {
   urlEditHealthRecord = environment.API_URL + '/editHealthRecord/';
   urlSetHealthDocument = environment.API_URL + '/setHealthDocument/';
   urlSetEducationDocument = environment.API_URL + '/setEducationDocument/';
+  urlSetEducationRecord = environment.API_URL + '/setEducationRecord/';
+  urlEditEducationRecord = environment.API_URL + '/editEducationRecord/';
 
   urlGetExpedientDocument = environment.API_URL + '/getExpedientDocument/';
   urlGetHealthDocument = environment.API_URL + '/getHealthDocument/';
@@ -22,6 +24,7 @@ export class DocumentService {
   urlDeleteHealthRecord = environment.API_URL + '/deleteHealthRecord/';
   urlDeleteHealthDocument = environment.API_URL + '/deleteHealthDocument/';
   urlDeleteEducationDocument = environment.API_URL + '/deleteEducationDocument/';
+  urlDeleteEducationRecord = environment.API_URL + '/deleteEducationRecord/';
 
 constructor(public http: HttpClient) { }
 
@@ -131,6 +134,33 @@ deleteEducationDocument(id: string) {
     .set('Content-Type', 'application/x-www-form-urlencoded');
   const requestOptions = { headers };
   return this.http.delete(this.urlDeleteEducationDocument + id, requestOptions);
+}
+
+setUserEducationRecord(id: string, documentInfo: any) {
+  const headers = new HttpHeaders()
+    .set('Accept', 'application/x-www-form-urlencoded')
+    .set('Content-Type', 'application/x-www-form-urlencoded');
+  const requestOptions = { headers };
+  return this.http.post(
+    this.urlSetEducationRecord + id,
+    documentInfo
+  );
+}
+
+editEducationRecord(id: string, postData: any){
+  const headers = new HttpHeaders()
+    .set('Accept', 'application/x-www-form-urlencoded')
+    .set('Content-Type', 'application/x-www-form-urlencoded');
+  const requestOptions = { headers };
+  return this.http.post(this.urlEditEducationRecord + id, postData, requestOptions);
+}
+
+deleteEducationRecord(id: string) {
+  const headers = new HttpHeaders()
+    .set('Accept', 'application/x-www-form-urlencoded')
+    .set('Content-Type', 'application/x-www-form-urlencoded');
+  const requestOptions = { headers };
+  return this.http.post(this.urlDeleteEducationRecord + id, requestOptions);
 }
 
 // FOTO DE PERFIL, en PRUEBAS!!

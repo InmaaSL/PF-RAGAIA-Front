@@ -12,6 +12,11 @@ import { Filtering } from 'src/app/services/rest/Filtering';
 import { MainService } from 'src/app/services/main.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
+import * as moment from 'moment';
+import 'moment/locale/es';
+import { EducationRecordComponent } from '../../modal-components/education-record/education-record.component';
+import { PrintEducationRecordComponent } from '../../modal-components/print-education-record/print-education-record.component';
+
 @Component({
   selector: 'app-education',
   templateUrl: './education.component.html',
@@ -39,11 +44,8 @@ export class EducationComponent implements OnInit {
 
   public recordColumns: string[] = [
     'date',
-    'type_consultation',
-    'what_happens',
-    'diagnostic',
-    'treatment',
-    'revision',
+    'type_record',
+    'description',
     'worker',
     'menu'
   ];
@@ -62,6 +64,7 @@ export class EducationComponent implements OnInit {
     this.userId = this.componentsService.getSelectedUser();
     this.componentsService.updateSelectedUser('');
     this.getAllUserEducationDocument(this.userId);
+    this.getEducationRecord();
 
   }
 
@@ -146,8 +149,118 @@ export class EducationComponent implements OnInit {
     })
   }
 
+  public createEducationRecord(){
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '80%';
+    dialogConfig.height = '90%';
+    dialogConfig.position = {
+      top: '2rem',
+    };
+    dialogConfig.data = {nna_id: this.userId};
+    dialogConfig.hasBackdrop = true;
+
+    const dialogRef = this.dialog.open(EducationRecordComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => {
+      this.recordDataSource.loadData();
+    });
+  }
+
+  public getEducationRecord(){
+    this.restService = new RestService(this.http, this.changeDetectorRef);
+    this.restService.url = 'v2/educationRecord';
+    this.restService.filterDefault = [
+      // new Filtering('user_data.name+user_data.surname:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
+      // new Filtering('user_data.phone_number:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
+      // new Filtering('email', 'like', null),
+      // new Filtering('user_data.address:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
+      new Filtering('user', 'exact', this.userId),
+      new Filtering('isDeleted', 'exact', '0')
+    ];
+    this.restService.filter = MainService.deepCopy(this.restService.filterDefault);
+    this.restService.setPageCallBack = (r: any) => {
+        // console.log('received data in users page', r);
+    };
+
+    this.recordDataSource = new CommonDataSource(this.restService);
+    this.recordDataSource.paginator = this.paginator;
+    this.recordDataSource.loadData();
+
+    if(this.paginator && this.paginator.page){
+      this.paginator.page.subscribe(
+        (data) => {
+          this.restService.page.limit = data.pageSize;
+          this.restService.page.offset = data.pageIndex;
+          this.recordDataSource.loadData();
+        },
+        (error) => {console.log(error)}
+      );
+    }
+  }
+
+  public editRecord(document: any){
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '80%';
+    dialogConfig.height = '90%';
+    dialogConfig.position = {
+      top: '2rem',
+    };
+    dialogConfig.data = {document: document};
+    dialogConfig.hasBackdrop = true;
+
+    const dialogRef = this.dialog.open(EducationRecordComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => {
+      this.recordDataSource.loadData();
+    });
+  }
+
+  public deleteRecord(id: string){
+    this.apiDocumentService.deleteEducationRecord(id).subscribe({
+      complete: () => {
+        console.log('Registro eliminado');
+        this.recordDataSource.loadData();
+      },
+      error: (e) => console.log(e)
+    });
+  }
+
+  public viewRecord(document: any){
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '80%';
+    dialogConfig.height = '90%';
+    dialogConfig.position = {
+      top: '2rem',
+    };
+    dialogConfig.data = {document: document};
+    dialogConfig.hasBackdrop = true;
+
+    const dialogRef = this.dialog.open(PrintEducationRecordComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => {
+      this.recordDataSource.loadData();
+    });
+  }
+
+  public formatDate(date: string): string {
+    return moment.utc(date).format('LLL');
+  }
+
+  public truncateText(text: string, limit: number) {
+    const words = text.split(' ');
+    if (words.length > limit) {
+      return words.slice(0, limit).join(' ') + '...';
+    }
+    return text;
+  }
+
   public goBack(){
-    this.homeService.updateSelectedComponent('nna');
+    this.componentsService.updateSelectedUser(this.userId);
+    this.homeService.updateSelectedComponent('main-individual-nna');
   }
 
   public close(){
