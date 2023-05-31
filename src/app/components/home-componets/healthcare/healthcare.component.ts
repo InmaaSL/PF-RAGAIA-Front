@@ -11,9 +11,11 @@ import { Filtering } from 'src/app/services/rest/Filtering';
 import { MainService } from 'src/app/services/main.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { PrintHealthRecordComponent } from '../../modal-components/print-health-record/print-health-record.component';
+import { ShowDocumentComponent } from '../../modal-components/show-document/show-document.component';
+
 import * as moment from 'moment';
 import 'moment/locale/es';
-import { ShowDocumentComponent } from '../../modal-components/show-document/show-document.component';
+import { ApiUserService } from 'src/app/services/api-user.service';
 
 @Component({
   selector: 'app-healthcare',
@@ -25,6 +27,8 @@ export class HealthcareComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   public userId = '';
+  public nnaName = '';
+
   public recordDataSource!: CommonDataSource;
   public restService!: RestService;
 
@@ -51,6 +55,7 @@ export class HealthcareComponent implements OnInit {
   public profilePictureToUpload: File | undefined;
 
   constructor(
+    private apiUserService: ApiUserService,
     private homeService: HomeService,
     private componentsService: ComponentsService,
     public dialog: MatDialog,
@@ -64,6 +69,14 @@ export class HealthcareComponent implements OnInit {
   ngOnInit() {
     this.userId = this.componentsService.getSelectedUser();
     this.componentsService.updateSelectedUser('');
+
+    this.apiUserService.getUserData(this.userId).subscribe({
+      next: (userData: any) => {
+        this.nnaName = userData.name + ' ' + userData.surname;
+        console.log(userData);
+      },
+      error: (e) => console.log(e)
+    })
 
     this.getHealthRecord();
     this.getHealthDocument()

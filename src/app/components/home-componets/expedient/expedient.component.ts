@@ -22,7 +22,8 @@ export class ExpedientComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   public userId = '';
-  public userData: any;
+  public nnaName = '';
+
   public fileToUpload: File | undefined;
   public profilePictureToUpload: File | undefined;
 
@@ -52,6 +53,15 @@ export class ExpedientComponent implements OnInit {
   ngOnInit() {
     this.userId = this.componentsService.getSelectedUser();
     this.componentsService.updateSelectedUser('');
+
+    this.apiUserService.getUserData(this.userId).subscribe({
+      next: (userData: any) => {
+        this.nnaName = userData.name + ' ' + userData.surname;
+        console.log(userData);
+      },
+      error: (e) => console.log(e)
+    })
+
     this.getAllUserExpedientDocument(this.userId);
   }
 

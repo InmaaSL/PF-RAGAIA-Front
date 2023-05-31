@@ -27,6 +27,7 @@ export class EducationComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   public userId = '';
+  public nnaName = '';
 
   public recordDataSource!: CommonDataSource;
   public restService!: RestService;
@@ -63,6 +64,14 @@ export class EducationComponent implements OnInit {
   ngOnInit() {
     this.userId = this.componentsService.getSelectedUser();
     this.componentsService.updateSelectedUser('');
+
+    this.apiUserService.getUserData(this.userId).subscribe({
+      next: (userData: any) => {
+        this.nnaName = userData.name + ' ' + userData.surname;
+      },
+      error: (e) => console.log(e)
+    });
+
     this.getAllUserEducationDocument(this.userId);
     this.getEducationRecord();
 
@@ -108,7 +117,7 @@ export class EducationComponent implements OnInit {
     ];
     this.restServiceDocument.filter = MainService.deepCopy(this.restServiceDocument.filterDefault);
     this.restServiceDocument.setPageCallBack = (r: any) => {
-        console.log('received data in users page', r);
+        // console.log('received data in users page', r);
     };
 
     this.documentDataSource = new CommonDataSource(this.restServiceDocument);
