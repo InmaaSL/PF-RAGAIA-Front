@@ -6,6 +6,7 @@ import { ApiUserService } from 'src/app/services/api-user.service';
 import { ComponentsService } from 'src/app/services/components.service';
 import { HomeService } from 'src/app/services/home.service';
 import { ObjectiveService } from 'src/app/services/objective.service';
+import { PrintObjectiveComponent } from '../../modal-components/print-objective/print-objective.component';
 
 @Component({
   selector: 'app-objectives',
@@ -28,7 +29,7 @@ export class ObjectivesComponent implements OnInit {
   public objectives = [];
 
   public editing = false;
-
+  public print = false;
   public dateForm: FormGroup | any;
 
   public objectiveInfo: HttpParams | undefined;
@@ -105,6 +106,7 @@ export class ObjectivesComponent implements OnInit {
       const objective = this.objectives[i];
 
       if (objective) {
+        this.print = true;
         objectivesArray.at(i).patchValue({
           need_detected: objective['need_detected'],
           objective: objective['objective'],
@@ -113,6 +115,7 @@ export class ObjectivesComponent implements OnInit {
           comment: objective['comment']
         });
       } else {
+        this.print = false;
         objectivesArray.at(i).patchValue({
           need_detected: '',
           objective: '',
@@ -183,24 +186,6 @@ export class ObjectivesComponent implements OnInit {
     })
   }
 
-  public createObjectiveRecord(){
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '80%';
-    dialogConfig.height = '90%';
-    dialogConfig.position = {
-      top: '2rem',
-    };
-    dialogConfig.data = {nna_id: this.userId};
-    dialogConfig.hasBackdrop = true;
-
-    // const dialogRef = this.dialog.open(HealthRecordComponent, dialogConfig);
-    // dialogRef.afterClosed().subscribe(result => {
-    //   this.recordDataSource.loadData();
-    // });
-  }
-
   public editObjectives(){
     this.editing = true;
 
@@ -227,6 +212,7 @@ export class ObjectivesComponent implements OnInit {
 
       this.objectiveService.saveObjective(this.userId, this.objectiveInfo).subscribe({
         error: (e) => console.log(e),
+        complete: () => this.print = true
       })
 
     });
@@ -257,7 +243,20 @@ export class ObjectivesComponent implements OnInit {
   }
 
   public generateDocument(){
-    console.log('ya nos calentaremos la cabeza después');
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '80%';
+    dialogConfig.height = '90%';
+    dialogConfig.position = {
+      top: '2rem',
+    };
+    dialogConfig.data = {objectives: this.objectives};
+    dialogConfig.hasBackdrop = true;
+
+    const dialogRef = this.dialog.open(PrintObjectiveComponent, dialogConfig);
+
+
   }
 
   public goBack(){

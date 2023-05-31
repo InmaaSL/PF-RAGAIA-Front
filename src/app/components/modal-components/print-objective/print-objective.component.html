@@ -1,0 +1,51 @@
+<div class="p-3 pb-0" id="to-print">
+  <header class="justify-content-center justify-content-md-between mx-3">
+    <div class="col-md-3 mb-2 mb-md-0">
+      <a href="/" class="header-img-logo link-body-emphasis">
+        <img src="../../assets/logo/logo-fsyc.png" alt="lgo-fsys">
+      </a>
+    </div>
+    <button class="btn-update-document" (click)="generatePDF()"> Crear PDF </button>
+  </header>
+
+  <div>
+  </div>
+
+  <h1 class="d-flex justify-content-center"> Objetivos mensuales </h1>
+
+  <div class="px-3">
+    <div class="section-title">Objetivos de: </div>
+    <p class="ps-2">
+      <strong>Nombre completo:</strong>
+      {{ name }}
+    </p>
+
+    <div class="section-title">Detalles: </div>
+    <ng-container *ngFor="let objective of objectives">
+      <p class=" objective-title">
+        <strong class="d-block">{{ objective.type.name }}</strong>
+      </p>
+
+      <p class="ps-3 pb-2">
+        <strong class="d-block">Necesidad detectada:</strong>
+        {{ objective.need_detected }}
+      </p>
+      <p class="ps-3 pb-2">
+        <strong class="d-block">Objetivo Operativo:</strong>
+        {{ objective.objective }}
+      </p>
+      <p class="ps-3 pb-2">
+        <strong class="d-block">Indicador:</strong>
+        {{ objective.indicator }}
+      </p>
+      <p class="ps-3 pb-2">
+        <strong class="d-block">Valoración:</strong>
+        {{ objective.valuation }}
+      </p>
+      <p class="ps-3 pb-2">
+        <strong class="d-block">Observaciones:</strong>
+        {{ objective.comment }}
+      </p>
+    </ng-container>
+  </div>
+</div>

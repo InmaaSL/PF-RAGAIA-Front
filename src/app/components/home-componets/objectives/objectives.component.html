@@ -13,7 +13,7 @@
     <label class="btn-update-document" *ngIf="!editing" (click)="editObjectives()">
       <span> Editar </span>
     </label>
-    <label class="btn-update-document" (click)="generateDocument()">
+    <label class="btn-update-document" *ngIf="print" (click)="generateDocument()">
       <span> Generar documento </span>
     </label>
 
