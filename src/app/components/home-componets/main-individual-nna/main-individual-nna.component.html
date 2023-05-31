@@ -1,7 +1,8 @@
 <div class="component-container" *ngIf="showInfo">
-  <div class="w-100 d-flex justify-content-between mb-2">
-    <i class="fa-solid fa-circle-chevron-left" (click)="goBack()"></i>
-    <i class="fa-solid fa-circle-xmark" (click)="close()"></i>
+  <div class="w-100 d-flex mb-2">
+    <i class="fa-solid fa-circle-chevron-left me-2" (click)="goBack()"></i>
+    <span>{{ userData?.name + ' ' + userData?.surname}} </span>
+    <i class="fa-solid fa-circle-xmark ms-auto" (click)="close()"></i>
   </div>
 
   <div class="row g-3 p-2">

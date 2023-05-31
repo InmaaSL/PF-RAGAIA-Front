@@ -33,7 +33,7 @@ export class MainIndividualNnaComponent implements OnInit {
     {
       name: 'Objetivos',
       icon: 'fa-solid fa-star-half-stroke',
-      component: 'nna-expedient'
+      component: 'nna-objectives'
     },
     // {
     //   name: 'Ocio',

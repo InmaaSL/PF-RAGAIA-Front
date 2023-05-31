@@ -31,6 +31,7 @@ import { PrintHealthRecordComponent } from '../components/modal-components/print
 import { EducationComponent } from '../components/home-componets/education/education.component';
 import { EducationRecordComponent } from '../components/modal-components/education-record/education-record.component';
 import { PrintEducationRecordComponent } from '../components/modal-components/print-education-record/print-education-record.component';
+import { ObjectivesComponent } from '../components/home-componets/objectives/objectives.component';
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import { PrintEducationRecordComponent } from '../components/modal-components/pr
     PrintHealthRecordComponent,
     EducationComponent,
     EducationRecordComponent,
-    PrintEducationRecordComponent
+    PrintEducationRecordComponent,
+    ObjectivesComponent
   ],
   providers: [
     DatePipe,

@@ -1,0 +1,85 @@
+<div class="component-container">
+  <div class="w-100 d-flex mb-2">
+    <i class="fa-solid fa-circle-chevron-left me-2" (click)="goBack()"></i>
+    <span class="pointer me-1" (click)="goBack()"> {{ nnaName }} </span> <span>/ Objetivos </span>
+    <i class="fa-solid fa-circle-xmark ms-auto" (click)="close()"></i>
+  </div>
+
+  <div class="w-100 d-flex justify-content-center gap-4">
+
+    <label class="btn-update-document" *ngIf="editing" (click)="saveObjectives()">
+      <span> Guardar </span>
+    </label>
+    <label class="btn-update-document" *ngIf="!editing" (click)="editObjectives()">
+      <span> Editar </span>
+    </label>
+    <label class="btn-update-document" (click)="generateDocument()">
+      <span> Generar documento </span>
+    </label>
+
+  </div>
+
+  <form [formGroup]="dateForm">
+    <div class="d-flex gap-3" *ngIf="!editing">
+      <select class="text-center px-3 py-1 rounded" formControlName="year" [(ngModel)]="selectedYear" (change)="onDateChange($event)">
+          <option *ngFor="let year of years" [value]="year" [selected]="year === selectedYear">{{ year }}</option>
+      </select>
+
+      <select class="text-center px-3 py-1 rounded" formControlName="month" [(ngModel)]="selectedMonth" (change)="onDateChange($event)">
+        <option *ngFor="let month of months" [value]="month.value" [selected]="month.value === selectedMonth">{{ month.name }}</option>
+      </select>
+    </div>
+
+
+    <div class="d-flex gap-3" *ngIf="editing">
+      <span>{{ selectedYear }}</span>
+      <span>/</span>
+      <span>{{ selectedMonthName }}</span>
+    </div>
+
+    <div class="accordion mt-3" id="accordionObjectives">
+      <div class="accordion-item" *ngFor="let objective of objectiveType; let i = index">
+        <h2 class="accordion-header mt-0" id="heading{{objective['id']}}">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + objective['id']" aria-expanded="true" [attr.aria-controls]="'collapse' + objective['id']">
+            {{objective['name']}}
+          </button>
+        </h2>
+        <div [id]="'collapse' + objective['id']" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading' + objective['id']">
+          <div formArrayName="objectives">
+            <div class="accordion-body">
+              <div *ngFor="let objectiveGroup of dateForm.get('objectives').controls; let j = index" [formGroupName]="j">
+                <div *ngIf="(j + 1) === objective['id']">
+                  <div>
+                    <label for="need_detected{{j}}">Necesidad detectada: </label>
+                    <textarea type="text" id="need_detected{{j}}" formControlName="need_detected" [ngClass]="{'no-border': !editing}"></textarea>
+                  </div>
+
+                  <div>
+                    <label for="objective{{j}}">Objetivo: </label>
+                    <textarea type="text" id="objective{{j}}" formControlName="objective" [ngClass]="{'no-border': !editing}"></textarea>
+                  </div>
+
+                  <div>
+                    <label for="indicator{{j}}">Indicadores: </label>
+                    <textarea type="text" id="indicator{{j}}" formControlName="indicator" [ngClass]="{'no-border': !editing}"></textarea>
+                  </div>
+
+                  <div>
+                    <label for="valuation{{j}}">Valoración: </label>
+                    <textarea type="text" id="valuation{{j}}" formControlName="valuation" [ngClass]="{'no-border': !editing}"></textarea>
+                  </div>
+
+                  <div>
+                    <label for="comment{{j}}">Observaciones: </label>
+                    <textarea id="comment{{j}}" formControlName="comment" [ngClass]="{'no-border': !editing}"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
