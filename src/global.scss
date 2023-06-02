@@ -26,6 +26,7 @@
 @import "@ionic/angular/css/flex-utils.css";
 
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
 
 :root {
   --dark-color: #333333;
@@ -72,6 +73,14 @@
   --fontWeight600: 600;
   --fontBold: bold;
 }
+
+ion-popover {
+  --box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.6);
+  --color: white;
+  --width: 750px;
+  --height:
+}
+
 
 .pointer {
   cursor: pointer;
@@ -304,7 +313,8 @@ textarea {
 }
 
 textarea {
-  height: 125px;
+  height: 90px;
+  padding: 0.5rem;
 }
 
 .form-title{

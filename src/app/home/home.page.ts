@@ -30,7 +30,12 @@ export class HomePage implements OnInit {
     },
     {
       name: 'NNA',
-      value: 'nna'},
+      value: 'nna'
+    },
+    {
+      name: 'Calendario',
+      value: 'calendar'
+    },
     {
       name: 'Registros',
       value: '/registres',
