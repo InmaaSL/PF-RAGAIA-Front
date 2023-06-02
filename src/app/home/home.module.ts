@@ -1,4 +1,4 @@
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule, NgSelectOption, ReactiveFormsModule } from '@angular/forms';
@@ -19,6 +19,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatNativeDateModule} from '@angular/material/core';
 import { DatePipe } from '@angular/common';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 import { UpdateUserComponent } from '../components/modal-components/update-user/update-user.component';
 import { NnaMainComponent } from '../components/home-componets/nna-main/nna-main.component';
@@ -33,6 +35,8 @@ import { EducationRecordComponent } from '../components/modal-components/educati
 import { PrintEducationRecordComponent } from '../components/modal-components/print-education-record/print-education-record.component';
 import { ObjectivesComponent } from '../components/home-componets/objectives/objectives.component';
 import { PrintObjectiveComponent } from '../components/modal-components/print-objective/print-objective.component';
+import { CalendarComponent } from '../components/home-componets/calendar/calendar.component';
+import { CalendarPopoverComponent } from '../components/home-componets/calendar/calendar-popover/calendar-popover.component';
 
 
 @NgModule({
@@ -51,7 +55,11 @@ import { PrintObjectiveComponent } from '../components/modal-components/print-ob
     MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
   declarations: [
     HomePage,
@@ -70,11 +78,14 @@ import { PrintObjectiveComponent } from '../components/modal-components/print-ob
     EducationRecordComponent,
     PrintEducationRecordComponent,
     ObjectivesComponent,
-    PrintObjectiveComponent
+    PrintObjectiveComponent,
+    CalendarComponent,
+    CalendarPopoverComponent
   ],
   providers: [
     DatePipe,
     { provide: LOCALE_ID, useValue: 'es' }
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class HomePageModule {}

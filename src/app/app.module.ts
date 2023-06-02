@@ -15,6 +15,8 @@ import { AuthService } from './services/auth.service';
 import { HomePageModule } from './home/home.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
+import { CalendarDateFormatter, CalendarModule, CalendarMomentDateFormatter, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,19 @@ import { MatDialogModule } from '@angular/material/dialog';
     BrowserAnimationsModule,
     SharedMaterialsModule,
     HomePageModule,
-    MatDialogModule
+    MatDialogModule,
+    CalendarModule.forRoot(
+      {
+        provide: DateAdapter,
+        useFactory: adapterFactory,
+      },
+      {
+        dateFormatter: {
+          provide: CalendarDateFormatter,
+          useClass: CalendarMomentDateFormatter,
+        },
+      }
+    ),
   ],
   providers: [
     AuthService,
@@ -38,6 +52,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: LOCALE_ID, useValue: 'es' }
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

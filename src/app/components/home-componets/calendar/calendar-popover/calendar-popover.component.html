@@ -1,0 +1,75 @@
+<div class="custom-popover p-3">
+  <h2 class="mt-0">Crear Cita</h2>
+  <form [formGroup]="appointmentForm">
+    <div class="row row-cols-1 row-cols-md-4 mb-2">
+
+      <div class="d-flex flex-column">
+        <label class="form-label" for="time">Tipo de registro:</label>
+        <select class="form-select" id="register_type" formControlName="register_type" aria-label="Register type select">
+          <option value="Evento" selected> Evento </option>
+          <option value="Tarea"> Tarea </option>
+          <option value="Recordatorio"> Recordatorio </option>
+        </select>
+      </div>
+
+      <div class="d-flex flex-column">
+        <label class="form-label" for="entry_date">Fecha de la cita:</label>
+        <input class="form-control" type="date" id="entry_date" formControlName="entry_date">
+      </div>
+
+      <div class="d-flex flex-column">
+        <label class="form-label" for="entry_time">Hora de la cita:</label>
+        <input class="form-control" type="time" id="entry_time" formControlName="entry_time">
+      </div>
+
+      <div class="form-check mt-auto">
+        <input class="form-check-input" type="checkbox" value="" id="allDay" formControlName="allDay">
+        <label class="form-check-label" for="allDay">
+          Todo el día
+        </label>
+      </div>
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label" for="title">Título de la cita:</label>
+      <input class="form-control" type="text" id="title" formControlName="title">
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label" for="description">Descripción de la cita:</label>
+      <textarea class="form-control" id="description" formControlName="description"></textarea>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 mb-2">
+      <div>
+        <label class="me-2" for="nna">Niño de la cita:</label>
+        <select class="form-select"  id="nna" formControlName="nna" aria-label="Nna select">
+          <option selected value="0">Seleccione un NNA</option>
+          <option *ngFor="let n of nna" value="{{n['id']}}"> {{ n['userData']['name'] + ' ' + n['userData']['surname'] }} </option>
+        </select>
+      </div>
+
+      <div>
+        <label class="me-2" for="worker">Trabajador que acudirá:</label>
+        <select class="form-select" id="worker" formControlName="worker" aria-label="Worker select">
+          <option selected value="0">Seleccione un trabajador/a</option>
+          <option *ngFor="let worker of workers" value="{{worker['id']}}"> {{ worker['userData']['name'] + ' ' + worker['userData']['surname'] }} </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="mb-2">
+      <label class="form-label" for="place">Lugar de la cita:</label>
+      <input class="form-control" type="text" id="place" formControlName="place">
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" formControlName="remember" id="remember">
+      <label class="form-check-label" for="remember" >
+        Enviar recordatorio
+      </label>
+    </div>
+
+    <button class="btn-update-document float-end" (click)="saveAppointment()"> Guardar </button>
+  </form>
+</div>
