@@ -1,0 +1,35 @@
+<div class="p-3">
+  <h2 class="mb-3 mt-0">¡Nuevo post!</h2>
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="topic" class="form-label"> Tema </label>
+      <select class="form-select" id="topic" formControlName="topic">
+
+        <option value="" selected>Select a topic</option>
+
+        <option *ngFor="let item of topics" value="{{item['id']}}">{{item['name']}}</option>
+      </select>
+      <div *ngIf="postForm.controls['topic'].invalid && postForm.controls['topic'].touched" class="text-danger">
+        Topic is required
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="title" class="form-label"> Título </label>
+      <input type="text" class="form-control" id="title" formControlName="title">
+      <div *ngIf="postForm.controls['title'].invalid && postForm.controls['title'].touched" class="text-danger">
+        Title is required
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="message" class="form-label"> Mensaje </label>
+      <textarea class="form-control" id="message" rows="5" formControlName="message"></textarea>
+      <div *ngIf="postForm.controls['message'].invalid && postForm.controls['message'].touched" class="text-danger">
+        Message is required
+      </div>
+    </div>
+
+    <button type="submit" class="btn-update-document"> Subir </button>
+  </form>
+</div>

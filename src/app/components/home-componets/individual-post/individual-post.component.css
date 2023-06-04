@@ -1,0 +1,24 @@
+.main-post {
+  box-shadow: inset 0px 0px 10px 2px var(--tertiary-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.bs-1 {
+  box-shadow: inset 0px 0px 10px 2px var(--quaternary-color);
+}
+
+.bs-2 {
+  box-shadow: inset 0px 0px 10px 2px var(--sixth-color);
+}
+
+.answer-post {
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.form-label.message {
+  font-weight: var(--fontWeight600);
+}

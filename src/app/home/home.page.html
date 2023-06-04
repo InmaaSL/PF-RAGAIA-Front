@@ -46,12 +46,13 @@
 
 
   <div class="main-container-components">
-    <div class="main-sidebar flex-shrink-0 d-none d-lg-flex">
+    <!-- <div class="main-sidebar flex-shrink-0 d-none d-lg-flex">
       <ul class="list-unstyled ps-0">
         <ng-container *ngFor="let menuItem of menuItems">
           <li>
             <ng-container *ngIf="menuItem.pages">
-              <button class="btn btn-collapse collapsed" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+ menuItem.value + 'collapse'" aria-expanded="false">
+              <button class="btn btn-collapse collapsed" data-bs-toggle="collapse"
+              [attr.data-bs-target]="'#'+ menuItem.value + 'collapse'" aria-expanded="false">
                 {{ menuItem.name }}
               </button>
               <div class="collapse" [attr.id]="menuItem.value + 'collapse'">
@@ -70,19 +71,107 @@
           </li>
         </ng-container>
       </ul>
+    </div> -->
+
+    <!-- <div class="main-sidebar flex-shrink-0 d-none d-lg-flex">
+      <ul class="list-unstyled ps-0">
+        <ng-container *ngFor="let menuItem of menuItems">
+          <li>
+            <ng-container *ngIf="menuItem.pages">
+              <button class="btn btn-collapse collapsed" data-bs-toggle="collapse"
+                [attr.data-bs-target]="'#'+ menuItem.value + 'collapse'" [attr.aria-expanded]="menuItem.value === activeCollapse ? 'true' : 'false'"
+                (click)="toggleCollapse(menuItem.value)">
+                {{ menuItem.name }}
+              </button>
+              <div class="collapse" [attr.id]="menuItem.value + 'collapse'" [ngClass]="{'show': menuItem.value === activeCollapse}">
+                <ul class="container-toggle">
+                  <li *ngFor="let subpage of menuItem.pages">
+                    <a class="btn-toggl" (click)="goTo(subpage.value)"> {{ subpage.name }} </a>
+                  </li>
+                </ul>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="!menuItem.pages">
+              <button class="btn btn-collapse" (click)="goTo(menuItem.value)">
+                {{ menuItem.name }}
+              </button>
+            </ng-container>
+          </li>
+        </ng-container>
+      </ul>
+    </div> -->
+
+    <!-- <div class="main-sidebar flex-shrink-0 d-none d-lg-flex">
+      <ul class="list-unstyled ps-0">
+        <ng-container *ngFor="let menuItem of menuItems">
+          <li>
+            <ng-container *ngIf="menuItem.pages">
+              <button class="btn btn-collapse collapsed" data-bs-toggle="collapse"
+                [attr.data-bs-target]="'#'+ menuItem.value + 'collapse'" [attr.aria-expanded]="menuItem.value === activeCollapse ? 'true' : 'false'"
+                (click)="toggleCollapse(menuItem.value)">
+                {{ menuItem.name }}
+              </button>
+              <div class="collapse" [attr.id]="menuItem.value + 'collapse'" [ngClass]="{'show': menuItem.value === activeCollapse}">
+                <ul class="container-toggle">
+                  <li *ngFor="let subpage of menuItem.pages">
+                    <a class="btn-toggl" (click)="goTo(subpage.value)"> {{ subpage.name }} </a>
+                  </li>
+                </ul>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="!menuItem.pages">
+              <button class="btn btn-collapse" (click)="closeCollapse(); goTo(menuItem.value)">
+                {{ menuItem.name }}
+              </button>
+            </ng-container>
+          </li>
+        </ng-container>
+      </ul>
+    </div> -->
+
+    <div class="main-sidebar flex-shrink-0 d-none d-lg-flex">
+      <ul class="list-unstyled ps-0">
+        <ng-container *ngFor="let menuItem of menuItems">
+          <li>
+            <ng-container *ngIf="menuItem.pages">
+              <button class="btn btn-collapse collapsed" data-bs-toggle="collapse"
+                [attr.data-bs-target]="'#'+ menuItem.value + 'collapse'" [attr.aria-expanded]="menuItem.value === activeCollapse ? 'true' : 'false'"
+                (click)="toggleCollapse(menuItem.value)">
+                {{ menuItem.name }}
+              </button>
+              <div class="collapse" [attr.id]="menuItem.value + 'collapse'" [ngClass]="{'show': menuItem.value === activeCollapse}">
+                <ul class="container-toggle">
+                  <li *ngFor="let subpage of menuItem.pages">
+                    <a class="btn-toggl" (click)="goTo(subpage.value); closeCollapse()"> {{ subpage.name }} </a>
+                  </li>
+                </ul>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="!menuItem.pages">
+              <button class="btn btn-collapse" (click)="goTo(menuItem.value)">
+                {{ menuItem.name }}
+              </button>
+            </ng-container>
+          </li>
+        </ng-container>
+      </ul>
     </div>
+
+
 
     <div class="main-components-container">
       <app-main-component class="full-width-component" *ngIf="selectedComponent === 'main'"></app-main-component>
       <app-user-register class="full-width-component" *ngIf="selectedComponent === 'user-register'"></app-user-register>
       <app-user-management class="full-width-component" *ngIf="selectedComponent === 'user-management'"></app-user-management>
-      <app-nna-main *ngIf="selectedComponent === 'nna'"></app-nna-main>
+      <app-nna-main class="full-width-component" *ngIf="selectedComponent === 'nna'"></app-nna-main>
       <app-main-individual-nna class="full-width-component" *ngIf="selectedComponent === 'main-individual-nna'"></app-main-individual-nna>
       <app-expedient class="full-width-component" *ngIf="selectedComponent === 'nna-expedient'"></app-expedient>
       <app-healthcare class="full-width-component" *ngIf="selectedComponent === 'nna-healthcare'"></app-healthcare>
       <app-education class="full-width-component" *ngIf="selectedComponent === 'nna-education'"></app-education>
       <app-objectives class="full-width-component" *ngIf="selectedComponent === 'nna-objectives'"></app-objectives>
       <app-calendar class="full-width-component" *ngIf="selectedComponent === 'calendar'"></app-calendar>
+      <app-foro class="full-width-component" *ngIf="selectedComponent === 'foro'"></app-foro>
+      <app-individual-post class="full-width-component" *ngIf="selectedComponent === 'individual-post'"></app-individual-post>
     </div>
   </div>
 

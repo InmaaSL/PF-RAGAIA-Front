@@ -15,7 +15,9 @@ export class HomePage implements OnInit {
   public username = '';
   public roles = '';
 
-  menuItems = [
+  public activeCollapse: string | null = null;
+
+  public menuItems = [
     {
       name: 'Home',
       value: 'main'
@@ -35,6 +37,10 @@ export class HomePage implements OnInit {
     {
       name: 'Calendario',
       value: 'calendar'
+    },
+    {
+      name: 'Foro',
+      value: 'foro'
     },
     {
       name: 'Registros',
@@ -86,6 +92,18 @@ export class HomePage implements OnInit {
     }
   }
 
+  toggleCollapse(collapseId: string): void {
+    if (this.activeCollapse === collapseId) {
+      this.activeCollapse = null;
+    } else {
+      this.activeCollapse = collapseId;
+    }
+  }
+
+  closeCollapse(): void {
+    this.activeCollapse = null;
+  }
+
 
   logout(){
     this.authService.logout();
@@ -95,6 +113,7 @@ export class HomePage implements OnInit {
     if(component === 'logout'){
       this.logout();
     } else {
+      this.activeCollapse = null;
       this.selectedComponent = component;
       this.homeService.updateSelectedComponent(component);
     }

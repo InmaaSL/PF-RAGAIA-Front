@@ -37,6 +37,9 @@ import { ObjectivesComponent } from '../components/home-componets/objectives/obj
 import { PrintObjectiveComponent } from '../components/modal-components/print-objective/print-objective.component';
 import { CalendarComponent } from '../components/home-componets/calendar/calendar.component';
 import { CalendarPopoverComponent } from '../components/home-componets/calendar/calendar-popover/calendar-popover.component';
+import { ForoComponent } from '../components/home-componets/foro/foro.component';
+import { NewPostComponent } from '../components/modal-components/new-post/new-post.component';
+import { IndividualPostComponent } from '../components/home-componets/individual-post/individual-post.component';
 
 
 @NgModule({
@@ -80,7 +83,10 @@ import { CalendarPopoverComponent } from '../components/home-componets/calendar/
     ObjectivesComponent,
     PrintObjectiveComponent,
     CalendarComponent,
-    CalendarPopoverComponent
+    CalendarPopoverComponent,
+    ForoComponent,
+    NewPostComponent,
+    IndividualPostComponent
   ],
   providers: [
     DatePipe,

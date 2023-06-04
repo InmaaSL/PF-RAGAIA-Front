@@ -40,7 +40,8 @@
     <div class="accordion mt-3" id="accordionObjectives">
       <div class="accordion-item" *ngFor="let objective of objectiveType; let i = index">
         <h2 class="accordion-header mt-0" id="heading{{objective['id']}}">
-          <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + objective['id']" aria-expanded="true" [attr.aria-controls]="'collapse' + objective['id']">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + objective['id']"
+          aria-expanded="true" [attr.aria-controls]="'collapse' + objective['id']">
             {{objective['name']}}
           </button>
         </h2>

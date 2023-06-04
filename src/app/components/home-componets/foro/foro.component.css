@@ -1,0 +1,32 @@
+.post {
+  padding: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  margin-block: 1rem;
+  cursor: pointer;
+}
+
+.post:hover {
+  padding: 1.25rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  margin-block: 1rem;
+  cursor: pointer;
+}
+
+.recent {
+  font-size: var(--font4);
+  font-weight: var(--fontWeight600);
+  color: var(--tertiary-color);
+  display: flex;
+}
+
+.recent i {
+  font-size: var(--font7);
+  margin-right: 0.25rem;
+}
+
+.mat-mdc-dialog-surface{
+  display: flex !important;
+  justify-content: center !important;
+}
