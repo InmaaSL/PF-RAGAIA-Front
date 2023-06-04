@@ -1,0 +1,47 @@
+<div class="component-container">
+  <h2 class="d-flex justify-content-center"> Bienvenido a nuestro foro </h2>
+
+
+
+  <div class="w-100 d-flex justify-content-start gap-4">
+    <label class="btn-update-document" (click)="newPost()">
+      <span> Nueva entrada </span>
+    </label>
+  </div>
+
+  <div>
+    <span class="recent"> <i class="fa-solid fa-star"></i> Temas recientes: </span>
+    <ng-container *ngFor="let post of posts">
+      <ng-container *ngIf="isYoungerThanTwoWeeks(post)">
+        <div class="post" (click)="goToPost(post['id'])">
+          <span class="post-title"> {{ post['title'] }} </span>
+          <br>
+          <span class="ms-2"> {{ post['message'] }} </span>
+          <br>
+          <div class="d-flex ms-2">
+            <span class="author"><i class="fa-solid fa-comment fa-flip-horizontal"></i> <span class="author-name"> {{ post['user']['userData']['name'] + ' ' + post['user']['userData']['surname'] }}</span>  </span>
+            <span class="author"><i class="fa-solid fa-hashtag"></i> {{ post['date'] | date:'dd MMM YYYY, HH:mm' }}</span>
+            <span class="author ms-auto" (click)="deletePost(post['id'])"><i class="fa-solid fa-trash-can"></i> <span class="same-author"> Eliminar </span> </span>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <span class="recent"> <i class="fa-solid fa-meteor"></i> Temas antiguos: </span>
+    <ng-container *ngFor="let post of posts">
+      <ng-container *ngIf="isOlderThanTwoWeeks(post)">
+        <div class="post" (click)="goToPost(post['id'])">
+          <span class="post-title"> {{ post['title'] }} </span>
+          <br>
+          <span class="ms-2"> {{ post['message'] }} </span>
+          <br>
+          <div class="d-flex ms-2">
+            <span class="author"><i class="fa-solid fa-comment fa-flip-horizontal"></i> <span class="author-name"> {{ post['user']['userData']['name'] + ' ' + post['user']['userData']['surname'] }}</span>  </span>
+            <span class="author"><i class="fa-solid fa-hashtag"></i> {{ post['date'] | date:'dd MMM YYYY, HH:mm' }}</span>
+            <span class="author ms-auto" (click)="deletePost(post['id'])"><i class="fa-solid fa-trash-can"></i> <span class="same-author"> Eliminar </span> </span>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

@@ -328,6 +328,31 @@ textarea {
 }
 
 
+// POST::after
+.author{
+  font-size: var(--font2);
+  margin-right: 0.75rem;
+}
+
+.author-name {
+  margin-left: 0.25rem;
+}
+
+.same-author:hover {
+  text-decoration: underline;
+  color: var(--tertiary-color);
+}
+
+.author i {
+  color: var(--tertiary-color);
+}
+
+.post-title {
+  font-size: var(--font7);
+  font-style: italic;
+}
+
+
 
 @media only screen and (max-width: 768px) {
 

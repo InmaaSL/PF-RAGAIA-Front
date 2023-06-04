@@ -99,7 +99,6 @@ export class CalendarPopoverComponent implements OnInit {
           },
           error: (e) => console.log(e)
         })
-
       } else {
         this.apiCalendarService.saveCalendarEntry(calendarEntry).subscribe({
           next: (entry) => {
@@ -111,11 +110,7 @@ export class CalendarPopoverComponent implements OnInit {
           },
           error: (e) => console.log(e)
         })
-
-
       }
-
-
     }
   }
 
