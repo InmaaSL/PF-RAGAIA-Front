@@ -40,6 +40,9 @@ import { CalendarPopoverComponent } from '../components/home-componets/calendar/
 import { ForoComponent } from '../components/home-componets/foro/foro.component';
 import { NewPostComponent } from '../components/modal-components/new-post/new-post.component';
 import { IndividualPostComponent } from '../components/home-componets/individual-post/individual-post.component';
+import { PaidComponent } from '../components/home-componets/paid/paid.component';
+import { PaidManagementComponent } from '../components/home-componets/paid-management/paid-management.component';
+import { EditPaidManagementComponent } from '../components/modal-components/edit-paid-management/edit-paid-management.component';
 
 
 @NgModule({
@@ -86,7 +89,10 @@ import { IndividualPostComponent } from '../components/home-componets/individual
     CalendarPopoverComponent,
     ForoComponent,
     NewPostComponent,
-    IndividualPostComponent
+    IndividualPostComponent,
+    PaidComponent,
+    PaidManagementComponent,
+    EditPaidManagementComponent
   ],
   providers: [
     DatePipe,

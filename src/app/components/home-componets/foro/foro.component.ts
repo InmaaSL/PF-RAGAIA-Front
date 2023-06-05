@@ -1,14 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NewPostComponent } from '../../modal-components/new-post/new-post.component';
-import { MatPaginator } from '@angular/material/paginator';
-import { CommonDataSource } from 'src/app/services/dataSources/common.datasource';
-import { RestService } from 'src/app/services/rest/Rest.Service';
 import { HttpClient } from '@angular/common/http';
-import { Filtering } from 'src/app/services/rest/Filtering';
-import { MainService } from 'src/app/services/main.service';
-import { CollectionViewer } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
 import { PostService } from 'src/app/services/post.service';
 import { HomeService } from 'src/app/services/home.service';
 import { ComponentsService } from 'src/app/services/components.service';
@@ -20,12 +13,9 @@ import { ComponentsService } from 'src/app/services/components.service';
 })
 export class ForoComponent implements OnInit, AfterViewInit {
 
-  @ViewChild(MatPaginator) paginator: MatPaginator | undefined = undefined;
-
-  public dataSource!: CommonDataSource;
-  public restService!: RestService;
-
   public posts = [];
+
+  public loading: boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -44,14 +34,11 @@ export class ForoComponent implements OnInit, AfterViewInit {
     this.getPost();
   }
 
-connectToDataSource(collectionViewer: CollectionViewer): Observable<any[]> {
-  return this.dataSource.connect(collectionViewer);
-}
-
   public getPost(){
     this.postService.getAllPost().subscribe({
       next: (posts: any) => this.posts = posts,
-      error: (e) => console.log(e)
+      error: (e) => console.log(e),
+      complete: () => this.loading = true
     })
   }
 

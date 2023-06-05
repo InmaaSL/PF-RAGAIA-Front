@@ -18,7 +18,7 @@ export class PostService {
   urlDeletePost = environment.API_URL + '/deletePost/';
 
   constructor(
-    public http: HttpClient,
+    public http: HttpClient
   ) { }
 
   getTopicPost() {

@@ -46,8 +46,9 @@ export class HomePage implements OnInit {
       name: 'Registros',
       value: '/registres',
       pages: [
-        {name: 'Registro de Pagas', value: 'payment-register'},
-        {name: 'Registro de Incentivos/Descuentos', value: 'incentives-discount-register'},
+        {name: 'Gestión de Pagas', value: 'paid-management'},
+        {name: 'Registro de Pagas', value: 'paid'},
+        // {name: 'Registro de Incentivos/Descuentos', value: 'incentives-discount-register'},
       ]
     },
     {

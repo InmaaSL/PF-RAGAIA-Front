@@ -1,0 +1,26 @@
+<div class="p-3">
+  <h2>Editando gestión de pagas según edad </h2>
+
+  <form [formGroup]="formGroup">
+    <div class="row row-col-1 row-cols-md-2 row-cols-lg-4">
+      <div class="form-group">
+        <label> Edad </label>
+        <input type="number" formControlName="age" class="form-control">
+      </div>
+      <div class="form-group">
+        <label> Paga máxima </label>
+        <input type="number" formControlName="max_pay" class="form-control">
+      </div>
+      <div class="form-group">
+        <label> Paga mínima </label>
+        <input type="number" formControlName="min_pay" class="form-control">
+      </div>
+      <div class="form-group">
+        <label> Incentivos </label>
+        <input type="number" formControlName="incentive" class="form-control">
+      </div>
+    </div>
+    <button type="button" class="btn-update-document mt-3" (click)="saveItem()">Guardar</button>
+  </form>
+</div>
+
