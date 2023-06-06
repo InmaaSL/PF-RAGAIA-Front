@@ -1,0 +1,177 @@
+<div class="component-container">
+  <!-- <div class="w-100 d-flex mb-2">
+    <i class="fa-solid fa-circle-chevron-left me-2" (click)="goBack()"></i>
+    <span class="pointer me-1" (click)="goBack()"> {{ nnaName }} </span> <span>/ Educación </span>
+    <i class="fa-solid fa-circle-xmark ms-auto" (click)="close()"></i>
+  </div> -->
+
+  <!-- <div class="w-100 d-flex justify-content-center gap-4">
+    <label for="fileToUpload" class="btn-update-document">
+      <span> Seleccionar archivo </span>
+      <input id="fileToUpload" type="file" name="fileToUpload" style="display: none" (change)="addEducationDocument($event.target)" #file>
+    </label>
+
+    <label class="btn-update-document" (click)="createEducationRecord()">
+      <span> Generar registro </span>
+    </label>
+  </div> -->
+
+  <form class="mb-3" [formGroup]="dateForm">
+    <div class="d-flex gap-3" *ngIf="!editing">
+      <select class="text-center px-3 py-1 rounded" formControlName="year" [(ngModel)]="selectedYear" (change)="onDateChange($event)">
+          <option *ngFor="let year of years" [value]="year" [selected]="year === selectedYear">{{ year }}</option>
+      </select>
+
+      <select class="text-center px-3 py-1 rounded" formControlName="month" [(ngModel)]="selectedMonth" (change)="onDateChange($event)">
+        <option *ngFor="let month of months" [value]="month.value" [selected]="month.value === selectedMonth">{{ month.name }}</option>
+      </select>
+    </div>
+
+
+    <div class="d-flex gap-3" *ngIf="editing">
+      <span>{{ selectedYear }}</span>
+      <span>/</span>
+      <span>{{ selectedMonthName }}</span>
+    </div>
+  </form>
+
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <ng-container *ngFor="let item of weeks; let i = index">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="home-tab{{i}}" data-bs-toggle="tab" [attr.data-bs-target]="'#home-tab-pane' + i"
+          type="button" role="tab" [attr.aria-controls]="'home-tab-pane' + i" [class.active]="activeTabIndex === i" [attr.aria-selected]="activeTabIndex === i ? 'true' : 'false'"
+          (click)="activateTab(i)"> Semana {{ i + 1 }} </button>
+      </li>
+    </ng-container>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+    <ng-container *ngFor="let week of weeks; let i = index">
+      <div class="tab-pane fade" [id]="'home-tab-pane' + i" role="tabpanel" [attr.aria-labelledby]="'home-tab' + i"
+        [ngClass]="activeTabIndex === i ? 'show active' : ''" tabindex="0">
+        <span class="specific-week">
+          Semana del: {{ getStartOfWeek(week) | date:'dd/MM/yyyy' }} al {{ getEndOfWeek(week) | date:'dd/MM/yyyy' }}
+
+          <label class="btn-update-document ms-auto my-auto" (click)="saveTable()">
+            <span> Guardar </span>
+          </label>
+        </span>
+
+        <div class="table-container">
+          <table class="table-paid table table-striped table-bordered table-hover">
+            <tr>
+              <th class="text-center d-none"> Lunes </th>
+              <th class="text-center d-none"> Domingo </th>
+
+              <th> NNA </th>
+              <th class="d-none"> NNA ID </th>
+
+              <th class="text-center"> Paga Base </th>
+              <th class="text-center"> Paga Máxima </th>
+              <th class="text-center"> % Medida </th>
+              <th class="text-center"> Descuentos </th>
+              <th class="text-center"> Resto Paga Base </th>
+
+              <th class="text-center"> Máximo Incentivos </th>
+              <th class="text-center"> Incentivos </th>
+              <th class="text-center"> Máximo Estudio </th>
+              <th class="text-center"> Estudio </th>
+              <th class="text-center"> Máximo Habitación </th>
+              <th class="text-center"> Habitación </th>
+              <th class="text-center"> Total Incentivos </th>
+
+              <th class="text-center"> Paga negativa </th>
+
+              <th class="text-center"> Paga Total </th>
+            </tr>
+            <ng-container *ngIf="payRegisters.length === 0">
+              <ng-container *ngFor="let item of nna; let i=index">
+                <tr>
+                  <td class="text-center d-none"> {{ getStartOfWeek(week) | date:'dd/MM/yyyy' }} </td>
+                  <td class="text-center d-none"> {{ getEndOfWeek(week) | date:'dd/MM/yyyy' }} </td>
+                  <td> {{item.userData.name + ' ' + getInitial(item.userData.surname)}}. </td>
+                  <td class="d-none"> {{ item.id }}. </td>
+                  <td class="text-center"> {{getMinPay(item)}}€ </td>
+                  <td class="text-center"> {{getMaxPay(item)}}€ </td>
+                  <td class="text-center">
+                    <input [(ngModel)]="percentMeasure[i]">
+                  </td>
+                  <td class="text-center">
+                    <input [(ngModel)]="discount[i]">
+                  </td>
+                  <td class="text-center">
+                    {{ calculateBase(getMinPay(item), percentMeasure[i], discount[i])}}€
+                  </td>
+                  <td class="text-center"> {{getMaxIncentive(item, 'maxIncentives')}}€ </td>
+                  <td class="text-center">
+                    <input [(ngModel)]="incentive[i]" [ngClass]="{'input-text-error': incentive[i] > getMaxIncentive(item, 'maxIncentives')}">
+                  </td>
+                  <td class="text-center"> {{getMaxIncentive(item, 'maxTasks')}}€ </td>
+                  <td class="text-center">
+                    <input [(ngModel)]="study[i]" [ngClass]="{'input-text-error': study[i] > getMaxIncentive(item, 'maxTasks')}">
+                  </td>
+                  <td class="text-center" class="text-center"> {{getMaxIncentive(item, 'maxTasks')}}€ </td>
+                  <td class="text-center">
+                    <input [(ngModel)]="bedroom[i]" [ngClass]="{'input-text-error': bedroom[i] > getMaxIncentive(item, 'maxTasks')}">
+                  </td>
+                  <td class="text-center">
+                    {{ incentiveTotal(incentive[i], study[i], bedroom[i])}}€
+                  </td>
+                  <td class="text-center">
+                    {{ negativePay(getMinPay(item), percentMeasure[i], discount[i], incentive[i], study[i], bedroom[i])}}
+                  </td>
+                  <td class="text-center">
+                    {{ totalPaid(getMinPay(item), percentMeasure[i], discount[i], incentive[i], study[i], bedroom[i])}}
+                  </td>
+                </tr>
+              </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="payRegisters.length !== 0">
+              <ng-container *ngFor="let item of payRegisters; let i=index">
+                <tr>
+                  <td class="text-center d-none"> {{ item.week_start | date:'dd/MM/yyyy' }} </td>
+                  <td class="text-center d-none"> {{ item.week_end | date:'dd/MM/yyyy'}} </td>
+                  <td> {{ item.user.userData.name + ' ' + getInitial(item.user.userData.surname) }}. </td>
+                  <td class="d-none"> {{ item.user.id }}. </td>
+                  <td class="text-center"> {{ item.base_pay }}€ </td>
+                  <td class="text-center"> {{ item.max_pay }}€ </td>
+                  <td class="text-center">
+                    <input [(ngModel)]="percentMeasure[i]">
+                  </td>
+                  <td class="text-center">
+                    <input [(ngModel)]="discount[i]">
+                  </td>
+                  <td class="text-center">
+                    {{ calculateBase(item.base_pay, percentMeasure[i], discount[i])}}€
+                  </td>
+                  <td class="text-center"> {{ item.max_incentive }}€ </td>
+                  <td class="text-center">
+                    <input [(ngModel)]="incentive[i]">
+                  </td>
+                  <td class="text-center"> {{ item.max_study }}€ </td>
+                  <td class="text-center">
+                    <input [(ngModel)]="study[i]">
+                  </td>
+                  <td class="text-center" class="text-center"> {{ item.max_bedroom }}€ </td>
+                  <td class="text-center">
+                    <input [(ngModel)]="bedroom[i]">
+                  </td>
+                  <td class="text-center">
+                    {{ incentiveTotal(incentive[i], study[i], bedroom[i])}}€
+                  </td>
+                  <td class="text-center">
+                    {{ negativePay(item.base_pay, percentMeasure[i], discount[i], incentive[i], study[i], bedroom[i])}}
+                  </td>
+                  <td class="text-center">
+                    {{ totalPaid(item.base_pay, percentMeasure[i], discount[i], incentive[i], study[i], bedroom[i])}}
+                  </td>
+                </tr>
+              </ng-container>
+            </ng-container>
+          </table>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+</div>

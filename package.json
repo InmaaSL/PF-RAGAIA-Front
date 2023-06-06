@@ -43,6 +43,7 @@
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.29",
     "moment": "^2.29.4",
+    "moment-range": "^4.0.2",
     "openssl": "^2.0.0",
     "qingmu-dom-to-image": "^2.6.18",
     "rxjs": "~7.5.0",

@@ -43,6 +43,7 @@ import { IndividualPostComponent } from '../components/home-componets/individual
 import { PaidComponent } from '../components/home-componets/paid/paid.component';
 import { PaidManagementComponent } from '../components/home-componets/paid-management/paid-management.component';
 import { EditPaidManagementComponent } from '../components/modal-components/edit-paid-management/edit-paid-management.component';
+import { MyProfileComponent } from '../components/home-componets/my-profile/my-profile.component';
 
 
 @NgModule({
@@ -92,7 +93,8 @@ import { EditPaidManagementComponent } from '../components/modal-components/edit
     IndividualPostComponent,
     PaidComponent,
     PaidManagementComponent,
-    EditPaidManagementComponent
+    EditPaidManagementComponent,
+    MyProfileComponent
   ],
   providers: [
     DatePipe,

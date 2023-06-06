@@ -25,6 +25,8 @@ export class EditPaidManagementComponent implements OnInit {
 
     this.formGroup = this.formBuilder.group({
       age: [this.data.paidManagement.age, Validators.required],
+      age_min: [this.data.paidManagement.age_range[0], Validators.required],
+      age_max: [this.data.paidManagement.age_range[1], Validators.required],
       max_pay: [this.data.paidManagement.max_pay, Validators.required],
       min_pay: [this.data.paidManagement.min_pay, Validators.required],
       incentive: [this.data.paidManagement.incentive, Validators.required]
@@ -34,8 +36,13 @@ export class EditPaidManagementComponent implements OnInit {
   public saveItem() {
 
     if(this.formGroup.valid){
+
+      const age_range = this.formGroup.value.age_min + ',' + this.formGroup.value.age_max;
+      console.log(age_range);
+
       const info = new HttpParams()
       .set('age', this.formGroup.value.age ?? '' )
+      .set('age_range', age_range )
       .set('max_pay', this.formGroup.value.max_pay ?? '' )
       .set('min_pay', this.formGroup.value.min_pay ?? '' )
       .set('incentive', this.formGroup.value.incentive ?? '' );

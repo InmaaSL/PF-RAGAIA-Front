@@ -55,7 +55,7 @@ export class HomePage implements OnInit {
       name: 'Cuenta',
       value: '/account',
       pages: [
-        {name: 'Mi cuenta', value: 'my-acount'},
+        {name: 'Mi cuenta', value: 'my-profile'},
         {name: 'Cerrar Sesión', value: 'logout'},
       ]
     }

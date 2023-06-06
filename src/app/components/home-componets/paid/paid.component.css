@@ -1,0 +1,30 @@
+.specific-week {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: var(--font5);
+  font-style: italic;
+
+  margin-block: 1rem;
+}
+
+tr{
+  height: 50px
+}
+
+tr input {
+  border: none;
+  border-radius: 8px;
+  background-color: var(--quaternary-color);
+}
+
+.input-text-error {
+  color: red;
+  font-weight: var(--fontBold);
+}
+
+td input {
+  width: 75px;
+}
