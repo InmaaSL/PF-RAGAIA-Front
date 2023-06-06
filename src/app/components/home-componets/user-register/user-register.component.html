@@ -3,142 +3,143 @@
     <span class="loader"></span>
   </div>
 </div>
-<ng-container *ngIf="!userId">
-  <div class="col-12">
-    <h1 class="main-title"> Nuevo usuario: </h1>
-  </div>
-</ng-container>
 
-<form class="container needs-validation" [formGroup]="registerForm">
-    <div class="row">
-        <div class="col-12 p-0">
-            <div class="row gy-3">
-              <div class="col-12">
-                <div class="form-switch p-0">
-                  <label class="form-check-label pe-5" for="mainRoleSwitch"> NNA </label>
-                  <input class="form-check-input" type="checkbox" role="switch" id="mainRoleSwitch" formControlName="mainRole" formControlName="mainRole" (change)="onMainRoleChange($event)" checked>
-                  <label class="form-check-label" for="mainRoleSwitch"> Trabajador </label>
-                </div>
-              </div>
-                <div class="col-12 col-md-6 col-lg-4">
-                    <label for="name" class="form-label mt-2">Nombre: <span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control" id="name" formControlName="name" required
-                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.name.invalid}">
-                    <div *ngIf="registerSubmitted && registerForm.controls.name.invalid">Por favor, rellene el campo.</div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-8">
-                    <label for="surname" class="form-label mt-2">Apellidos: <span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control" id="surname" formControlName="surname" required
-                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.surname.invalid}">
-                    <div *ngIf="registerSubmitted && registerForm.controls.surname.invalid">Por favor, rellene el campo.</div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4">
-                    <label for="DNI" class="form-label mt-2">DNI: <span class="text-danger">*</span> </label>
-                    <input type="text" class="form-control" id="DNI" formControlName="DNI" required
-                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.DNI.invalid}">
-                    <div *ngIf="registerSubmitted && registerForm.controls.DNI.invalid">Por favor, rellene el campo.</div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-3">
-                    <label for="phone" class="form-label mt-2">Teléfono: <span *ngIf="phoneRequired" class="text-danger">*</span></label>
-                    <input type="tel" class="form-control" id="phone" formControlName="phone" required
-                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.phone.invalid}">
-                    <div *ngIf="registerSubmitted && registerForm.controls.phone.invalid">Por favor, rellene el campo.</div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-5">
-                    <label for="email" class="form-label mt-2">Email: <span *ngIf="emailRequired" class="text-danger">*</span> </label>
-                    <input type="email" class="form-control" id="email" placeholder="name@example.com" formControlName="email" required
-                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.email.invalid}">
-                    <div *ngIf="registerSubmitted && registerForm.controls.email.invalid">Por favor, rellene el campo.</div>
-                </div>
-                <div class="col-12 col-md-6">
-                    <label for="address" class="form-label mt-2">Dirección:</label>
-                    <input type="text" class="form-control" id="address" formControlName="address">
-                </div>
-                <div class="col-12 col-md-3">
-                    <label for="town" class="form-label mt-2">Municipio:</label>
-                    <input type="text" class="form-control" id="town" formControlName="town">
-                </div>
-                <div class="col-12 col-md-4 col-lg-3">
-                  <label for="province" class="form-label mt-2">Provincia:</label>
-                  <input type="text" class="form-control" id="province" formControlName="province">
-                </div>
-                <div class="col-12 col-md-3">
-                    <label for="postal_code" class="form-label mt-2">Código postal:</label>
-                    <input type="text" class="form-control" id="postal_code" formControlName="postal_code">
-                </div>
-
-                <ng-container *ngIf="!workerRole">
-                  <!-- En caso de ser NNA -->
-                  <div class="w-100 m-0"></div>
-                  <div class="col-12 col-md-3">
-                    <label for="birthDate" class="form-label mt-2"> Número de expediente <span *ngIf="caseNumberRequired" class="text-danger">*</span> </label>
-                    <input type="text" class="form-control" id="case_number" formControlName="case_number"
-                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.case_number.invalid}">
-                    <div *ngIf="registerSubmitted && registerForm.controls.case_number.invalid">Por favor, rellene el campo.</div>
-                  </div>
-                  <div class="col-12 col-md-3">
-                    <label for="birthDate" class="form-label mt-2"> Fecha de nacimiento <span *ngIf="birthDateRequired" class="text-danger">*</span> </label>
-                    <input type="date" class="form-control" id="birthDate" formControlName="birthDate"
-                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.birthDate.invalid}">
-                    <div *ngIf="registerSubmitted && registerForm.controls.birthDate.invalid">Por favor, rellene el campo.</div>
-                  </div>
-                  <div class="col-12 col-md-3">
-                    <label for="admissionDate" class="form-label mt-2"> Fecha de ingreso <span *ngIf="admissionDateRequired" class="text-danger">*</span></label>
-                    <input type="date" class="form-control" id="admissionDate" formControlName="admissionDate"
-                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.admissionDate.invalid}">
-                    <div *ngIf="registerSubmitted && registerForm.controls.admissionDate.invalid">Por favor, rellene el campo.</div>
-                  </div>
-                  <div class="col-12 col-md-3">
-                    <label for="custodyType" class="form-label mt-2">Custodia: <span *ngIf="custodyTypeRequired" class="text-danger">*</span></label>
-                    <select id="custodyType" class="form-select" formControlName="custodyType" [(ngModel)]="custodySelected"
-                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.custodyType.invalid}">
-                      <option value="0"> Selecciona un tipo de custodia </option>
-                      <ng-container *ngFor="let item of custodiesType">
-                        <option value="{{ item['id'] }}" [selected]="item['id'] === custodySelected"> {{ item['name'] }} </option>
-                      </ng-container>
-                    </select>
-                    <div *ngIf="registerSubmitted && registerForm.controls.custodyType.invalid">Por favor, seleccione un tipo de custodia.</div>
-                  </div>
-                </ng-container>
-
-                <div class="w-100 m-0"></div>
-
-                <div class="col-12 col-md-4" *ngIf="workerRole">
-                  <label for="custodyType" class="form-label mt-2"> Categoría Profesional: <span *ngIf="!userId && professionalCategoryRequired || editingUpcc" class="text-danger">*</span></label>
-                  <select class="form-select" id="professionalCategory" formControlName="professionalCategory"
-                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.professionalCategory.invalid}" [(ngModel)]="professionalCategorySelected">
-                      <option value="0"> Selecciona una categoría profesional </option>
-                      <ng-container *ngFor="let item of professionalCategories">
-                      <option value="{{ item['id'] }}" [selected]="item['id'] === professionalCategorySelected"> {{ item['name'] }} </option>
-                      </ng-container>
-                    </select>
-                    <div *ngIf="registerSubmitted && registerForm.controls.professionalCategory.invalid">Por favor, seleccione un perfil profesional.</div>
-                </div>
-
-                <div class="col-12 col-md-4" >
-                  <label for="custodyType" class="form-label mt-2"> Centro: <span *ngIf="!userId || editingUpcc" class="text-danger">*</span></label>
-                  <select class="form-select" formControlName="centre" required
-                  [ngClass]="{'input-error': registerSubmitted && registerForm.controls.centre.invalid}" [(ngModel)]="centreSelected">
-                    <option value="0"> Selecciona un centro </option>
-                    <ng-container *ngFor="let item of centres">
-                      <option value="{{ item['id'] }}" [selected]="item['id'] === centreSelected"> {{ item['name'] }} </option>
-                    </ng-container>
-                  </select>
-                  <div *ngIf="registerSubmitted && registerForm.controls.centre.invalid">Por favor, seleccione un recurso.</div>
-                </div>
-
-                <div *ngIf="!isEmpty && userId" class="col-12 col-md-2 mt-auto">
-                  <button class="pb-0" mat-icon-button (click)="deleteUserProfessionalCategoryCenter()">
-                    <mat-icon>delete</mat-icon>
-                  </button>
-                </div>
-              </div>
-        </div>
-
-        <div class="col-12 my-5">
-            <div class="d-grid gap-3 col-6 mx-auto">
-                <button type="button" class="btn btn-primary" (click)="submitRegister()"> Registrar </button>
-            </div>
-        </div>
+  <ng-container *ngIf="!userId && !myProfile ">
+    <div class="col-12">
+      <h1 class="main-title"> Nuevo usuario: </h1>
     </div>
-</form>
+  </ng-container>
+
+  <form class="container needs-validation" [formGroup]="registerForm">
+      <div class="row">
+          <div class="col-12 p-0">
+              <div class="row gy-3">
+                <div class="col-12" *ngIf="!myProfile">
+                  <div class="form-switch p-0">
+                    <label class="form-check-label pe-5" for="mainRoleSwitch"> NNA </label>
+                    <input class="form-check-input" type="checkbox" role="switch" id="mainRoleSwitch" formControlName="mainRole" formControlName="mainRole" (change)="onMainRoleChange($event)" checked>
+                    <label class="form-check-label" for="mainRoleSwitch"> Trabajador </label>
+                  </div>
+                </div>
+                  <div class="col-12 col-md-6 col-lg-4">
+                      <label for="name" class="form-label mt-2">Nombre: <span class="text-danger">*</span> </label>
+                      <input type="text" class="form-control" id="name" formControlName="name" required
+                      [ngClass]="{'input-error': registerSubmitted && registerForm.controls.name.invalid}">
+                      <div *ngIf="registerSubmitted && registerForm.controls.name.invalid">Por favor, rellene el campo.</div>
+                  </div>
+                  <div class="col-12 col-md-6 col-lg-8">
+                      <label for="surname" class="form-label mt-2">Apellidos: <span class="text-danger">*</span> </label>
+                      <input type="text" class="form-control" id="surname" formControlName="surname" required
+                      [ngClass]="{'input-error': registerSubmitted && registerForm.controls.surname.invalid}">
+                      <div *ngIf="registerSubmitted && registerForm.controls.surname.invalid">Por favor, rellene el campo.</div>
+                  </div>
+                  <div class="col-12 col-md-6 col-lg-4">
+                      <label for="DNI" class="form-label mt-2">DNI: <span class="text-danger">*</span> </label>
+                      <input type="text" class="form-control" id="DNI" formControlName="DNI" required
+                      [ngClass]="{'input-error': registerSubmitted && registerForm.controls.DNI.invalid}">
+                      <div *ngIf="registerSubmitted && registerForm.controls.DNI.invalid">Por favor, rellene el campo.</div>
+                  </div>
+                  <div class="col-12 col-md-6 col-lg-3">
+                      <label for="phone" class="form-label mt-2">Teléfono: <span *ngIf="phoneRequired" class="text-danger">*</span></label>
+                      <input type="tel" class="form-control" id="phone" formControlName="phone" required
+                      [ngClass]="{'input-error': registerSubmitted && registerForm.controls.phone.invalid}">
+                      <div *ngIf="registerSubmitted && registerForm.controls.phone.invalid">Por favor, rellene el campo.</div>
+                  </div>
+                  <div class="col-12 col-md-6 col-lg-5">
+                      <label for="email" class="form-label mt-2">Email: <span *ngIf="emailRequired" class="text-danger">*</span> </label>
+                      <input type="email" class="form-control" id="email" placeholder="name@example.com" formControlName="email" required
+                      [ngClass]="{'input-error': registerSubmitted && registerForm.controls.email.invalid}">
+                      <div *ngIf="registerSubmitted && registerForm.controls.email.invalid">Por favor, rellene el campo.</div>
+                  </div>
+                  <div class="col-12 col-md-6">
+                      <label for="address" class="form-label mt-2">Dirección:</label>
+                      <input type="text" class="form-control" id="address" formControlName="address">
+                  </div>
+                  <div class="col-12 col-md-3">
+                      <label for="town" class="form-label mt-2">Municipio:</label>
+                      <input type="text" class="form-control" id="town" formControlName="town">
+                  </div>
+                  <div class="col-12 col-md-4 col-lg-3">
+                    <label for="province" class="form-label mt-2">Provincia:</label>
+                    <input type="text" class="form-control" id="province" formControlName="province">
+                  </div>
+                  <div class="col-12 col-md-3">
+                      <label for="postal_code" class="form-label mt-2">Código postal:</label>
+                      <input type="text" class="form-control" id="postal_code" formControlName="postal_code">
+                  </div>
+
+                  <ng-container *ngIf="!workerRole">
+                    <!-- En caso de ser NNA -->
+                    <div class="w-100 m-0"></div>
+                    <div class="col-12 col-md-3">
+                      <label for="birthDate" class="form-label mt-2"> Número de expediente <span *ngIf="caseNumberRequired" class="text-danger">*</span> </label>
+                      <input type="text" class="form-control" id="case_number" formControlName="case_number"
+                      [ngClass]="{'input-error': registerSubmitted && registerForm.controls.case_number.invalid}">
+                      <div *ngIf="registerSubmitted && registerForm.controls.case_number.invalid">Por favor, rellene el campo.</div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <label for="birthDate" class="form-label mt-2"> Fecha de nacimiento <span *ngIf="birthDateRequired" class="text-danger">*</span> </label>
+                      <input type="date" class="form-control" id="birthDate" formControlName="birthDate"
+                      [ngClass]="{'input-error': registerSubmitted && registerForm.controls.birthDate.invalid}">
+                      <div *ngIf="registerSubmitted && registerForm.controls.birthDate.invalid">Por favor, rellene el campo.</div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <label for="admissionDate" class="form-label mt-2"> Fecha de ingreso <span *ngIf="admissionDateRequired" class="text-danger">*</span></label>
+                      <input type="date" class="form-control" id="admissionDate" formControlName="admissionDate"
+                      [ngClass]="{'input-error': registerSubmitted && registerForm.controls.admissionDate.invalid}">
+                      <div *ngIf="registerSubmitted && registerForm.controls.admissionDate.invalid">Por favor, rellene el campo.</div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <label for="custodyType" class="form-label mt-2">Custodia: <span *ngIf="custodyTypeRequired" class="text-danger">*</span></label>
+                      <select id="custodyType" class="form-select" formControlName="custodyType" [(ngModel)]="custodySelected"
+                      [ngClass]="{'input-error': registerSubmitted && registerForm.controls.custodyType.invalid}">
+                        <option value="0"> Selecciona un tipo de custodia </option>
+                        <ng-container *ngFor="let item of custodiesType">
+                          <option value="{{ item['id'] }}" [selected]="item['id'] === custodySelected"> {{ item['name'] }} </option>
+                        </ng-container>
+                      </select>
+                      <div *ngIf="registerSubmitted && registerForm.controls.custodyType.invalid">Por favor, seleccione un tipo de custodia.</div>
+                    </div>
+                  </ng-container>
+
+                  <div class="w-100 m-0"></div>
+
+                  <div class="col-12 col-md-4" *ngIf="workerRole && !myProfile">
+                    <label for="custodyType" class="form-label mt-2"> Categoría Profesional: <span *ngIf="!userId && professionalCategoryRequired || editingUpcc" class="text-danger">*</span></label>
+                    <select class="form-select" id="professionalCategory" formControlName="professionalCategory"
+                      [ngClass]="{'input-error': registerSubmitted && registerForm.controls.professionalCategory.invalid}" [(ngModel)]="professionalCategorySelected">
+                        <option value="0"> Selecciona una categoría profesional </option>
+                        <ng-container *ngFor="let item of professionalCategories">
+                        <option value="{{ item['id'] }}" [selected]="item['id'] === professionalCategorySelected"> {{ item['name'] }} </option>
+                        </ng-container>
+                      </select>
+                      <div *ngIf="registerSubmitted && registerForm.controls.professionalCategory.invalid">Por favor, seleccione un perfil profesional.</div>
+                  </div>
+
+                  <div class="col-12 col-md-4" *ngIf="!myProfile" >
+                    <label for="custodyType" class="form-label mt-2"> Centro: <span *ngIf="!userId || editingUpcc" class="text-danger">*</span></label>
+                    <select class="form-select" formControlName="centre" required
+                    [ngClass]="{'input-error': registerSubmitted && registerForm.controls.centre.invalid}" [(ngModel)]="centreSelected">
+                      <option value="0"> Selecciona un centro </option>
+                      <ng-container *ngFor="let item of centres">
+                        <option value="{{ item['id'] }}" [selected]="item['id'] === centreSelected"> {{ item['name'] }} </option>
+                      </ng-container>
+                    </select>
+                    <div *ngIf="registerSubmitted && registerForm.controls.centre.invalid">Por favor, seleccione un recurso.</div>
+                  </div>
+
+                  <div *ngIf="!isEmpty && userId && !myProfile" class="col-12 col-md-2 mt-auto">
+                    <button class="pb-0" mat-icon-button (click)="deleteUserProfessionalCategoryCenter()">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+          </div>
+
+          <div class="col-12 my-5">
+              <div class="d-grid gap-3 col-6 mx-auto">
+                  <button type="button" class="btn btn-primary" (click)="submitRegister()"> Registrar </button>
+              </div>
+          </div>
+      </div>
+  </form>

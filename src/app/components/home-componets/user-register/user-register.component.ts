@@ -1,5 +1,5 @@
 import { HttpParams } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ApiConnectService } from 'src/app/services/api-connect.service';
@@ -14,6 +14,7 @@ import { HomeService } from 'src/app/services/home.service';
 export class UserRegisterComponent implements OnInit {
 
   @Input() toEdit: { edit: boolean; userId: any; }[] | undefined; //Componente padre update-user
+  @Input() toUpdate: string | undefined; //Component padre my-profile
 
   public registerForm = new FormGroup({
     mainRole: new FormControl(true, Validators.required),
@@ -48,6 +49,7 @@ export class UserRegisterComponent implements OnInit {
 
   public editingUpcc = false;
   public isEmpty = false;
+  public myProfile = false;
 
   public professionalCategories = [];
   public centres = [];
@@ -94,6 +96,23 @@ export class UserRegisterComponent implements OnInit {
       document.getElementById('professionalCategory')?.removeAttribute('required');
       this.registerForm.get('centre')?.clearValidators();
       document.getElementById('centre')?.removeAttribute('required');
+    } else {
+      this.centreSelected = '0';
+      this.professionalCategorySelected = '0';
+    }
+
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(this.toUpdate){
+      this.registerForm.controls.professionalCategory.setValidators([]);
+      this.registerForm.controls.centre.setValidators([]);
+      this.registerForm.controls.professionalCategory.updateValueAndValidity();
+      this.registerForm.controls.centre.updateValueAndValidity();
+      this.userId = this.toUpdate;
+      this.showUserInfo(this.userId);
+
+      this.myProfile = true;
     }
   }
 
@@ -164,9 +183,14 @@ export class UserRegisterComponent implements OnInit {
     this.isLoading = true;
 
     if(this.registerForm.valid){
-      const rol =  this.setRoles(this.registerForm.value.professionalCategory);
-      const userRoles = new HttpParams()
-      .set('roles', rol.join(','));
+      let rol;
+      let userRoles: any;
+
+      if(!this.toUpdate){
+        rol =  this.setRoles(this.registerForm.value.professionalCategory);
+        userRoles = new HttpParams()
+        .set('roles', rol.join(','));
+      }
 
       const mainRole =  this.registerForm.get('mainRole')?.value;
 
@@ -205,14 +229,14 @@ export class UserRegisterComponent implements OnInit {
         .set('case_number', this.registerForm.value.case_number ?? '' );
       }
 
-      if(this.userId){
+      if(this.userId && !this.toUpdate){
         // Editamos el usuario:
         this.apiUserService.setRoles(this.userId, userRoles).subscribe({
-          next: () =>{
+          complete: () =>{
             this.apiUserService.registerUserData(this.userId, this.infoUserData).subscribe({
-              next: () => {
+              complete: () => {
                 this.apiUserService.getUserCentreProfessionalCategory(this.userId).subscribe({
-                  next: (register: any) => {
+                  complete: () => {
                     // if(register.length == 0){
                       if(mainRole){
                         this.apiUserService.setUserProfessionalCategoryCentre(this.userId, infoProfessionalCategoryCentre).subscribe({
@@ -236,6 +260,13 @@ export class UserRegisterComponent implements OnInit {
             })
           }
         })
+        this.isLoading = false;
+      } else if(this.userId && this.toUpdate){
+        // Editamos el perfil del usuario:
+            this.apiUserService.registerUserData(this.userId, this.infoUserData).subscribe({
+              error: (e) => console.log(e),
+              complete: () => console.log('datos actualizados')
+            });
         this.isLoading = false;
       } else {
         //Creamos un usuario nuevo:
@@ -359,9 +390,6 @@ export class UserRegisterComponent implements OnInit {
   public deleteUserProfessionalCategoryCenter(){
     this.apiUserService.getUserCentreProfessionalCategory(this.userId).subscribe({
       next: (userCentreCategory: any) => {
-
-        console.log(userCentreCategory[0]['id']);
-
         this.apiUserService.deleteUserProfessionalCategoryCentre(userCentreCategory[0]['id']).subscribe({
           error: (e) => console.log(e),
           complete: () => {
