@@ -13,6 +13,7 @@ import { EventColor } from 'calendar-utils';
 import { CalendarPopoverComponent } from './calendar-popover/calendar-popover.component';
 import { PopoverController } from '@ionic/angular';
 import { CalendarService } from 'src/app/services/calendar.service';
+import { ComponentsService } from 'src/app/services/components.service';
 
 moment.updateLocale('es', {
   week: {
@@ -53,23 +54,23 @@ export class CalendarComponent implements OnInit {
 
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any> | undefined;
 
-  view: CalendarView = CalendarView.Month;
-  CalendarView = CalendarView;
+  public view: CalendarView = CalendarView.Month;
+  public CalendarView = CalendarView;
 
-  viewDate = new Date();
+  public viewDate = new Date();
 
-  modalData: {
+  public modalData: {
     action: string;
     event: CalendarEvent;
   } | undefined;
 
-  locale = 'es';
+  public locale = 'es';
 
-  weekStartsOn: number = DAYS_OF_WEEK.MONDAY;
+  public weekStartsOn: number = DAYS_OF_WEEK.MONDAY;
 
-  weekendDays: number[] = [DAYS_OF_WEEK.SATURDAY, DAYS_OF_WEEK.SUNDAY];
+  public weekendDays: number[] = [DAYS_OF_WEEK.SATURDAY, DAYS_OF_WEEK.SUNDAY];
 
-  actions: CalendarEventAction[] = [
+  public actions: CalendarEventAction[] = [
     {
       label: '<i class="fas fa-fw fa-pencil-alt"></i>',
       a11yLabel: 'Edit',
@@ -87,21 +88,29 @@ export class CalendarComponent implements OnInit {
     },
   ];
 
-  events: CalendarEvent[] = [];
+  public events: CalendarEvent[] = [];
+  public event: any;
+  public activeDayIsOpen: boolean = false;
 
-  activeDayIsOpen: boolean = false;
+  public refresh = new Subject<void>();
 
-  refresh = new Subject<void>();
-
-  charging: boolean = false;
+  public charging: boolean = false;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
     private popoverController: PopoverController,
-    private apiCalendarService: CalendarService
+    private apiCalendarService: CalendarService,
+    private componentsService: ComponentsService
   ) { }
 
   ngOnInit() {
+    this.event = this.componentsService.getSelectedUser();
+    this.componentsService.updateSelectedUser('');
+
+    if(this.event){
+      this.presentPopover(null, new Date(this.event.entry_date), this.event.id);
+    }
+
     this.getEvents();
   }
 

@@ -265,7 +265,11 @@ export class UserRegisterComponent implements OnInit {
         // Editamos el perfil del usuario:
             this.apiUserService.registerUserData(this.userId, this.infoUserData).subscribe({
               error: (e) => console.log(e),
-              complete: () => console.log('datos actualizados')
+              complete: () => {
+                setTimeout(() => {
+                  this.homeService.updateSelectedComponent('main');
+                }, 3600);
+              }
             });
         this.isLoading = false;
       } else {

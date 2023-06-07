@@ -35,9 +35,9 @@
     </div>
   </form>
 
-  <ul class="nav nav-tabs" id="myTab" role="tablist">
+  <ul class="nav nav-tabs gradient" id="myTab" role="tablist">
     <ng-container *ngFor="let item of weeks; let i = index">
-      <li class="nav-item" role="presentation">
+      <li class="main-title nav-item" role="presentation">
         <button class="nav-link" id="home-tab{{i}}" data-bs-toggle="tab" [attr.data-bs-target]="'#home-tab-pane' + i"
           type="button" role="tab" [attr.aria-controls]="'home-tab-pane' + i" [class.active]="activeTabIndex === i" [attr.aria-selected]="activeTabIndex === i ? 'true' : 'false'"
           (click)="activateTab(i)"> Semana {{ i + 1 }} </button>

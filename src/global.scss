@@ -28,6 +28,22 @@
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
 
+@font-face {
+  font-family: 'BebasNeue';
+  src: url('/assets/fonts/BebasNeue-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Playfair';
+  src: url('/assets/fonts/Playfair_9pt-Regular.tff');
+}
+
+@font-face {
+  font-family: 'Playfair-italic';
+  src: url('/assets/fonts/Playfair-VariableFont_opsz,wdth,wght.ttf');
+}
+
+
 :root {
   --dark-color: #333333;
   --white-color: #FFFFFF;
@@ -72,6 +88,10 @@
   --fontWeight400: 400;
   --fontWeight600: 600;
   --fontBold: bold;
+
+  --fontFamilyBebas: BebasNeue;
+  --fontFamilyPlayfair: Playfair;
+  --fontFamilyPlayfairItalic: BebasNeue;
 }
 
 ion-popover {
@@ -81,6 +101,18 @@ ion-popover {
   --height:
 }
 
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+  color: var(--sixteenth-color);
+}
+
+.nav-link {
+  color: var(--fourth-color);
+}
+
+.gradient {
+  background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(54,147,206,0.4738270308123249) 100%);
+  border-radius: 0 8px 0 0;
+}
 
 .pointer {
   cursor: pointer;
@@ -233,9 +265,9 @@ ion-content {
 }
 
 .main-title {
-  font-size: var(--font9);
+  font-size: var(--font11);
   font-weight: var(--fontWeight400);
-
+  font-family: var(--fontFamilyBebas);
   margin-top: 0;
 }
 
@@ -361,6 +393,7 @@ textarea {
 .table-paid {
   width: 200%;
 }
+
 
 @media only screen and (max-width: 768px) {
 
