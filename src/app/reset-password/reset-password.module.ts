@@ -4,12 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { LoginPageRoutingModule } from './login-routing.module';
+import { ResetPasswordPageRoutingModule } from './reset-password-routing.module';
 
-import { LoginPage } from './login.page';
-import { SharedMaterialsModule } from '../share-material/shared-materials.module';
-import { LoginComponent } from '../components/login-components/login/login.component';
-import { ResetPasswordComponent } from '../components/login-components/reset-password/reset-password.component';
+import { ResetPasswordPage } from './reset-password.page';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -24,10 +21,11 @@ import { MatTableModule } from '@angular/material/table';
 @NgModule({
   imports: [
     CommonModule,
-    ReactiveFormsModule,
-    IonicModule,
-    LoginPageRoutingModule,
     FormsModule,
+    IonicModule,
+    ResetPasswordPageRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatPaginatorModule,
     MatTableModule,
     MatMenuModule,
@@ -38,12 +36,7 @@ import { MatTableModule } from '@angular/material/table';
     MatFormFieldModule,
     MatInputModule,
     MatNativeDateModule,
-
   ],
-  declarations: [
-    LoginPage,
-    LoginComponent,
-    ResetPasswordComponent,
-  ],
+  declarations: [ResetPasswordPage]
 })
-export class LoginPageModule {}
+export class ResetPasswordPageModule {}

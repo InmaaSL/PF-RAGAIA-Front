@@ -1,4 +1,6 @@
+import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ApiConnectService } from 'src/app/services/api-connect.service';
 
 @Component({
@@ -9,6 +11,13 @@ import { ApiConnectService } from 'src/app/services/api-connect.service';
 export class MyProfileComponent implements OnInit {
 
   public userId = '';
+
+
+  public passwordForm = new FormGroup({
+    new_password: new FormControl('', Validators.required),
+    repeat_password: new FormControl('', Validators.required),
+  });
+
 
   constructor(
     private apiConnectService: ApiConnectService
@@ -22,5 +31,25 @@ export class MyProfileComponent implements OnInit {
       }
     })
   }
+
+  async resetPassword() {
+    if(this.passwordForm.valid){
+
+        if(this.passwordForm.controls.new_password.value === this.passwordForm.controls.repeat_password.value ){
+          const newPassword = new HttpParams()
+          .set('password', this.passwordForm.value.new_password ?? '' )
+          .set('confirmPassword', this.passwordForm.value.repeat_password ?? '' );
+
+          this.apiConnectService.userChangeHisPassword(newPassword).subscribe({
+            error: (e) => console.log(e),
+            complete: () => {
+              this.passwordForm.reset();
+              console.log('Contraseña cambiada');
+            }
+          })
+        }
+
+      }
+    }
 
 }

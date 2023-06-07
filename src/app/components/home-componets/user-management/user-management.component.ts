@@ -84,7 +84,6 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
     };
 
     this.workerDataSource = new CommonDataSource(this.restServiceW);
-    console.log(this.workerDataSource);
     this.workerDataSource.paginator = this.paginator;
     this.workerDataSource.loadData();
 

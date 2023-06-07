@@ -38,7 +38,6 @@ export class MainComponent  implements OnInit {
 
     this.authService.getUserInfo().subscribe({
       next: (next) => {
-        console.log('userData');
         this.loadData();
       },
       error: (e) => console.log(e)

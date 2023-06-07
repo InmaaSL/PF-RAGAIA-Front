@@ -112,10 +112,11 @@ export class HomePage implements OnInit {
 
   goTo(component: string) {
     if(component === 'logout'){
+      this.homeService.updateSelectedComponent('login');
       this.logout();
     } else {
       this.activeCollapse = null;
-      this.selectedComponent = component;
+      this.selectedComponent = 'component';
       this.homeService.updateSelectedComponent(component);
     }
   }

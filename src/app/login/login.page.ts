@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoginComponent } from '../components/login-components/login/login.component';
+import { HomeService } from '../services/home.service';
 
 @Component({
   selector: 'app-login',
@@ -9,9 +10,20 @@ import { LoginComponent } from '../components/login-components/login/login.compo
 })
 export class LoginPage implements OnInit {
 
-  constructor() { }
+  selectedComponent = 'login';
+
+  constructor(
+    public homeService: HomeService
+  ) { }
+
 
   ngOnInit() {
+
+    this.homeService.getSelectedComponent()?.subscribe((value) => {
+      this.selectedComponent = value;
+    });
+
+    this.homeService.updateSelectedComponent('login');
   }
 
 }

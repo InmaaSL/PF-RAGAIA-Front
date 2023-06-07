@@ -183,14 +183,14 @@ export class UserRegisterComponent implements OnInit {
     this.isLoading = true;
 
     if(this.registerForm.valid){
-      let rol;
-      let userRoles: any;
+      // let rol;
+      // let userRoles: any;
 
-      if(!this.toUpdate){
-        rol =  this.setRoles(this.registerForm.value.professionalCategory);
-        userRoles = new HttpParams()
-        .set('roles', rol.join(','));
-      }
+      // if(!this.toUpdate){
+      //   rol =  this.setRoles(this.registerForm.value.professionalCategory);
+      //   userRoles = new HttpParams()
+      //   .set('roles', rol.join(','));
+      // }
 
       const mainRole =  this.registerForm.get('mainRole')?.value;
 
@@ -231,6 +231,9 @@ export class UserRegisterComponent implements OnInit {
 
       if(this.userId && !this.toUpdate){
         // Editamos el usuario:
+        const rol =  this.setRoles(this.registerForm.value.professionalCategory);
+        const userRoles = new HttpParams()
+        .set('roles', rol.join(','));
         this.apiUserService.setRoles(this.userId, userRoles).subscribe({
           complete: () =>{
             this.apiUserService.registerUserData(this.userId, this.infoUserData).subscribe({
@@ -281,7 +284,11 @@ export class UserRegisterComponent implements OnInit {
         // Creamos el usuario:
           this.apiConnectService.register(infoUser).subscribe({
             next: (newUser: any) =>
-            //Le asignamos los roles:
+            {
+               //Le asignamos los roles:
+              const rol =  this.setRoles(this.registerForm.value.professionalCategory);
+              const userRoles = new HttpParams()
+                .set('roles', rol.join(','));
               this.apiUserService.setRoles(newUser['id'], userRoles).subscribe({
                 complete: () =>
                 {//Introducimos el resto de información valiosa:
@@ -304,7 +311,7 @@ export class UserRegisterComponent implements OnInit {
                     },
                     error: (e) => console.log(e)
                   })}
-              }),
+              })},
             error: (e) => console.log(e),
           })
       }
@@ -412,27 +419,35 @@ export class UserRegisterComponent implements OnInit {
       } else {
         switch (professionalCategory) {
           case '1':
+          case 1:
             rol = ["ROLE_WORKER", "ROLE_SUPERADMIN"];
             break;
           case '2':
+          case  2:
             rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_PSYCHOLOGIST"];
             break;
           case '3':
+          case 3:
             rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_SOCIAL_WORKER"];
             break;
           case '4':
+          case 4:
             rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_EDUSOS_TICS_MEDIADORES"];
             break;
           case '5':
+          case 5:
             rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_EDUSOS_TICS_MEDIADORES"];
             break;
           case '6':
+          case 6:
             rol = ["ROLE_WORKER", "ROLE_DIRECT_ACTION", "ROLE_EDUSOS_TICS_MEDIADORES"];
             break;
           case '7':
+          case 7:
             rol = ["ROLE_WORKER", "DOMESTIC_SUPPORT"];
             break;
           case '8':
+          case 8:
             rol = ["ROLE_WORKER", "ROLE_MANAGEMENT"];
             break;
           default:

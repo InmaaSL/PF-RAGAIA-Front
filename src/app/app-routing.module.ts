@@ -17,6 +17,15 @@ const routes: Routes = [
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
     canActivate: [ AuthGuardService ]
   },
+  {
+    path: 'password/confirmation/:confirmation_token',
+    loadChildren: () => import('./reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
+  },
+  {
+    path: 'password/reset/:password_request_token',
+    loadChildren: () => import('./reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
+  }
+
 ];
 
 @NgModule({
