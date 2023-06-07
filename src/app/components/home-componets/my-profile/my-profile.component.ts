@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiConnectService } from 'src/app/services/api-connect.service';
 
 @Component({
   selector: 'app-my-profile',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyProfileComponent implements OnInit {
 
-  constructor() { }
+  public userId = '';
+
+  constructor(
+    private apiConnectService: ApiConnectService
+
+  ) { }
 
   ngOnInit() {
+    this.apiConnectService.getUserId().subscribe({
+      next: (id: any) => {
+        this.userId = id;
+      }
+    })
   }
 
 }

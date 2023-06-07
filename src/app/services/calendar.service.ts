@@ -14,6 +14,7 @@ export class CalendarService {
 
   urlGetCalendarEntry = environment.API_URL + '/getCalendarEntry';
   urlGetSpecificCalendarEntry = environment.API_URL + '/getSpecificCalendarEntry/';
+  urlGetDayCalendarEntry = environment.API_URL + '/getDayCalendarEntry/';
 
 
   constructor(
@@ -40,6 +41,14 @@ export class CalendarService {
       .set('Content-Type', 'application/x-www-form-urlencoded');
     const requestOptions = { headers };
     return this.http.get(this.urlGetSpecificCalendarEntry + calendar_id , requestOptions);
+  }
+
+  getDayCalendarEntry(day: string) {
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/x-www-form-urlencoded')
+      .set('Content-Type', 'application/x-www-form-urlencoded');
+    const requestOptions = { headers };
+    return this.http.get(this.urlGetDayCalendarEntry + day , requestOptions);
   }
 
   getCalendarEntry() {
