@@ -14,6 +14,12 @@ export class ApiConnectService {
   urlGetUserId = environment.API_URL + '/user/getUserId';
   urlGetUserInfo = environment.API_URL + '/user/getUserData';
 
+  urlSetPasswordNewUser = environment.API_URL + '/setPasswordNewUser';
+  urlResetPassword = environment.API_URL + '/reset_password/request_reset';
+  urlUserChangeHisPassword = environment.API_URL + '/user_change_his_password';
+  urlSetNewPassword = environment.API_URL + '/reset_password/set_new';
+
+
   constructor(
     public http: HttpClient
   ) { }
@@ -48,8 +54,33 @@ export class ApiConnectService {
     return this.http.get(this.urlGetUserInfo);
   }
 
+  setPasswordNewUser(postData: any) {
+    const requestOptions = {
+      headers: new HttpHeaders({ Accept: 'application/json' }),
+    };
+    return this.http.post(this.urlSetPasswordNewUser, postData, requestOptions);
+  }
 
+  resetPassword(postData: any) {
+    const requestOptions = {
+      headers: new HttpHeaders({ Accept: 'application/json' }),
+    };
+    return this.http.post(this.urlResetPassword, postData, requestOptions);
+  }
 
+  setNewUserPassword(postData: any) {
+    const requestOptions = {
+      headers: new HttpHeaders({ Accept: 'application/json' }),
+    };
+    return this.http.post(this.urlSetNewPassword, postData, requestOptions);
+  }
+
+  userChangeHisPassword(postData: any) {
+    const requestOptions = {
+      headers: new HttpHeaders({ Accept: 'application/json' }),
+    };
+    return this.http.post(this.urlUserChangeHisPassword, postData, requestOptions);
+  }
 
 
 }

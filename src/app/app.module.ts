@@ -17,6 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CalendarDateFormatter, CalendarModule, CalendarMomentDateFormatter, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { ResetPasswordPageModule } from './reset-password/reset-password.module';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     BrowserAnimationsModule,
     SharedMaterialsModule,
     HomePageModule,
+    ResetPasswordPageModule,
     MatDialogModule,
     CalendarModule.forRoot(
       {

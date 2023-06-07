@@ -2,5 +2,26 @@
   <h1 class="main-title"> Mi perfil: </h1>
   <app-user-register [toUpdate]="userId"></app-user-register>
 
+  <h1 class="main-title"> Restablecer contraseña: </h1>
+  <form [formGroup]="passwordForm">
+    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4">
+      <!-- Password input -->
+      <div class="form-outline mb-4">
+        <label class="form-label" for="new_password"> Nueva Contraseña </label>
+        <input type="password" id="new_password" class="form-control" formControlName="new_password"/>
+      </div>
+
+      <!-- Password input -->
+      <div class="form-outline mb-4">
+        <label class="form-label" for="repeat_password"> Repetir Contraseña </label>
+        <input type="password" id="repeat_password" class="form-control" formControlName="repeat_password"/>
+      </div>
+    </div>
+
+      <!-- Submit button -->
+      <button type="button" class="btn btn-main btn-block" (click)="resetPassword()">
+        Restablecer contraseña
+      </button>
+    </form>
 </div>
 
