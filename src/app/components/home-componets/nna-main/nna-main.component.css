@@ -1,17 +1,10 @@
 
- * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-    /* row-gap: 1rem; */
-}
-
 .card-container {
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    font-family: 'Poppins', sans-serif;
 }
 
 .container .card::before {

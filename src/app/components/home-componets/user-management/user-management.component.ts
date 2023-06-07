@@ -70,17 +70,17 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
     this.restServiceW.url = 'v2/user';
 
     this.restServiceW.filterDefault = [
-      // new Filtering('user_data.name+user_data.surname:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
-      // new Filtering('user_data.phone_number:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
-      // new Filtering('email', 'like', null),
-      // new Filtering('user_data.address:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
+      new Filtering('user_data.name+user_data.surname:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
+      new Filtering('user_data.phone:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
+      new Filtering('email', 'like', null),
+      new Filtering('user_data.dni:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
       new Filtering('roles', 'like', 'ROLE_WORKER'),
       new Filtering('deleted', 'exact', 0)
     ];
 
     this.restServiceW.filter = MainService.deepCopy(this.restServiceW.filterDefault);
     this.restServiceW.setPageCallBack = (r: any) => {
-        //console.log('received data in users page', r);
+        console.log('received data in users page', r);
     };
 
     this.workerDataSource = new CommonDataSource(this.restServiceW);
@@ -97,15 +97,35 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
     );
   }
 
+  nameFilterW(event: any) {
+    this.restServiceW.filter[0].value = event.target.value ? event.target.value : null;
+    this.workerDataSource.loadData();
+  }
+
+  phoneFilterW(event: any) {
+    this.restServiceW.filter[1].value = event.target.value ? event.target.value : null;
+    this.workerDataSource.loadData();
+  }
+
+  emailFilterW(event: any) {
+    this.restServiceW.filter[2].value = event.target.value ? event.target.value : null;
+    this.workerDataSource.loadData();
+  }
+
+  dniFilterW(event: any) {
+    this.restServiceN.filter[3].value = event.target.value ? event.target.value : null;
+    this.nnaDataSource.loadData();
+  }
+
   public getNNA(){
     this.restServiceN = new RestService(this.http, this.changeDetectorRef);
 
     this.restServiceN.url = 'v2/user';
 
     this.restServiceN.filterDefault = [
-      // new Filtering('user_data.name+user_data.surname:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
-      // new Filtering('user_data.phone_number:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
-      // new Filtering('email', 'like', null),
+      new Filtering('user_data.name+user_data.surname:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
+      new Filtering('user_data.case_number:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
+      new Filtering('user_data.dni:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
       // new Filtering('user_data.address:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
       new Filtering('roles', 'like', 'ROLE_NNA'),
       new Filtering('deleted', 'exact', 0)
@@ -127,7 +147,23 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
     });
   }
 
-  updateUser(id: string){
+  nameFilterN(event: any) {
+    this.restServiceN.filter[0].value = event.target.value ? event.target.value : null;
+    console.log(this.restServiceN.filter[0].value)
+    this.nnaDataSource.loadData();
+  }
+
+  expedientFilterN(event: any) {
+    this.restServiceN.filter[1].value = event.target.value ? event.target.value : null;
+    this.nnaDataSource.loadData();
+  }
+
+  dniFilterN(event: any) {
+    this.restServiceN.filter[2].value = event.target.value ? event.target.value : null;
+    this.nnaDataSource.loadData();
+  }
+
+  public updateUser(id: string){
     const dialogRef = this.dialog.open(
       UpdateUserComponent,
       {
@@ -141,7 +177,7 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
 
   }
 
-  deleteUser(id: string){
+  public deleteUser(id: string){
     this.apiUserService.deleteUser(id).subscribe({
       error: (e) => console.log(e),
       complete: () => {
@@ -151,7 +187,7 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
     })
   }
 
-  goBack(){
+  public goBack(){
     this.homeService.updateSelectedComponent('main-individual-nna');
   }
 

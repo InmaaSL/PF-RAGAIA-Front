@@ -1,7 +1,8 @@
 <div class="component-container">
-  <div class="w-100 d-flex mb-2">
+  <div class="w-100 d-flex align-items-center mb-2">
     <i class="fa-solid fa-circle-chevron-left me-2" (click)="goBack()"></i>
-    <span class="pointer me-1" (click)="goBack()"> {{ nnaName }} </span> <span>/ Expediente </span>
+    <h2 class="secondary-title d-flex justify-content-center"> <span class="pointer me-1" (click)="goBack()"> {{ nnaName }} </span> <span>/ Expediente </span> </h2>
+    <!-- <span class="pointer me-1" (click)="goBack()"> {{ nnaName }} </span> <span>/ Expediente </span> -->
     <i class="fa-solid fa-circle-xmark ms-auto" (click)="close()"></i>
   </div>
 

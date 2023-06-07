@@ -109,10 +109,7 @@ export class EducationComponent implements OnInit {
     this.restServiceDocument = new RestService(this.http, this.changeDetectorRef);
     this.restServiceDocument.url = 'v2/getAllUserEducationDocument';
     this.restServiceDocument.filterDefault = [
-      // new Filtering('user_data.name+user_data.surname:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
-      // new Filtering('user_data.phone_number:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
-      // new Filtering('email', 'like', null),
-      // new Filtering('user_data.address:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
+      // new Filtering('type_record', 'like', null),
       new Filtering('user', 'exact', user_id)
     ];
     this.restServiceDocument.filter = MainService.deepCopy(this.restServiceDocument.filterDefault);
@@ -134,6 +131,11 @@ export class EducationComponent implements OnInit {
         (error) => {console.log(error)}
       );
     }
+  }
+
+  public registerFilter(event: any) {
+    this.restService.filter[0].value = event.target.value ? event.target.value : null;
+    this.recordDataSource.loadData();
   }
 
   public showEducationDocument(id: string){
@@ -180,10 +182,7 @@ export class EducationComponent implements OnInit {
     this.restService = new RestService(this.http, this.changeDetectorRef);
     this.restService.url = 'v2/educationRecord';
     this.restService.filterDefault = [
-      // new Filtering('user_data.name+user_data.surname:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
-      // new Filtering('user_data.phone_number:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
-      // new Filtering('email', 'like', null),
-      // new Filtering('user_data.address:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
+      new Filtering('type_record', 'like', null),
       new Filtering('user', 'exact', this.userId),
       new Filtering('isDeleted', 'exact', '0')
     ];

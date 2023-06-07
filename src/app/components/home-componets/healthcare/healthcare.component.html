@@ -1,7 +1,7 @@
 <div class="component-container">
-  <div class="w-100 d-flex mb-2">
+  <div class="w-100 d-flex align-items-center mb-2">
     <i class="fa-solid fa-circle-chevron-left me-2" (click)="goBack()"></i>
-    <span class="pointer me-1" (click)="goBack()"> {{ nnaName }} </span> <span>/ Sanidad </span>
+    <h2 class="secondary-title d-flex justify-content-center"> <span class="pointer me-1" (click)="goBack()"> {{ nnaName }} </span> <span>/ Sanidad </span> </h2>
     <i class="fa-solid fa-circle-xmark ms-auto" (click)="close()"></i>
   </div>
 
@@ -17,11 +17,11 @@
   </div>
 
   <ul class="nav nav-tabs gradient" id="myTab" role="tablist">
-    <li class="main-title nav-item" role="presentation">
-      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true"> Documentos </button>
+    <li class="nav-item" role="presentation">
+      <button class="secondary-title nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true"> Documentos </button>
     </li>
-    <li class="main-title nav-item" role="presentation">
-      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false"> Registros </button>
+    <li class="nav-item" role="presentation">
+      <button class="secondary-title nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false"> Registros </button>
     </li>
   </ul>
   <div class="tab-content" id="myTabContent">
@@ -69,6 +69,13 @@
 
     </div>
     <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+      <div class="panel-filters row">
+        <mat-form-field class="full-width col-12 col-md-6 col-xl-3" appearance="fill">
+          <mat-label> Tipo de Consulta </mat-label>
+          <input matInput (input)="consultaFilter($event)">
+        </mat-form-field>
+      </div>
+
       <div class="table-container">
         <table mat-table [dataSource]="recordDataSource" class="table">
           <!-- Date Column -->

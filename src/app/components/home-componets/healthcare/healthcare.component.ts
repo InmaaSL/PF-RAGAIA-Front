@@ -106,7 +106,7 @@ export class HealthcareComponent implements OnInit {
     this.restService.filterDefault = [
       // new Filtering('user_data.name+user_data.surname:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
       // new Filtering('user_data.phone_number:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
-      // new Filtering('email', 'like', null),
+      new Filtering('type_consultation', 'like', null),
       // new Filtering('user_data.address:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
       new Filtering('user', 'exact', this.userId),
       new Filtering('isDeleted', 'exact', '0')
@@ -130,6 +130,11 @@ export class HealthcareComponent implements OnInit {
         (error) => {console.log(error)}
       );
     }
+  }
+
+  consultaFilter(event: any) {
+    this.restService.filter[0].value = event.target.value ? event.target.value : null;
+    this.recordDataSource.loadData();
   }
 
   public getHealthDocument(){

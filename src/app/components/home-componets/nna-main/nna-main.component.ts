@@ -62,4 +62,8 @@ export class NnaMainComponent implements OnInit, AfterViewInit {
     this.homeService.updateSelectedComponent('main-individual-nna');
   }
 
+  public close(){
+    this.homeService.updateSelectedComponent('main');
+  }
+
 }

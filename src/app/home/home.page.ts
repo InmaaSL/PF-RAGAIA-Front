@@ -15,16 +15,19 @@ export class HomePage implements OnInit {
   public username = '';
   public roles = '';
 
+  public activeMenuItem: string = '';
   public activeCollapse: string | null = null;
 
   public menuItems = [
     {
       name: 'Home',
-      value: 'main'
+      value: 'main',
+      icon: 'fa-solid fa-rainbow'
     },
     {
       name: 'Personal',
       value: '/personal',
+      icon: 'fa-solid fa-users',
       pages: [
         {name: 'Registro de Usuarios', value: 'user-register'},
         {name: 'Usuarios Registrados', value: 'user-management'},
@@ -32,19 +35,23 @@ export class HomePage implements OnInit {
     },
     {
       name: 'NNA',
-      value: 'nna'
+      value: 'nna',
+      icon: 'fa-solid fa-children'
     },
     {
       name: 'Calendario',
-      value: 'calendar'
+      value: 'calendar',
+      icon: 'fa-solid fa-calendar-day'
     },
     {
       name: 'Foro',
-      value: 'foro'
+      value: 'foro',
+      icon: 'fa-solid fa-message'
     },
     {
       name: 'Registros',
       value: '/registres',
+      icon: 'fa-solid fa-folder-open',
       pages: [
         {name: 'Gestión de Pagas', value: 'paid-management'},
         {name: 'Registro de Pagas', value: 'paid'},
@@ -54,6 +61,7 @@ export class HomePage implements OnInit {
     {
       name: 'Cuenta',
       value: '/account',
+      icon: 'fa fa-heart',
       pages: [
         {name: 'Mi cuenta', value: 'my-profile'},
         {name: 'Cerrar Sesión', value: 'logout'},
@@ -73,6 +81,8 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     registerLocaleData(localeEs);
+
+    this.activeMenuItem = this.menuItems[0].value;
 
     this.loadData();
 
@@ -94,8 +104,9 @@ export class HomePage implements OnInit {
   }
 
   toggleCollapse(collapseId: string): void {
+    this.activeMenuItem = collapseId;
     if (this.activeCollapse === collapseId) {
-      this.activeCollapse = null;
+      this.activeCollapse = 'null';
     } else {
       this.activeCollapse = collapseId;
     }
