@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ComponentsService } from 'src/app/services/components.service';
 import { HomeService } from 'src/app/services/home.service';
@@ -23,9 +23,11 @@ import { AlertService } from 'src/app/services/alert.service';
   templateUrl: './healthcare.component.html',
   styleUrls: ['./healthcare.component.css']
 })
-export class HealthcareComponent implements OnInit {
+export class HealthcareComponent implements OnInit, AfterViewInit {
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  // @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('dPaginator',{read: MatPaginator}) dPaginator!: MatPaginator;
+  @ViewChild('rPaginator',{read: MatPaginator}) rPaginator!: MatPaginator;
 
   public userId = '';
   public nnaName = '';
@@ -75,13 +77,16 @@ export class HealthcareComponent implements OnInit {
     this.apiUserService.getUserData(this.userId).subscribe({
       next: (userData: any) => {
         this.nnaName = userData.name + ' ' + userData.surname;
-        console.log(userData);
       },
       error: (e) => console.log(e)
     })
+  }
 
-    this.getHealthRecord();
-    this.getHealthDocument()
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.getHealthRecord();
+      this.getHealthDocument()
+    });
   }
 
   public createHealthRecord(){
@@ -116,25 +121,23 @@ export class HealthcareComponent implements OnInit {
     };
 
     this.recordDataSource = new CommonDataSource(this.restService);
-    this.recordDataSource.paginator = this.paginator;
+    this.recordDataSource.paginator = this.rPaginator;
     this.recordDataSource.loadData();
 
-    if(this.paginator && this.paginator.page){
-      this.paginator.page.subscribe(
-        (data) => {
-          this.restService.page.limit = data.pageSize;
-          this.restService.page.offset = data.pageIndex;
-          this.recordDataSource.loadData();
-        },
-        (e) => {
-          console.log(e);
-          this.alertService.setAlert('Error al cargar los registros.', 'danger');
-        }
-      );
-    }
+    this.rPaginator.page.subscribe(
+      (data) => {
+        this.restService.page.limit = data.pageSize;
+        this.restService.page.offset = data.pageIndex;
+        this.recordDataSource.loadData();
+      },
+      (e) => {
+        console.log(e);
+        this.alertService.setAlert('Error al cargar los registros.', 'danger');
+      }
+    );
   }
 
-  consultaFilter(event: any) {
+  consultFilter(event: any) {
     this.restService.filter[0].value = event.target.value ? event.target.value : null;
     this.recordDataSource.loadData();
   }
@@ -151,22 +154,20 @@ export class HealthcareComponent implements OnInit {
     };
 
     this.documentDataSource = new CommonDataSource(this.restServiceDocument);
-    this.documentDataSource.paginator = this.paginator;
+    this.documentDataSource.paginator = this.dPaginator;
     this.documentDataSource.loadData();
 
-    if(this.paginator && this.paginator.page){
-      this.paginator.page.subscribe(
-        (data) => {
-          this.restServiceDocument.page.limit = data.pageSize;
-          this.restServiceDocument.page.offset = data.pageIndex;
-          this.documentDataSource.loadData();
-        },
-        (e) => {
-          console.log(e);
-          this.alertService.setAlert('Error al cargar los documentos.', 'danger');
-        },
-      );
-    }
+    this.dPaginator.page.subscribe(
+      (data) => {
+        this.restServiceDocument.page.limit = data.pageSize;
+        this.restServiceDocument.page.offset = data.pageIndex;
+        this.documentDataSource.loadData();
+      },
+      (e) => {
+        console.log(e);
+        this.alertService.setAlert('Error al cargar los documentos.', 'danger');
+      },
+    );
   }
 
   public formatDate(date: string): string {

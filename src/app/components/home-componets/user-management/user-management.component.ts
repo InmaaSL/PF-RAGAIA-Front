@@ -18,7 +18,13 @@ import { AlertService } from 'src/app/services/alert.service';
 })
 export class UserManagementComponent implements OnInit, AfterViewInit {
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  // @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('wPaginator',{read: MatPaginator}) wPaginator!: MatPaginator;
+  @ViewChild('nPaginator',{read: MatPaginator}) nPaginator!: MatPaginator;
+  // @ViewChild(MatPaginator) nnaPaginator!: MatPaginator;
+
+  // @ViewChild('workerPaginator') workerPaginator!: MatPaginator;
+  // @ViewChild('nnaPaginator') nnaPaginator!: MatPaginator;
 
   public displayedWorkerColumns: string[] = [
     'name',
@@ -86,10 +92,10 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
     };
 
     this.workerDataSource = new CommonDataSource(this.restServiceW);
-    this.workerDataSource.paginator = this.paginator;
+    this.workerDataSource.paginator = this.wPaginator;
     this.workerDataSource.loadData();
 
-    this.paginator.page.subscribe(
+    this.wPaginator.page.subscribe(
       (data) => {
         this.restServiceW.page.limit = data.pageSize;
         this.restServiceW.page.offset = data.pageIndex;
@@ -139,10 +145,10 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
     };
 
     this.nnaDataSource = new CommonDataSource(this.restServiceN);
-    this.nnaDataSource.paginator = this.paginator;
+    this.nnaDataSource.paginator = this.nPaginator;
     this.nnaDataSource.loadData();
 
-    this.paginator.page.subscribe((data) => {
+    this.nPaginator.page.subscribe((data) => {
       this.restServiceN.page.limit = data.pageSize;
       this.restServiceN.page.offset = data.pageIndex;
       this.nnaDataSource.loadData();

@@ -15,7 +15,7 @@
 
 
   <div class="table-container">
-    <table mat-table [dataSource]="documentDataSource" class="table">
+    <table mat-table [dataSource]="expedientDataSource" class="table">
       <!-- Name Column -->
       <ng-container matColumnDef="file_name">
         <th class="py-2" mat-header-cell *matHeaderCellDef> Nombre </th>
@@ -52,6 +52,6 @@
       <tr mat-header-row *matHeaderRowDef="documentColumns"></tr>
       <tr class="tr-body" mat-row *matRowDef="let row; columns: documentColumns;"></tr>
     </table>
-    <mat-paginator [pageSize]="10" [pageSizeOptions]="[1, 10, 25, 100]" aria-label="Select page"></mat-paginator>
+    <mat-paginator #ePaginator="matPaginator" [pageSize]="10" [pageSizeOptions]="[1, 10, 25, 100]" aria-label="Select expedient page"></mat-paginator>
   </div>
 </div>

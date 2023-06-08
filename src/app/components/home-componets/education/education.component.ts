@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { ApiUserService } from 'src/app/services/api-user.service';
 import { ComponentsService } from 'src/app/services/components.service';
@@ -23,9 +23,10 @@ import { AlertService } from 'src/app/services/alert.service';
   templateUrl: './education.component.html',
   styleUrls: ['./education.component.css']
 })
-export class EducationComponent implements OnInit {
+export class EducationComponent implements OnInit, AfterViewInit {
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('dPaginator',{read: MatPaginator}) dPaginator!: MatPaginator;
+  @ViewChild('rPaginator',{read: MatPaginator}) rPaginator!: MatPaginator;
 
   public userId = '';
   public nnaName = '';
@@ -73,10 +74,13 @@ export class EducationComponent implements OnInit {
       },
       error: (e) => console.log(e)
     });
+  }
 
-    this.getAllUserEducationDocument(this.userId);
-    this.getEducationRecord();
-
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.getAllUserEducationDocument(this.userId);
+      this.getEducationRecord();
+    });
   }
 
   public addEducationDocument(event: any){
@@ -121,22 +125,20 @@ export class EducationComponent implements OnInit {
     };
 
     this.documentDataSource = new CommonDataSource(this.restServiceDocument);
-    this.documentDataSource.paginator = this.paginator;
+    this.documentDataSource.paginator = this.dPaginator;
     this.documentDataSource.loadData();
 
-    if(this.paginator && this.paginator.page){
-      this.paginator.page.subscribe(
-        (data) => {
-          this.restServiceDocument.page.limit = data.pageSize;
-          this.restServiceDocument.page.offset = data.pageIndex;
-          this.documentDataSource.loadData();
-        },
-        (error) => {
-          console.log(error);
-          this.alertService.setAlert('Error al cargar los regisrtos.', 'danger');
-        }
-      );
-    }
+    this.dPaginator.page.subscribe(
+      (data) => {
+        this.restServiceDocument.page.limit = data.pageSize;
+        this.restServiceDocument.page.offset = data.pageIndex;
+        this.documentDataSource.loadData();
+      },
+      (error) => {
+        console.log(error);
+        this.alertService.setAlert('Error al cargar los regisrtos.', 'danger');
+      }
+    );
   }
 
   public registerFilter(event: any) {
@@ -204,11 +206,10 @@ export class EducationComponent implements OnInit {
     };
 
     this.recordDataSource = new CommonDataSource(this.restService);
-    this.recordDataSource.paginator = this.paginator;
+    this.recordDataSource.paginator = this.rPaginator;
     this.recordDataSource.loadData();
 
-    if(this.paginator && this.paginator.page){
-      this.paginator.page.subscribe(
+      this.rPaginator.page.subscribe(
         (data) => {
           this.restService.page.limit = data.pageSize;
           this.restService.page.offset = data.pageIndex;
@@ -219,7 +220,6 @@ export class EducationComponent implements OnInit {
           this.alertService.setAlert('Error al cargar los regisrtos.', 'danger');
         }
       );
-    }
   }
 
   public editRecord(document: any){

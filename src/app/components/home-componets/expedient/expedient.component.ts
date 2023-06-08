@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ApiUserService } from 'src/app/services/api-user.service';
 import { ComponentsService } from 'src/app/services/components.service';
@@ -18,9 +18,10 @@ import { AlertService } from 'src/app/services/alert.service';
   templateUrl: './expedient.component.html',
   styleUrls: ['./expedient.component.css']
 })
-export class ExpedientComponent implements OnInit {
+export class ExpedientComponent implements OnInit, AfterViewInit {
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  // @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('ePaginator',{read: MatPaginator}) ePaginator!: MatPaginator;
 
   public userId = '';
   public nnaName = '';
@@ -28,18 +29,14 @@ export class ExpedientComponent implements OnInit {
   public fileToUpload: File | undefined;
   public profilePictureToUpload: File | undefined;
 
-  public documents : [] | undefined;
-
-  public errorImagenPerfil = false;
-
   public documentColumns: string[] = [
     'file_name',
     'date',
     'menu'
   ];
 
-  public documentDataSource!: CommonDataSource;
-  public restService!: RestService;
+  public expedientDataSource!: CommonDataSource;
+  public expedientRestService!: RestService;
 
   constructor(
     private apiUserService: ApiUserService,
@@ -64,7 +61,12 @@ export class ExpedientComponent implements OnInit {
       error: (e) => console.log(e)
     })
 
-    this.getAllUserExpedientDocument(this.userId);
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.getAllUserExpedientDocument(this.userId);
+    });
   }
 
   public addExpedientDocument(event: any){
@@ -97,33 +99,31 @@ export class ExpedientComponent implements OnInit {
   }
 
   public getAllUserExpedientDocument(user_id: string){
-    this.restService = new RestService(this.http, this.changeDetectorRef);
-    this.restService.url = 'v2/getAllUserExpedientDocument';
-    this.restService.filterDefault = [
+    this.expedientRestService = new RestService(this.http, this.changeDetectorRef);
+    this.expedientRestService.url = 'v2/getAllUserExpedientDocument';
+    this.expedientRestService.filterDefault = [
       new Filtering('user', 'exact', user_id)
     ];
-    this.restService.filter = MainService.deepCopy(this.restService.filterDefault);
-    this.restService.setPageCallBack = (r: any) => {
+    this.expedientRestService.filter = MainService.deepCopy(this.expedientRestService.filterDefault);
+    this.expedientRestService.setPageCallBack = (r: any) => {
         // console.log('received data in users page', r);
     };
 
-    this.documentDataSource = new CommonDataSource(this.restService);
-    this.documentDataSource.paginator = this.paginator;
-    this.documentDataSource.loadData();
+    this.expedientDataSource = new CommonDataSource(this.expedientRestService);
+    this.expedientDataSource.paginator = this.ePaginator;
+    this.expedientDataSource.loadData();
 
-    if(this.paginator && this.paginator.page){
-      this.paginator.page.subscribe(
-        (data) => {
-          this.restService.page.limit = data.pageSize;
-          this.restService.page.offset = data.pageIndex;
-          this.documentDataSource.loadData();
-        },
-        (e) => {
-          console.log(e);
-          this.alertService.setAlert('Error al obtener los registros.', 'danger');
-        }
-      );
-    }
+    this.ePaginator.page.subscribe(
+      (data) => {
+        this.expedientRestService.page.limit = data.pageSize;
+        this.expedientRestService.page.offset = data.pageIndex;
+        this.expedientDataSource.loadData();
+      },
+      (e) => {
+        console.log(e);
+        this.alertService.setAlert('Error al obtener los registros.', 'danger');
+      }
+    );
   }
 
   public showDocument(id: string){
@@ -148,7 +148,7 @@ export class ExpedientComponent implements OnInit {
         this.alertService.setAlert('Error al eliminar el documento.', 'danger');
       },
       complete: () => {
-        this.documentDataSource.loadData();
+        this.expedientDataSource.loadData();
         this.alertService.setAlert('Documento eliminado.', 'success');
       }
     })

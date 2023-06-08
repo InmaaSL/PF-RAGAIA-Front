@@ -4,6 +4,8 @@ import { HomeService } from '../services/home.service';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { ApiConnectService } from '../services/api-connect.service';
+import { NgbOffcanvasConfig, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-home',
@@ -16,8 +18,9 @@ export class HomePage implements OnInit {
   public username = '';
   public roles = '';
 
-  public activeMenuItem: string = '';
+  public activeMenuItem: string | null = null;
   public activeCollapse: string | null = null;
+  public activeSubpage : string | null = null;
 
   public menuItems = [
     {
@@ -77,6 +80,8 @@ export class HomePage implements OnInit {
     public authService: AuthService,
     public homeService: HomeService,
     private apiConnectService: ApiConnectService,
+    public config: NgbOffcanvasConfig,
+    private offcanvasService: NgbOffcanvas
   ) {}
 
   @HostListener('window:beforeunload', ['$event'])
@@ -91,14 +96,20 @@ export class HomePage implements OnInit {
 
     this.loadData();
 
-    this.homeService.getSelectedComponent()?.subscribe((value) => {
-      this.selectedComponent = value;
-    });
+    this.homeService.getSelectedComponent()?.subscribe(
+      (value) => {
+        this.selectedComponent = value;
+      }
+    );
 
     this.homeService.updateSelectedComponent('main');
   }
 
-  loadData() {
+  public open(content: any) {
+		this.offcanvasService.open(content);
+	}
+
+  public loadData() {
     const tk = localStorage.getItem('jwt-token');
     if(tk){
       const token = JSON.parse(tk);
@@ -117,17 +128,32 @@ export class HomePage implements OnInit {
     }
   }
 
-  toggleCollapse(collapseId: string): void {
+  public selectItem(collapseId: string): void{
     this.activeMenuItem = collapseId;
+  }
+
+  toggleCollapse(collapseId: string): void {
     if (this.activeCollapse === collapseId) {
-      this.activeCollapse = 'null';
-    } else {
+      this.activeCollapse = null;
+      this.activeMenuItem = null;
+      this.activeSubpage  = null;
+      } else {
+      this.activeMenuItem = collapseId;
       this.activeCollapse = collapseId;
+      this.activeSubpage  = null;
     }
+  }
+
+  selectSubpage(subpageValue: string) {
+    this.activeSubpage = subpageValue;
+    this.activeCollapse = null;
+    this.activeMenuItem = null;
   }
 
   closeCollapse(): void {
     this.activeCollapse = null;
+    this.activeMenuItem = null;
+    this.activeSubpage = null;
   }
 
   logout(){

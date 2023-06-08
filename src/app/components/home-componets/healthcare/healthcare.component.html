@@ -64,7 +64,7 @@
           <tr mat-header-row *matHeaderRowDef="documentColumns"></tr>
           <tr class="tr-body" mat-row *matRowDef="let row; columns: documentColumns;"></tr>
         </table>
-        <mat-paginator [pageSize]="10" [pageSizeOptions]="[1, 10, 25, 100]" aria-label="Select page"></mat-paginator>
+        <mat-paginator #dPaginator="matPaginator"  [pageSize]="10" [pageSizeOptions]="[1, 10, 25, 100]" aria-label="Select document page"></mat-paginator>
       </div>
 
     </div>
@@ -72,7 +72,7 @@
       <div class="panel-filters row">
         <mat-form-field class="full-width col-12 col-md-6 col-xl-3" appearance="fill">
           <mat-label> Tipo de Consulta </mat-label>
-          <input matInput (input)="consultaFilter($event)">
+          <input matInput (input)="consultFilter($event)">
         </mat-form-field>
       </div>
 
@@ -145,7 +145,7 @@
           <tr mat-header-row *matHeaderRowDef="recordColumns; sticky: true"></tr>
           <tr class="tr-body" mat-row *matRowDef="let row; columns: recordColumns;"></tr>
         </table>
-        <mat-paginator [pageSize]="10" [pageSizeOptions]="[1, 10, 25, 100]" aria-label="Select page"></mat-paginator>
+        <mat-paginator #rPaginator="matPaginator" [pageSize]="10" [pageSizeOptions]="[1, 10, 25, 100]" aria-label="Select record page"></mat-paginator>
       </div>
     </div>
   </div>

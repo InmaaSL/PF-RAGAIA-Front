@@ -128,7 +128,7 @@
           <tr mat-header-row *matHeaderRowDef="displayedWorkerColumns"></tr>
           <tr class="tr-body" mat-row *matRowDef="let row; columns: displayedWorkerColumns;"></tr>
         </table>
-        <mat-paginator [pageSize]="10" [pageSizeOptions]="[1, 10, 25, 100]" aria-label="Select worker page"></mat-paginator>
+        <mat-paginator #wPaginator="matPaginator" [pageSize]="10" [pageSizeOptions]="[1, 10, 25, 100]" aria-label="Select worker page"></mat-paginator>
       </div>
     </div>
     <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
@@ -224,7 +224,7 @@
           <tr mat-header-row *matHeaderRowDef="displayedNNAColumns"></tr>
           <tr class="tr-body" mat-row *matRowDef="let row; columns: displayedNNAColumns;"></tr>
         </table>
-        <mat-paginator [pageSize]="10" [pageSizeOptions]="[1, 10, 25, 100]" aria-label="Select nna page"></mat-paginator>
+        <mat-paginator #nPaginator="matPaginator" [pageSize]="10" [pageSizeOptions]="[1, 10, 25, 100]" aria-label="Select nna page"></mat-paginator>
       </div>
     </div>
   </div>
