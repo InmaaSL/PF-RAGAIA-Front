@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, TemplateRef, ViewChild } from '@angular/core';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,6 +14,8 @@ import { CalendarPopoverComponent } from './calendar-popover/calendar-popover.co
 import { PopoverController } from '@ionic/angular';
 import { CalendarService } from 'src/app/services/calendar.service';
 import { ComponentsService } from 'src/app/services/components.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { HomeService } from 'src/app/services/home.service';
 
 moment.updateLocale('es', {
   week: {
@@ -50,7 +52,7 @@ const colors: Record<string, EventColor> = {
   encapsulation: ViewEncapsulation.None,
 
 })
-export class CalendarComponent implements OnInit {
+export class CalendarComponent implements OnInit, AfterViewInit {
 
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any> | undefined;
 
@@ -95,12 +97,17 @@ export class CalendarComponent implements OnInit {
   public refresh = new Subject<void>();
 
   public charging: boolean = false;
+  public roles: string[] | undefined;
+
+  public authorizedCreate = false;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
     private popoverController: PopoverController,
     private apiCalendarService: CalendarService,
-    private componentsService: ComponentsService
+    private componentsService: ComponentsService,
+    public authService: AuthService,
+    public homeService: HomeService
   ) { }
 
   ngOnInit() {
@@ -112,6 +119,12 @@ export class CalendarComponent implements OnInit {
     }
 
     this.getEvents();
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.checkAuthorized();
+    });
   }
 
   public setView(view: CalendarView) {
@@ -136,8 +149,18 @@ export class CalendarComponent implements OnInit {
     }
   }
 
+  public checkAuthorized() {
+    const roles = this.authService.getUserRoles();
+
+    if (roles?.includes('ROLE_WORKER')) {
+        this.authorizedCreate = true;
+      }
+  }
+
   public dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    this.presentPopover(events, date, null );
+    if (this.authorizedCreate) {
+      this.presentPopover(events, date, null );
+    }
   }
 
   public async presentPopover(ev: any, date: any, id: any) {
@@ -167,8 +190,6 @@ export class CalendarComponent implements OnInit {
 
   }
 
-
-
   public getEvents() {
     this.charging = true;
     this.events = [];
@@ -178,50 +199,66 @@ export class CalendarComponent implements OnInit {
         this.charging = false;
 
         calendarEntry.forEach((entry: {
+          place: string;
+          description: any;
           register_type: string;
           entry_time: moment.MomentInput;
           id: any; entry_date: moment.MomentInput; title: any;
         }) => {
-
           const dateMoment = moment(entry.entry_date);
           const timeMoment = moment(entry.entry_time);
           const joinDate = dateMoment.format('YYYY-MM-DD') + 'T' + timeMoment.format('HH:mm:ss');
 
           const color = this.colorEvent(entry.register_type);
-          this.events = [
-            ...this.events,
-            {
-              start: moment(joinDate).toDate(),
-              end: moment(joinDate).add(2, 'hours').toDate(),
-              title: entry.title,
-              color: colors[color],
-              actions: [
-                {
-                  label: '<i class="fas fa-fw fa-pencil-alt"></i>',
-                  onClick: ({ event }: { event: CalendarEvent }): void => {
-                    this.presentPopover(null, new Date(joinDate), entry.id );
+          if(this.authorizedCreate){
+            this.events = [
+              ...this.events,
+              {
+                start: moment(joinDate).toDate(),
+                end: moment(joinDate).add(2, 'hours').toDate(),
+                title: entry.title + ' - ' + entry.description + ' (' + entry.place + ')',
+                color: colors[color],
+                actions: [
+                  {
+                    label: '<i class="fas fa-fw fa-pencil-alt"></i>',
+                    onClick: ({ event }: { event: CalendarEvent }): void => {
+                        this.presentPopover(null, new Date(joinDate), entry.id );
+                    },
                   },
-                },
-                {
-                  label: '<i class="fas fa-fw fa-trash-alt"></i>',
-                  onClick: ({ event }: { event: CalendarEvent }): void => {
-                    this.events = this.events.filter((iEvent) => iEvent !== event);
-                    this.apiCalendarService.deleteCalendarEntry(entry.id).subscribe({
-                      error: (e) => console.log(e),
-                      complete: () =>{
-                        this.getEvents();
-                        this.activeDayIsOpen = false;
-                      }
-                    })
+                  {
+                    label: '<i class="fas fa-fw fa-trash-alt"></i>',
+                    onClick: ({ event }: { event: CalendarEvent }): void => {
+                      this.events = this.events.filter((iEvent) => iEvent !== event);
+                      this.apiCalendarService.deleteCalendarEntry(entry.id).subscribe({
+                        error: (e) => console.log(e),
+                        complete: () =>{
+                          this.getEvents();
+                          this.activeDayIsOpen = false;
+                        }
+                      })
+                    },
                   },
-                },
-              ],
+                ],
 
-              meta: {
-                calendarID: entry.id
+                meta: {
+                  calendarID: entry.id
+                },
               },
-            },
-          ];
+            ];
+          } else {
+            this.events = [
+              ...this.events,
+              {
+                start: moment(joinDate).toDate(),
+                end: moment(joinDate).add(2, 'hours').toDate(),
+                title: entry.title + ' - ' + entry.description + ' (' + entry.place + ')',
+                color: colors[color],
+                meta: {
+                  calendarID: entry.id
+                },
+              },
+            ];
+          }
         });
       },
       error: (e) => {

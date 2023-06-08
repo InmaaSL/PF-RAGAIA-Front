@@ -23,6 +23,7 @@ export class MainComponent  implements OnInit {
   public userName = '';
   public today = '';
   public events: any[] = [];
+  public authorizedCreate = false;
 
   constructor(
     private apiUserService: ApiUserService,
@@ -40,6 +41,7 @@ export class MainComponent  implements OnInit {
       next: (next) => {
         if(next){
           this.getEvents();
+          this.checkAuthorized();
           this.loading = true;
         }
       },
@@ -60,7 +62,17 @@ export class MainComponent  implements OnInit {
   }
 
   public async goToEvent(event: any) {
-    this.componentsService.updateSelectedUser(event);
-    this.homeService.updateSelectedComponent('calendar');
+    if(this.authorizedCreate){
+      this.componentsService.updateSelectedUser(event);
+      this.homeService.updateSelectedComponent('calendar');
+    }
+  }
+
+  public checkAuthorized() {
+    const roles = this.authService.getUserRoles();
+
+    if (roles?.includes('ROLE_WORKER')) {
+        this.authorizedCreate = true;
+      }
   }
 }

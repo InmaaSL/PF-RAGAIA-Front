@@ -16,25 +16,30 @@
         </div>
         <div class="offcanvas-body">
           <div class="main-sidebar flex-shrink-0">
-
             <ul class="list-unstyled ps-0">
-              <ng-container *ngFor="let menuItem of menuItems">
-                <li class="mb-1">
+              <ng-container *ngFor="let menuItem of showMenuItems">
+                <li>
                   <ng-container *ngIf="menuItem.pages">
-                    <button class="btn btn-collapse collapsed" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+ menuItem.value + 'collapse'" aria-expanded="false">
+                    <button class="btn btn-collapse collapsed" data-bs-toggle="collapse"
+                      [attr.data-bs-target]="'#'+ menuItem.value + 'collapse'"
+                      [attr.aria-expanded]="menuItem.value === activeCollapse ? 'true' : 'false'"
+                      (click)="toggleCollapse(menuItem.value); selectItem(menuItem.value)"
+                      [ngClass]="{'active-button': menuItem.value === activeMenuItem}">
                       <i [ngClass]="menuItem.icon"></i>
                       {{ menuItem.name }}
                     </button>
-                    <div class="collapse" [attr.id]="menuItem.value + 'collapse'">
+                    <div class="collapse" [attr.id]="menuItem.value + 'collapse'"
+                      [ngClass]="{'show': menuItem.value === activeCollapse && activeSubpage === null }">
                       <ul class="container-toggle">
-                        <li *ngFor="let subpage of menuItem.pages">
-                          <a class="btn-toggl" (click)="goTo(subpage.value); offcanvas.close('Close click')"> {{ subpage.name }} </a>
+                        <li class="d-flex align-items-center" *ngFor="let subpage of menuItem.pages">
+                          <a class="btn-toggl" (click)="goTo(subpage.value); selectSubpage(subpage.value); selectItem(menuItem.value); offcanvas.close('Close click')"> {{ subpage.name }} </a>
                         </li>
                       </ul>
                     </div>
                   </ng-container>
                   <ng-container *ngIf="!menuItem.pages">
-                    <button class="btn btn-collapse" (click)="goTo(menuItem.value); offcanvas.close('Close click')">
+                    <button class="btn btn-collapse" (click)="goTo(menuItem.value); selectItem(menuItem.value); offcanvas.close('Close click')"
+                    [ngClass]="{'active-button': menuItem.value === activeMenuItem}">
                       <i [ngClass]="menuItem.icon"></i>
                       {{ menuItem.name }}
                     </button>
@@ -42,6 +47,7 @@
                 </li>
               </ng-container>
             </ul>
+
           </div>
         </div>
       </ng-template>
@@ -52,13 +58,13 @@
   <div class="main-container-components">
     <div class="main-sidebar flex-shrink-0 d-none d-lg-flex">
       <ul class="list-unstyled ps-0">
-        <ng-container *ngFor="let menuItem of menuItems">
+        <ng-container *ngFor="let menuItem of showMenuItems">
           <li>
             <ng-container *ngIf="menuItem.pages">
               <button class="btn btn-collapse collapsed" data-bs-toggle="collapse"
                 [attr.data-bs-target]="'#'+ menuItem.value + 'collapse'"
                 [attr.aria-expanded]="menuItem.value === activeCollapse ? 'true' : 'false'"
-                (click)="toggleCollapse(menuItem.value); selectItem(menuItem.value);"
+                (click)="toggleCollapse(menuItem.value); selectItem(menuItem.value)"
                 [ngClass]="{'active-button': menuItem.value === activeMenuItem}">
                 <i [ngClass]="menuItem.icon"></i>
                 {{ menuItem.name }}

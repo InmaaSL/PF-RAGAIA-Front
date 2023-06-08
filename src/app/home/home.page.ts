@@ -12,21 +12,23 @@ import { NgbOffcanvasConfig, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, AfterViewInit {
 
   selectedComponent = '';
   public username = '';
-  public roles = '';
 
-  public activeMenuItem: string | null = null;
+  public activeMenuItem: string  = 'main';
   public activeCollapse: string | null = null;
   public activeSubpage : string | null = null;
+
+  public showMenuItems: any = [];
 
   public menuItems = [
     {
       name: 'Home',
       value: 'main',
-      icon: 'fa-solid fa-rainbow'
+      icon: 'fa-solid fa-rainbow',
+      access: ['worker', 'nna']
     },
     {
       name: 'Personal',
@@ -35,22 +37,26 @@ export class HomePage implements OnInit {
       pages: [
         {name: 'Registro de Usuarios', value: 'user-register'},
         {name: 'Usuarios Registrados', value: 'user-management'},
-      ]
+      ],
+      access: ['superadmin']
     },
     {
       name: 'NNA',
       value: 'nna',
-      icon: 'fa-solid fa-children'
+      icon: 'fa-solid fa-children',
+      access: ['worker']
     },
     {
       name: 'Calendario',
       value: 'calendar',
-      icon: 'fa-solid fa-calendar-day'
+      icon: 'fa-solid fa-calendar-day',
+      access: ['worker', 'nna']
     },
     {
       name: 'Foro',
       value: 'foro',
-      icon: 'fa-solid fa-message'
+      icon: 'fa-solid fa-message',
+      access: ['worker', 'nna']
     },
     {
       name: 'Registros',
@@ -59,8 +65,8 @@ export class HomePage implements OnInit {
       pages: [
         {name: 'Gestión de Pagas', value: 'paid-management'},
         {name: 'Registro de Pagas', value: 'paid'},
-        // {name: 'Registro de Incentivos/Descuentos', value: 'incentives-discount-register'},
-      ]
+      ],
+      access: ['worker']
     },
     {
       name: 'Cuenta',
@@ -69,12 +75,16 @@ export class HomePage implements OnInit {
       pages: [
         {name: 'Mi cuenta', value: 'my-profile'},
         {name: 'Cerrar Sesión', value: 'logout'},
-      ]
+      ],
+      access: ['worker', 'nna']
     }
   ]
 
-  public loading = false;
-  public userName = '';
+  public loading: boolean = false;
+  public userName: string = '';
+
+  public roles: any[] = [];
+  public access: boolean = false;
 
   constructor(
     public authService: AuthService,
@@ -105,6 +115,14 @@ export class HomePage implements OnInit {
     this.homeService.updateSelectedComponent('main');
   }
 
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.roles = this.authService.getUserRoles();
+      this.checkAccess();
+      console.log(this.authService.getUserRoles());
+      });
+  }
+
   public open(content: any) {
 		this.offcanvasService.open(content);
 	}
@@ -132,10 +150,10 @@ export class HomePage implements OnInit {
     this.activeMenuItem = collapseId;
   }
 
-  toggleCollapse(collapseId: string): void {
+  public toggleCollapse(collapseId: string): void {
     if (this.activeCollapse === collapseId) {
       this.activeCollapse = null;
-      this.activeMenuItem = null;
+      this.activeMenuItem = 'main';
       this.activeSubpage  = null;
       } else {
       this.activeMenuItem = collapseId;
@@ -144,23 +162,24 @@ export class HomePage implements OnInit {
     }
   }
 
-  selectSubpage(subpageValue: string) {
+  public selectSubpage(subpageValue: string) {
     this.activeSubpage = subpageValue;
     this.activeCollapse = null;
-    this.activeMenuItem = null;
+    this.activeMenuItem = 'main';
   }
 
-  closeCollapse(): void {
+  public closeCollapse(): void {
     this.activeCollapse = null;
-    this.activeMenuItem = null;
+    this.activeMenuItem = 'main';
     this.activeSubpage = null;
   }
 
-  logout(){
+  public logout(){
     this.authService.logout();
+    this.roles = [];
   }
 
-  goTo(component: string) {
+  public goTo(component: string) {
     if(component === 'logout'){
       this.homeService.updateSelectedComponent('login');
       this.logout();
@@ -171,6 +190,13 @@ export class HomePage implements OnInit {
     }
   }
 
+  public checkAccess(): void{
+    this.showMenuItems = this.menuItems.filter(item => {
+      console.log(item.access.some(accessItem => this.roles?.includes(`ROLE_${accessItem.toUpperCase()}`)))
+      return item.access.some(accessItem => this.roles?.includes(`ROLE_${accessItem.toUpperCase()}`));
+    });
 
+    console.log(this.showMenuItems);
+  }
 
 }

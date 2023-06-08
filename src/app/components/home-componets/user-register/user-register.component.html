@@ -69,7 +69,7 @@
                       <input type="text" class="form-control" id="postal_code" formControlName="postal_code">
                   </div>
 
-                  <ng-container *ngIf="!workerRole">
+                  <ng-container *ngIf="!workerRole && !myProfile">
                     <!-- En caso de ser NNA -->
                     <div class="w-100 m-0"></div>
                     <div class="col-12 col-md-3">

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { ApiUserService } from 'src/app/services/api-user.service';
@@ -10,6 +10,7 @@ import { UpdateUserComponent } from '../../modal-components/update-user/update-u
 import { MatDialog } from '@angular/material/dialog';
 import { HomeService } from 'src/app/services/home.service';
 import { AlertService } from 'src/app/services/alert.service';
+import { ApiConnectService } from 'src/app/services/api-connect.service';
 
 @Component({
   selector: 'app-user-management',
@@ -59,7 +60,8 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
     private changeDetectorRef: ChangeDetectorRef,
     public dialog: MatDialog,
     private homeService: HomeService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private apiConnectService: ApiConnectService
   ) { }
 
   ngOnInit() {
@@ -105,22 +107,22 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
     );
   }
 
-  nameFilterW(event: any) {
+  public nameFilterW(event: any) {
     this.restServiceW.filter[0].value = event.target.value ? event.target.value : null;
     this.workerDataSource.loadData();
   }
 
-  phoneFilterW(event: any) {
+  public phoneFilterW(event: any) {
     this.restServiceW.filter[1].value = event.target.value ? event.target.value : null;
     this.workerDataSource.loadData();
   }
 
-  emailFilterW(event: any) {
+  public emailFilterW(event: any) {
     this.restServiceW.filter[2].value = event.target.value ? event.target.value : null;
     this.workerDataSource.loadData();
   }
 
-  dniFilterW(event: any) {
+  public dniFilterW(event: any) {
     this.restServiceN.filter[3].value = event.target.value ? event.target.value : null;
     this.nnaDataSource.loadData();
   }
@@ -155,18 +157,18 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
     });
   }
 
-  nameFilterN(event: any) {
+  public nameFilterN(event: any) {
     this.restServiceN.filter[0].value = event.target.value ? event.target.value : null;
     console.log(this.restServiceN.filter[0].value)
     this.nnaDataSource.loadData();
   }
 
-  expedientFilterN(event: any) {
+  public expedientFilterN(event: any) {
     this.restServiceN.filter[1].value = event.target.value ? event.target.value : null;
     this.nnaDataSource.loadData();
   }
 
-  dniFilterN(event: any) {
+  public dniFilterN(event: any) {
     this.restServiceN.filter[2].value = event.target.value ? event.target.value : null;
     this.nnaDataSource.loadData();
   }
@@ -195,6 +197,20 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
         this.alertService.setAlert('Usuario eliminado.', 'success');
         this.nnaDataSource.loadData();
         this.workerDataSource.loadData();
+      }
+    })
+  }
+
+  async resetPassword(email: string) {
+    console.log(email)
+
+    const emailÏnfo = new HttpParams()
+    .set('email', email );
+
+    this.apiConnectService.resetPassword(emailÏnfo).subscribe({
+      error: (e) => console.log(e),
+      complete: () => {
+        this.alertService.setAlert('Se ha mandado un correo al usuario para que reestablezca su contraseña.', 'success');
       }
     })
   }
