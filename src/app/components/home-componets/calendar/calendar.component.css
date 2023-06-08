@@ -21,3 +21,26 @@
   background-color: #e3bc08;
   border-radius: 50%;
 }
+
+.btn-primary-p{
+  background-color: var(--secondary-color);
+  color: var(--white-color);
+}
+
+.btn-primary-p:hover{
+  background-color: var(--white-color);
+  border-color: var(--secondary-color);
+  color: var(--secondary-color);
+}
+
+.btn-outline-secondary, .btn-primary-p.active{
+  background-color: var(--white-color);
+  border-color: var(--secondary-color);
+  color: var(--secondary-color);
+}
+
+.btn-outline-secondary:hover {
+  background-color: var(--secondary-color);
+  border-color: var(--white-color);
+  color: var(--white-color);
+}

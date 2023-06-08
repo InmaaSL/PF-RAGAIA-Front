@@ -7,7 +7,7 @@
     <div class="col-md-4">
       <div class="btn-group">
         <div
-          class="btn btn-primary"
+          class="btn btn-primary-p"
           mwlCalendarPreviousView
           [view]="view"
           [(viewDate)]="viewDate"
@@ -23,7 +23,7 @@
           Today
         </div>
         <div
-          class="btn btn-primary"
+          class="btn btn-primary-p"
           mwlCalendarNextView
           [view]="view"
           [(viewDate)]="viewDate"
@@ -34,26 +34,26 @@
       </div>
     </div>
     <div class="col-md-4">
-      <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+      <h3 class="main-title mt-md-3">{{ viewDate | calendarDate:(view + 'ViewTitle'):'es' | uppercase }}</h3>
     </div>
     <div class="col-md-4">
       <div class="btn-group">
         <div
-          class="btn btn-primary"
+          class="btn btn-primary-p"
           (click)="setView(CalendarView.Month)"
           [class.active]="view === CalendarView.Month"
         >
           Month
         </div>
         <div
-          class="btn btn-primary"
+          class="btn btn-primary-p"
           (click)="setView(CalendarView.Week)"
           [class.active]="view === CalendarView.Week"
         >
           Week
         </div>
         <div
-          class="btn btn-primary"
+          class="btn btn-primary-p"
           (click)="setView(CalendarView.Day)"
           [class.active]="view === CalendarView.Day"
         >

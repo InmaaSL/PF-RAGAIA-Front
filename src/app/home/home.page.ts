@@ -1,8 +1,9 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { HomeService } from '../services/home.service';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
+import { ApiConnectService } from '../services/api-connect.service';
 
 @Component({
   selector: 'app-home',
@@ -69,9 +70,13 @@ export class HomePage implements OnInit {
     }
   ]
 
+  public loading = false;
+  public userName = '';
+
   constructor(
     public authService: AuthService,
-    public homeService: HomeService
+    public homeService: HomeService,
+    private apiConnectService: ApiConnectService,
   ) {}
 
   @HostListener('window:beforeunload', ['$event'])
@@ -99,6 +104,15 @@ export class HomePage implements OnInit {
       const token = JSON.parse(tk);
       if (token) {
         this.authService.loadToken();
+        this.authService.getUserInfo().subscribe({
+          next: (next: any) => {
+            this.loading = true;
+            if(next){
+              this.userName = next.userData.name + ' ' + next.userData.surname;
+            }
+          },
+          error: (e) => console.log(e)
+        });
       }
     }
   }
@@ -115,7 +129,6 @@ export class HomePage implements OnInit {
   closeCollapse(): void {
     this.activeCollapse = null;
   }
-
 
   logout(){
     this.authService.logout();

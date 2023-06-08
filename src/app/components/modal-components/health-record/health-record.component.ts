@@ -2,9 +2,8 @@ import { HttpParams } from '@angular/common/http';
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { error } from 'console';
 import { DocumentService } from 'src/app/services/document.service';
-import { DatePipe } from '@angular/common';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-health-record',
@@ -23,7 +22,7 @@ export class HealthRecordComponent implements OnInit {
     private apiDocumentService: DocumentService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialog: MatDialog,
-    private datePipe: DatePipe
+    private alertService: AlertService
   ) {
     this.myForm = new FormGroup({
       type_consultation: new FormControl('', Validators.required),
@@ -57,15 +56,23 @@ export class HealthRecordComponent implements OnInit {
 
       if(this.document){
         this.apiDocumentService.editHealthRecord(this.document.id, this.healthRecordInfo).subscribe({
-          error: (e) => console.log(e),
+          error: (e) => {
+            console.log(e);
+            this.alertService.setAlert('Error al guardar el registro.', 'danger');
+          },
           complete: () => {
+            this.alertService.setAlert('Registro guardado con éxito.', 'success');
             this.dialog.closeAll();
           }
         })
       } else {
         this.apiDocumentService.setHealthRecord(this.data.nna_id, this.healthRecordInfo).subscribe({
-          error: (e) => console.log(e),
+          error: (e) => {
+            console.log(e);
+            this.alertService.setAlert('Error al guardar el registro.', 'danger');
+          },
           complete: () => {
+            this.alertService.setAlert('Registro guardado con éxito.', 'success');
             this.dialog.closeAll();
           }
         })

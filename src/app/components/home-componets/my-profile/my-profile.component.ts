@@ -1,6 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AlertService } from 'src/app/services/alert.service';
 import { ApiConnectService } from 'src/app/services/api-connect.service';
 
 @Component({
@@ -20,8 +21,8 @@ export class MyProfileComponent implements OnInit {
 
 
   constructor(
-    private apiConnectService: ApiConnectService
-
+    private apiConnectService: ApiConnectService,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -41,10 +42,13 @@ export class MyProfileComponent implements OnInit {
           .set('confirmPassword', this.passwordForm.value.repeat_password ?? '' );
 
           this.apiConnectService.userChangeHisPassword(newPassword).subscribe({
-            error: (e) => console.log(e),
+            error: (e) => {
+              console.log(e);
+              this.alertService.setAlert(e, 'danger');
+            },
             complete: () => {
               this.passwordForm.reset();
-              console.log('Contraseña cambiada');
+              this.alertService.setAlert('Contraseña actualizada.', 'success');
             }
           })
         }

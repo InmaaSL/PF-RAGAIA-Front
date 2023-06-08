@@ -7,6 +7,7 @@ import { ComponentsService } from 'src/app/services/components.service';
 import { HomeService } from 'src/app/services/home.service';
 import { ObjectiveService } from 'src/app/services/objective.service';
 import { PrintObjectiveComponent } from '../../modal-components/print-objective/print-objective.component';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-objectives',
@@ -39,7 +40,8 @@ export class ObjectivesComponent implements OnInit {
     private homeService: HomeService,
     private componentsService: ComponentsService,
     private objectiveService: ObjectiveService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -128,7 +130,6 @@ export class ObjectivesComponent implements OnInit {
     }
   }
 
-
   private generateYears(): number[] {
     const currentYear = new Date().getFullYear();
     this.selectedYear = currentYear;
@@ -179,7 +180,10 @@ export class ObjectivesComponent implements OnInit {
       next: (objectiveType: any) => {
         this.objectiveType = objectiveType;
       },
-      error: (e) => console.log(e),
+      error: (e) => {
+        console.log(e);
+        this.alertService.setAlert(e, 'danger');
+      },
       complete: () => {
           this.getObjectives();
       }
@@ -211,8 +215,14 @@ export class ObjectivesComponent implements OnInit {
       .set('comment', element.comment);
 
       this.objectiveService.saveObjective(this.userId, this.objectiveInfo).subscribe({
-        error: (e) => console.log(e),
-        complete: () => this.print = true
+        error: (e) => {
+          console.log(e);
+          this.alertService.setAlert('Error al guardar los objetivos.', 'danger');
+        },
+        complete: () => {
+          this.print = true;
+          this.alertService.setAlert('Objetivos registrados.', 'success');
+        }
       })
 
     });
@@ -233,7 +243,10 @@ export class ObjectivesComponent implements OnInit {
       next: (obj: any) => {
         this.objectives = obj;
       },
-      error: (e) => console.log(e),
+      error: (e) => {
+        console.log(e);
+        this.alertService.setAlert('Algo ha fallado al obtener los registros', 'warning');
+      },
       complete: () => {
         this.addObjectiveFormControls();
         this.patchObjectiveFormValues();
@@ -255,8 +268,6 @@ export class ObjectivesComponent implements OnInit {
     dialogConfig.hasBackdrop = true;
 
     const dialogRef = this.dialog.open(PrintObjectiveComponent, dialogConfig);
-
-
   }
 
   public goBack(){

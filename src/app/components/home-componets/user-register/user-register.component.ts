@@ -2,6 +2,7 @@ import { HttpParams } from '@angular/common/http';
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { AlertService } from 'src/app/services/alert.service';
 import { ApiConnectService } from 'src/app/services/api-connect.service';
 import { ApiUserService } from 'src/app/services/api-user.service';
 import { HomeService } from 'src/app/services/home.service';
@@ -68,8 +69,8 @@ export class UserRegisterComponent implements OnInit {
     private apiConnectService: ApiConnectService,
     private apiUserService: ApiUserService,
     public homeService: HomeService,
-    public dialog: MatDialog
-
+    public dialog: MatDialog,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -100,7 +101,6 @@ export class UserRegisterComponent implements OnInit {
       this.centreSelected = '0';
       this.professionalCategorySelected = '0';
     }
-
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -183,15 +183,6 @@ export class UserRegisterComponent implements OnInit {
     this.isLoading = true;
 
     if(this.registerForm.valid){
-      // let rol;
-      // let userRoles: any;
-
-      // if(!this.toUpdate){
-      //   rol =  this.setRoles(this.registerForm.value.professionalCategory);
-      //   userRoles = new HttpParams()
-      //   .set('roles', rol.join(','));
-      // }
-
       const mainRole =  this.registerForm.get('mainRole')?.value;
 
       const infoProfessionalCategoryCentre = new HttpParams()
@@ -240,11 +231,14 @@ export class UserRegisterComponent implements OnInit {
               complete: () => {
                 this.apiUserService.getUserCentreProfessionalCategory(this.userId).subscribe({
                   complete: () => {
-                    // if(register.length == 0){
                       if(mainRole){
                         this.apiUserService.setUserProfessionalCategoryCentre(this.userId, infoProfessionalCategoryCentre).subscribe({
-                          error: (e) => console.log(e),
+                          error: (e) => {
+                            console.log(e),
+                            this.alertService.setAlert('Error al modificar los datos del usuario.', 'danger');
+                          },
                           complete: () =>{
+                            this.alertService.setAlert('Usuario modificado.', 'success');
                             this.dialog.closeAll();
                           }
                         });
@@ -253,6 +247,7 @@ export class UserRegisterComponent implements OnInit {
                           error: (e) => console.log(e),
                           complete: () =>{
                             this.dialog.closeAll();
+                            this.alertService.setAlert('Usuario modificado.', 'success');
                           }
                         });
                       }
@@ -267,11 +262,13 @@ export class UserRegisterComponent implements OnInit {
       } else if(this.userId && this.toUpdate){
         // Editamos el perfil del usuario:
             this.apiUserService.registerUserData(this.userId, this.infoUserData).subscribe({
-              error: (e) => console.log(e),
+              error: (e) => {
+                console.log(e);
+                this.alertService.setAlert('Error al actualizar sus datos', 'danger');
+              },
               complete: () => {
-                setTimeout(() => {
-                  this.homeService.updateSelectedComponent('main');
-                }, 3600);
+                this.alertService.setAlert('Datos actualizados.', 'success');
+                this.homeService.updateSelectedComponent('main');
               }
             });
         this.isLoading = false;
@@ -296,14 +293,19 @@ export class UserRegisterComponent implements OnInit {
                     next: (_newUserData: any) => {
                       if(mainRole){
                         this.apiUserService.setUserProfessionalCategoryCentre(newUser['id'], infoProfessionalCategoryCentre).subscribe({
-                          error: (e) => console.log(e),
+                          error: (e) => {
+                            console.log(e);
+                            this.alertService.setAlert('Error al registrar al nuevo usuario.', 'danger');
+                          },
                           complete: () => {
+                            this.alertService.setAlert('Nuevo usuario registrado.', 'success');
                             this.homeService.updateSelectedComponent('user-management');
                           }
                         })
                       } else {
                         this.apiUserService.setUserCentre(newUser['id'], infoCentre).subscribe({
                           complete: () => {
+                            this.alertService.setAlert('Nuevo usuario registrado.', 'success');
                             this.homeService.updateSelectedComponent('user-management');
                           }
                         });
@@ -402,8 +404,12 @@ export class UserRegisterComponent implements OnInit {
     this.apiUserService.getUserCentreProfessionalCategory(this.userId).subscribe({
       next: (userCentreCategory: any) => {
         this.apiUserService.deleteUserProfessionalCategoryCentre(userCentreCategory[0]['id']).subscribe({
-          error: (e) => console.log(e),
+          error: (e) => {
+            console.log(e);
+            this.alertService.setAlert('Error al eliminar el registro.', 'danger');
+          },
           complete: () => {
+            this.alertService.setAlert('Registro elimiando.', 'success');
             this.centreSelected = '0';
             this.professionalCategorySelected = '0';
           }

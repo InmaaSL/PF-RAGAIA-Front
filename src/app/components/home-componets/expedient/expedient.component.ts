@@ -11,6 +11,7 @@ import { RestService } from 'src/app/services/rest/Rest.Service';
 import { HttpClient } from '@angular/common/http';
 import { Filtering } from 'src/app/services/rest/Filtering';
 import { MainService } from 'src/app/services/main.service';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-expedient',
@@ -48,6 +49,7 @@ export class ExpedientComponent implements OnInit {
     public dialog: MatDialog,
     private changeDetectorRef: ChangeDetectorRef,
     private http: HttpClient,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -82,11 +84,12 @@ export class ExpedientComponent implements OnInit {
             {
               next : (info) => {
                 this.getAllUserExpedientDocument(this.userId);
+                this.alertService.setAlert('Documento guardado.', 'success');
               },
               error: (e) => {
-                console.log(e)
-                alert('Solo está permitido subir PDF!');
-              }
+                console.log(e);
+                this.alertService.setAlert('Error al guardar el documento. Compruebe que ha de ser PDF.', 'danger');
+              },
             }
           )
       }
@@ -97,15 +100,11 @@ export class ExpedientComponent implements OnInit {
     this.restService = new RestService(this.http, this.changeDetectorRef);
     this.restService.url = 'v2/getAllUserExpedientDocument';
     this.restService.filterDefault = [
-      // new Filtering('user_data.name+user_data.surname:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
-      // new Filtering('user_data.phone_number:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
-      // new Filtering('email', 'like', null),
-      // new Filtering('user_data.address:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
       new Filtering('user', 'exact', user_id)
     ];
     this.restService.filter = MainService.deepCopy(this.restService.filterDefault);
     this.restService.setPageCallBack = (r: any) => {
-        console.log('received data in users page', r);
+        // console.log('received data in users page', r);
     };
 
     this.documentDataSource = new CommonDataSource(this.restService);
@@ -119,7 +118,10 @@ export class ExpedientComponent implements OnInit {
           this.restService.page.offset = data.pageIndex;
           this.documentDataSource.loadData();
         },
-        (error) => {console.log(error)}
+        (e) => {
+          console.log(e);
+          this.alertService.setAlert('Error al obtener los registros.', 'danger');
+        }
       );
     }
   }
@@ -141,8 +143,14 @@ export class ExpedientComponent implements OnInit {
 
   public deleteDocument(id: string){
     this.apiDocumentService.deleteExpedientDocument(id).subscribe({
-      error: (e) => console.log(e),
-      complete: () => this.documentDataSource.loadData()
+      error: (e) => {
+        console.log(e);
+        this.alertService.setAlert('Error al eliminar el documento.', 'danger');
+      },
+      complete: () => {
+        this.documentDataSource.loadData();
+        this.alertService.setAlert('Documento eliminado.', 'success');
+      }
     })
   }
 
@@ -153,34 +161,6 @@ export class ExpedientComponent implements OnInit {
 
   public close(){
     this.homeService.updateSelectedComponent('main');
-  }
-
-  public addProfilePicture(event: any) {
-    this.fileToUpload = event.files.item(0);
-    if (this.fileToUpload != null) {
-      if (this.fileToUpload.type.split('/')[0] === 'image') {
-        const pictureInfo: FormData = new FormData();
-        pictureInfo.append(
-          'profile_pic',
-          this.fileToUpload,
-          this.fileToUpload.name
-        );
-        this.apiDocumentService.setProfilePic(pictureInfo).subscribe(
-          (data:any) => {
-            if (data['error']) {
-              this.errorImagenPerfil = true;
-            }
-          },
-          (error) => {
-            console.log(error);
-          },
-          () => {
-          }
-        );
-      } else {
-        alert('No es un pdf!');
-      }
-    }
   }
 
 }

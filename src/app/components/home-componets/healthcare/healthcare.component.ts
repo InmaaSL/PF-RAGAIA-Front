@@ -16,6 +16,7 @@ import { ShowDocumentComponent } from '../../modal-components/show-document/show
 import * as moment from 'moment';
 import 'moment/locale/es';
 import { ApiUserService } from 'src/app/services/api-user.service';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-healthcare',
@@ -62,6 +63,7 @@ export class HealthcareComponent implements OnInit {
     private apiDocumentService: DocumentService,
     private changeDetectorRef: ChangeDetectorRef,
     private http: HttpClient,
+    private alertService: AlertService
   ) {
     moment.locale('es');
   }
@@ -104,10 +106,7 @@ export class HealthcareComponent implements OnInit {
     this.restService = new RestService(this.http, this.changeDetectorRef);
     this.restService.url = 'v2/healthRecord';
     this.restService.filterDefault = [
-      // new Filtering('user_data.name+user_data.surname:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
-      // new Filtering('user_data.phone_number:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
       new Filtering('type_consultation', 'like', null),
-      // new Filtering('user_data.address:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
       new Filtering('user', 'exact', this.userId),
       new Filtering('isDeleted', 'exact', '0')
     ];
@@ -127,7 +126,10 @@ export class HealthcareComponent implements OnInit {
           this.restService.page.offset = data.pageIndex;
           this.recordDataSource.loadData();
         },
-        (error) => {console.log(error)}
+        (e) => {
+          console.log(e);
+          this.alertService.setAlert('Error al cargar los registros.', 'danger');
+        }
       );
     }
   }
@@ -141,10 +143,6 @@ export class HealthcareComponent implements OnInit {
     this.restServiceDocument = new RestService(this.http, this.changeDetectorRef);
     this.restServiceDocument.url = 'v2/getAllUserHealthDocument';
     this.restServiceDocument.filterDefault = [
-      // new Filtering('user_data.name+user_data.surname:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
-      // new Filtering('user_data.phone_number:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
-      // new Filtering('email', 'like', null),
-      // new Filtering('user_data.address:user:App\\Entity\\UserData', 'reverseEntityFieldLike', null),
       new Filtering('user', 'exact', this.userId)
     ];
     this.restServiceDocument.filter = MainService.deepCopy(this.restServiceDocument.filterDefault);
@@ -163,7 +161,10 @@ export class HealthcareComponent implements OnInit {
           this.restServiceDocument.page.offset = data.pageIndex;
           this.documentDataSource.loadData();
         },
-        (error) => {console.log(error)}
+        (e) => {
+          console.log(e);
+          this.alertService.setAlert('Error al cargar los documentos.', 'danger');
+        },
       );
     }
   }
@@ -194,10 +195,13 @@ export class HealthcareComponent implements OnInit {
   public deleteRecord(id: string){
     this.apiDocumentService.deleteHealthRecord(id).subscribe({
       complete: () => {
-        console.log('Registro eliminado');
+        this.alertService.setAlert('Registro eliminado.', 'success');
         this.recordDataSource.loadData();
       },
-      error: (e) => console.log(e)
+      error: (e) => {
+        console.log(e);
+        this.alertService.setAlert('Error al eliminar el registro.', 'danger');
+      },
     });
   }
 
@@ -243,12 +247,13 @@ export class HealthcareComponent implements OnInit {
           this.apiDocumentService.setUserHealthDocument(this.userId, pictureInfo).subscribe(
             {
               next : (info) => {
+                this.alertService.setAlert('Documento guardado con éxito.', 'success');
                 this.documentDataSource.loadData();
               },
               error: (e) => {
-                console.log(e)
-                alert('Solo está permitido subir PDF!');
-              }
+                console.log(e);
+                this.alertService.setAlert('Error al guardar el documento. Recuerde que ha de ser un archivo PDF.', 'danger');
+              },
             }
           )
       }
@@ -272,8 +277,14 @@ export class HealthcareComponent implements OnInit {
 
   public deleteHealthDocument(id: string){
     this.apiDocumentService.deleteHealthDocument(id).subscribe({
-      error: (e) => console.log(e),
-      complete: () => this.documentDataSource.loadData()
+      error: (e) => {
+        console.log(e);
+        this.alertService.setAlert('Error al eliminar el documento.', 'danger');
+      },
+      complete: () => {
+        this.documentDataSource.loadData();
+        this.alertService.setAlert('Documento eliminado.', 'success');
+      }
     })
   }
 

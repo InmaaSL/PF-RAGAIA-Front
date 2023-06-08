@@ -16,6 +16,7 @@ import * as moment from 'moment';
 import 'moment/locale/es';
 import { EducationRecordComponent } from '../../modal-components/education-record/education-record.component';
 import { PrintEducationRecordComponent } from '../../modal-components/print-education-record/print-education-record.component';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-education',
@@ -58,7 +59,8 @@ export class EducationComponent implements OnInit {
     private apiDocumentService: DocumentService,
     private changeDetectorRef: ChangeDetectorRef,
     private http: HttpClient,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -94,11 +96,12 @@ export class EducationComponent implements OnInit {
             {
               next : (info) => {
                 this.documentDataSource.loadData();
+                this.alertService.setAlert('Documento guardado.', 'success');
               },
               error: (e) => {
-                console.log(e)
-                alert('Solo está permitido subir PDF!');
-              }
+                console.log(e);
+                this.alertService.setAlert('Ha ocurrido un error guardando el documento. Revise que sea PDF.', 'danger');
+              },
             }
           )
       }
@@ -128,7 +131,10 @@ export class EducationComponent implements OnInit {
           this.restServiceDocument.page.offset = data.pageIndex;
           this.documentDataSource.loadData();
         },
-        (error) => {console.log(error)}
+        (error) => {
+          console.log(error);
+          this.alertService.setAlert('Error al cargar los regisrtos.', 'danger');
+        }
       );
     }
   }
@@ -155,8 +161,14 @@ export class EducationComponent implements OnInit {
 
   public deleteEducationDocument(id: string){
     this.apiDocumentService.deleteEducationDocument(id).subscribe({
-      error: (e) => console.log(e),
-      complete: () => this.documentDataSource.loadData()
+      error: (e) => {
+        console.log(e);
+        this.alertService.setAlert('Error al eliminar el documento.', 'danger');
+      },
+      complete: () => {
+        this.alertService.setAlert('Documento elimiando.', 'success');
+        this.documentDataSource.loadData();
+      }
     })
   }
 
@@ -202,13 +214,15 @@ export class EducationComponent implements OnInit {
           this.restService.page.offset = data.pageIndex;
           this.recordDataSource.loadData();
         },
-        (error) => {console.log(error)}
+        (error) => {
+          console.log(error);
+          this.alertService.setAlert('Error al cargar los regisrtos.', 'danger');
+        }
       );
     }
   }
 
   public editRecord(document: any){
-
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.autoFocus = true;
@@ -229,10 +243,13 @@ export class EducationComponent implements OnInit {
   public deleteRecord(id: string){
     this.apiDocumentService.deleteEducationRecord(id).subscribe({
       complete: () => {
-        console.log('Registro eliminado');
+        this.alertService.setAlert('Registro eliminado.', 'success');
         this.recordDataSource.loadData();
       },
-      error: (e) => console.log(e)
+      error: (e) => {
+        console.log(e);
+        this.alertService.setAlert('Error al eliminar el registro.', 'danger');
+      },
     });
   }
 

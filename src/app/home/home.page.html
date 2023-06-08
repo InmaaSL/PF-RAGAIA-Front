@@ -1,10 +1,11 @@
 <ion-content [fullscreen]="true">
 
-  <nav class="navbar fixed-top ">
+  <nav class="navbar fixed-top">
     <div class="container-fluid">
       <a href="/" class="header-img-logo link-body-emphasis">
         <img src="../../assets/logo/logo-fsyc.png" alt="lgo-fsys">
       </a>
+      <span *ngIf="loading" class="main-title me-2 d-none d-sm-flex"> {{ userName }} </span>
 
       <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
         <i class="fa-solid fa-bars"></i>
@@ -15,6 +16,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="main-sidebar flex-shrink-0">
+          <span class="secondary-title me-2"> {{ userName }} </span>
           <ul class="list-unstyled ps-0">
             <ng-container *ngFor="let menuItem of menuItems">
               <li class="mb-1">
@@ -41,7 +43,6 @@
             </ng-container>
           </ul>
         </div>
-
       </div>
     </div>
   </nav>

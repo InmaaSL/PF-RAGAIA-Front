@@ -47,7 +47,6 @@ export class NnaMainComponent implements OnInit, AfterViewInit {
         });
       }
     })
-
   }
 
   public getInitial(name: string): string {

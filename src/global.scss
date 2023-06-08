@@ -346,11 +346,6 @@ ion-content {
   }
 }
 
-.media-table {
-  width: 75%;
-  margin-inline: auto;
-}
-
 input[type="text"],
 textarea {
   width: 100%;
@@ -410,31 +405,17 @@ textarea {
 }
 
 @media only screen and (max-width: 768px) {
-
   .header-img-logo {
     display: inline-flex;
     text-decoration: none;
     max-width: 100px;
   }
-
-  .media-table {
-    width: 100%;
-    margin-inline: auto;
-  }
-
 }
 
 @media only screen and (max-width: 576px) {
-
   .header-img-logo {
     display: inline-flex;
     text-decoration: none;
     max-width: 80px;
   }
-
-  .media-table {
-    width: 100%;
-    margin-inline: auto;
-  }
-
 }

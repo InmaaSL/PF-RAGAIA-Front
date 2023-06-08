@@ -9,6 +9,7 @@ import { RestService } from 'src/app/services/rest/Rest.Service';
 import { UpdateUserComponent } from '../../modal-components/update-user/update-user.component';
 import { MatDialog } from '@angular/material/dialog';
 import { HomeService } from 'src/app/services/home.service';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-user-management',
@@ -51,7 +52,8 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
     private http: HttpClient,
     private changeDetectorRef: ChangeDetectorRef,
     public dialog: MatDialog,
-    private homeService: HomeService
+    private homeService: HomeService,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -179,8 +181,12 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
 
   public deleteUser(id: string){
     this.apiUserService.deleteUser(id).subscribe({
-      error: (e) => console.log(e),
+      error: (e) => {
+        console.log(e);
+        this.alertService.setAlert('Error al eliminar el registro.', 'danger');
+      },
       complete: () => {
+        this.alertService.setAlert('Usuario eliminado.', 'success');
         this.nnaDataSource.loadData();
         this.workerDataSource.loadData();
       }
