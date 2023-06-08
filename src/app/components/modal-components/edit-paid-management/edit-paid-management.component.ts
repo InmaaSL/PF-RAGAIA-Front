@@ -2,6 +2,7 @@ import { HttpParams } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { AlertService } from 'src/app/services/alert.service';
 import { PaidService } from 'src/app/services/paid.service';
 
 @Component({
@@ -18,7 +19,8 @@ export class EditPaidManagementComponent implements OnInit {
     private paidService: PaidService,
     private formBuilder: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -34,11 +36,8 @@ export class EditPaidManagementComponent implements OnInit {
   }
 
   public saveItem() {
-
     if(this.formGroup.valid){
-
       const age_range = this.formGroup.value.age_min + ',' + this.formGroup.value.age_max;
-      console.log(age_range);
 
       const info = new HttpParams()
       .set('age', this.formGroup.value.age ?? '' )
@@ -49,14 +48,14 @@ export class EditPaidManagementComponent implements OnInit {
 
       this.paidService.savePaidManagement(this.data.paidManagement.id, info).subscribe({
         next: (paidManagement) => {
-          console.log(paidManagement);
+          this.alertService.setAlert('Registro guardado.', 'success');
         },
-        error: (e) => console.log(e),
+        error: (e) => {
+          console.log(e);
+          this.alertService.setAlert('Algo ha ocurrido al tratar de guardar el registro.', 'danger');
+        },
         complete: () => this.dialog.closeAll()
-
       })
-
-
     }
   }
 

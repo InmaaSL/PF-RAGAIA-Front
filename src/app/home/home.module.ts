@@ -44,6 +44,7 @@ import { PaidComponent } from '../components/home-componets/paid/paid.component'
 import { PaidManagementComponent } from '../components/home-componets/paid-management/paid-management.component';
 import { EditPaidManagementComponent } from '../components/modal-components/edit-paid-management/edit-paid-management.component';
 import { MyProfileComponent } from '../components/home-componets/my-profile/my-profile.component';
+import { NgbOffcanvasConfig, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -97,6 +98,7 @@ import { MyProfileComponent } from '../components/home-componets/my-profile/my-p
     MyProfileComponent
   ],
   providers: [
+    NgbOffcanvasConfig, NgbOffcanvas,
     DatePipe,
     { provide: LOCALE_ID, useValue: 'es' }
   ],

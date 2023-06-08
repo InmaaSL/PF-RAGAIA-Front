@@ -1,38 +1,43 @@
 <div class="component-container">
-  <h2> Gestión de pagas según edad </h2>
+  <div class="w-100 d-flex mb-2">
+    <h2 class="main-title d-flex justify-content-center"> Gestión de pagas según edad  </h2>
+  </div>
 
-  <table class="table table-striped table-bordered w-75 mx-auto mt-3">
-    <thead>
-      <tr>
-        <th class="text-center"> Edad </th>
-        <th class="text-center"> Rango de Edad </th>
-        <th class="text-center"> Paga Máxima </th>
-        <th class="text-center"> Paga Base </th>
-        <th class="text-center"> Incentivos </th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <ng-container *ngFor="let item of paidManagement; let isFirst = first">
+  <div class="table-container">
+    <table class="table table-striped table-bordered w-75 mx-auto mt-3">
+      <thead>
         <tr>
-          <td class="text-center">
-            <span *ngIf="isFirst"> &#8804; </span>
-            <span *ngIf="!isFirst">  &#8805; </span>
-            {{ item['age'] }}</td>
-          <td class="text-center">{{ item['age_range'][0] + ' años - ' + item['age_range'][1] + ' años' }}</td>
-          <td class="text-center">{{ item['max_pay'] }}</td>
-          <td class="text-center">{{ item['min_pay'] }}</td>
-          <td class="text-center">{{ item['incentive'] }}</td>
-          <td class="text-center">
-            <button (click)="editItem(item)" *ngIf="!item['editing']">
-              <i class="fa fa-edit"></i>
-            </button>
-            <button (click)="saveItem(item)" *ngIf="item['editing']">
-              <i class="fa fa-save"></i>
-            </button>
-          </td>
+          <th class="text-center"> Edad </th>
+          <th class="text-center"> Rango de Edad </th>
+          <th class="text-center"> Paga Máxima </th>
+          <th class="text-center"> Paga Base </th>
+          <th class="text-center"> Incentivos </th>
+          <th></th>
         </tr>
-      </ng-container>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let item of paidManagement; let isFirst = first">
+          <tr>
+            <td class="text-center">
+              <span *ngIf="isFirst"> &#8804; </span>
+              <span *ngIf="!isFirst">  &#8805; </span>
+              {{ item['age'] }}</td>
+            <td class="text-center">{{ item['age_range'][0] + ' años - ' + item['age_range'][1] + ' años' }}</td>
+            <td class="text-center">{{ item['max_pay'] }}</td>
+            <td class="text-center">{{ item['min_pay'] }}</td>
+            <td class="text-center">{{ item['incentive'] }}</td>
+            <td class="text-center">
+              <button (click)="editItem(item)" *ngIf="!item['editing']">
+                <i class="fa fa-edit"></i>
+              </button>
+              <button (click)="saveItem(item)" *ngIf="item['editing']">
+                <i class="fa fa-save"></i>
+              </button>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+
 </div>

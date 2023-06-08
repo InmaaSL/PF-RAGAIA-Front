@@ -1,7 +1,7 @@
 <div class="component-container" *ngIf="showInfo">
-  <div class="w-100 d-flex mb-2">
+  <div class="w-100 d-flex align-items-center mb-2">
     <i class="fa-solid fa-circle-chevron-left me-2" (click)="goBack()"></i>
-    <span>{{ userData?.name + ' ' + userData?.surname}} </span>
+    <h2 class="secondary-title d-flex justify-content-center"> {{ userData?.name + ' ' + userData?.surname}} </h2>
     <i class="fa-solid fa-circle-xmark ms-auto" (click)="close()"></i>
   </div>
 

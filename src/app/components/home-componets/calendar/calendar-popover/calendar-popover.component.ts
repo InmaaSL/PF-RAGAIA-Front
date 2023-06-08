@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavParams, PopoverController } from '@ionic/angular';
 import { CalendarEvent } from 'angular-calendar';
+import { AlertService } from 'src/app/services/alert.service';
 import { ApiUserService } from 'src/app/services/api-user.service';
 import { CalendarService } from 'src/app/services/calendar.service';
 
@@ -28,7 +29,8 @@ export class CalendarPopoverComponent implements OnInit {
     private formBuilder: FormBuilder,
     private apiUserService: ApiUserService,
     private apiCalendarService: CalendarService,
-    private popoverController: PopoverController
+    private popoverController: PopoverController,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -92,23 +94,31 @@ export class CalendarPopoverComponent implements OnInit {
       if(this.register_id){
         this.apiCalendarService.editCalendarEntry(this.register_id ,calendarEntry).subscribe({
           next: (entry) => {
+            this.alertService.setAlert('Registro editado con éxito.', 'success');
             this.popoverController.dismiss({
               editing: true,
               saved: true
             });
           },
-          error: (e) => console.log(e)
+          error: (e) => {
+            console.log(e);
+            this.alertService.setAlert('Error al editar el registro.', 'danger');
+          },
         })
       } else {
         this.apiCalendarService.saveCalendarEntry(calendarEntry).subscribe({
           next: (entry) => {
+            this.alertService.setAlert('Registro guardado con éxito.', 'success');
             this.popoverController.dismiss({
               editing: true,
               saved: true
             });
 
           },
-          error: (e) => console.log(e)
+          error: (e) => {
+            console.log(e);
+            this.alertService.setAlert('Error al guardar el registro.', 'danger');
+          },
         })
       }
     }

@@ -8,6 +8,7 @@ import { ApiUserService } from 'src/app/services/api-user.service';
 import { PaidService } from 'src/app/services/paid.service';
 import { parse } from 'path';
 import { HttpParams } from '@angular/common/http';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-paid',
@@ -48,7 +49,8 @@ export class PaidComponent implements OnInit  {
 
   constructor(
     private apiUserService: ApiUserService,
-    private paidService: PaidService
+    private paidService: PaidService,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -90,7 +92,10 @@ export class PaidComponent implements OnInit  {
       next: (paidManagement: any) => {
         this.paidManagement = paidManagement;
       },
-      error: (e) => console.log(e)
+      error: (e) => {
+        console.log(e);
+        this.alertService.setAlert('Error al obtener los datos de registro de pagas.', 'danger');
+      },
     })
   }
 
@@ -163,9 +168,6 @@ export class PaidComponent implements OnInit  {
     const weeksArray = weeksInRange.map((week: any) => {
       this.weeks.push(week);
     });
-
-    console.log(this.weeks)
-    // this.getPayRegisters();
   }
 
   public getStartOfWeek(week: any){
@@ -329,8 +331,12 @@ export class PaidComponent implements OnInit  {
 
     this.paidService.savePayRegister(row['NNA ID'], payInfo).subscribe({
       next: (payInfo: any) => {
+        this.alertService.setAlert('Registros guardados con éxito.', 'success');
       },
-      error: (e) => console.log(e)
+      error: (e) => {
+        console.log(e);
+        this.alertService.setAlert('Error al guardar el registros.', 'danger');
+      },
     })
   }
 
@@ -359,8 +365,10 @@ export class PaidComponent implements OnInit  {
           }
         }
       },
-      error: (e) => console.log(e)
+      error: (e) => {
+        console.log(e);
+        this.alertService.setAlert('Algo ha ocurrido al cargar los registros.', 'warning');
+      },
     })
   }
-
 }

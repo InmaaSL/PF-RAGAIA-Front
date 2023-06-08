@@ -43,6 +43,7 @@ export class LoginComponent  implements OnInit {
         }
 
         this.router.navigateByUrl('/home');
+        this.homeService.updateSelectedComponent('main');
       },
       error: (e) => {
         console.log(e);

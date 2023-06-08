@@ -1,20 +1,7 @@
 <div class="component-container">
-  <!-- <div class="w-100 d-flex mb-2">
-    <i class="fa-solid fa-circle-chevron-left me-2" (click)="goBack()"></i>
-    <span class="pointer me-1" (click)="goBack()"> {{ nnaName }} </span> <span>/ Educación </span>
-    <i class="fa-solid fa-circle-xmark ms-auto" (click)="close()"></i>
-  </div> -->
-
-  <!-- <div class="w-100 d-flex justify-content-center gap-4">
-    <label for="fileToUpload" class="btn-update-document">
-      <span> Seleccionar archivo </span>
-      <input id="fileToUpload" type="file" name="fileToUpload" style="display: none" (change)="addEducationDocument($event.target)" #file>
-    </label>
-
-    <label class="btn-update-document" (click)="createEducationRecord()">
-      <span> Generar registro </span>
-    </label>
-  </div> -->
+  <div class="w-100 d-flex mb-2">
+    <h2 class="main-title d-flex justify-content-center"> Registro de pagas semanal </h2>
+  </div>
 
   <form class="mb-3" [formGroup]="dateForm">
     <div class="d-flex gap-3" *ngIf="!editing">
@@ -37,8 +24,8 @@
 
   <ul class="nav nav-tabs gradient" id="myTab" role="tablist">
     <ng-container *ngFor="let item of weeks; let i = index">
-      <li class="main-title nav-item" role="presentation">
-        <button class="nav-link" id="home-tab{{i}}" data-bs-toggle="tab" [attr.data-bs-target]="'#home-tab-pane' + i"
+      <li class="nav-item" role="presentation">
+        <button class=" secondary-title nav-link" id="home-tab{{i}}" data-bs-toggle="tab" [attr.data-bs-target]="'#home-tab-pane' + i"
           type="button" role="tab" [attr.aria-controls]="'home-tab-pane' + i" [class.active]="activeTabIndex === i" [attr.aria-selected]="activeTabIndex === i ? 'true' : 'false'"
           (click)="activateTab(i)"> Semana {{ i + 1 }} </button>
       </li>

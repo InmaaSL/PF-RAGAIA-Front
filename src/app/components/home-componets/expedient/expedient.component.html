@@ -1,7 +1,8 @@
 <div class="component-container">
-  <div class="w-100 d-flex mb-2">
+  <div class="w-100 d-flex align-items-center mb-2">
     <i class="fa-solid fa-circle-chevron-left me-2" (click)="goBack()"></i>
-    <span class="pointer me-1" (click)="goBack()"> {{ nnaName }} </span> <span>/ Expediente </span>
+    <h2 class="secondary-title d-flex justify-content-center"> <span class="pointer me-1" (click)="goBack()"> {{ nnaName }} </span> <span>/ Expediente </span> </h2>
+    <!-- <span class="pointer me-1" (click)="goBack()"> {{ nnaName }} </span> <span>/ Expediente </span> -->
     <i class="fa-solid fa-circle-xmark ms-auto" (click)="close()"></i>
   </div>
 
@@ -13,8 +14,8 @@
   </div>
 
 
-  <div class="media-table">
-    <table mat-table [dataSource]="documentDataSource" class="table">
+  <div class="table-container">
+    <table mat-table [dataSource]="expedientDataSource" class="table">
       <!-- Name Column -->
       <ng-container matColumnDef="file_name">
         <th class="py-2" mat-header-cell *matHeaderCellDef> Nombre </th>
@@ -51,6 +52,6 @@
       <tr mat-header-row *matHeaderRowDef="documentColumns"></tr>
       <tr class="tr-body" mat-row *matRowDef="let row; columns: documentColumns;"></tr>
     </table>
-    <mat-paginator [pageSize]="10" [pageSizeOptions]="[1, 10, 25, 100]" aria-label="Select page"></mat-paginator>
+    <mat-paginator #ePaginator="matPaginator" [pageSize]="10" [pageSizeOptions]="[1, 10, 25, 100]" aria-label="Select expedient page"></mat-paginator>
   </div>
 </div>

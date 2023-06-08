@@ -47,7 +47,6 @@ export class NnaMainComponent implements OnInit, AfterViewInit {
         });
       }
     })
-
   }
 
   public getInitial(name: string): string {
@@ -60,6 +59,10 @@ export class NnaMainComponent implements OnInit, AfterViewInit {
   public goToNna(userId: any){
     this.componentsService.updateSelectedUser(userId);
     this.homeService.updateSelectedComponent('main-individual-nna');
+  }
+
+  public close(){
+    this.homeService.updateSelectedComponent('main');
   }
 
 }

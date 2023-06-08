@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { PostService } from 'src/app/services/post.service';
 import { HomeService } from 'src/app/services/home.service';
 import { ComponentsService } from 'src/app/services/components.service';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-foro',
@@ -23,8 +24,8 @@ export class ForoComponent implements OnInit, AfterViewInit {
     private changeDetectorRef: ChangeDetectorRef,
     private postService: PostService,
     private homeService: HomeService,
-    private componentsService: ComponentsService
-
+    private componentsService: ComponentsService,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -37,11 +38,13 @@ export class ForoComponent implements OnInit, AfterViewInit {
   public getPost(){
     this.postService.getAllPost().subscribe({
       next: (posts: any) => this.posts = posts,
-      error: (e) => console.log(e),
+      error: (e) => {
+        console.log(e);
+        this.alertService.setAlert('Error al obtener los post.', 'danger');
+      },
       complete: () => this.loading = true
     })
   }
-
 
   public newPost(){
     const dialogConfig = new MatDialogConfig();
@@ -62,9 +65,12 @@ export class ForoComponent implements OnInit, AfterViewInit {
 
   public deletePost(id: string){
     this.postService.deletePost(id).subscribe({
-      error: (e) => console.log(e),
+      error: (e) => {
+        console.log(e);
+        this.alertService.setAlert('Error al eliminar el post.', 'danger');
+      },
       complete: () => {
-        console.log('Post eliminado');
+        this.alertService.setAlert('Post eliminado.', 'success');
         this.getPost();
       }
     })
@@ -90,6 +96,5 @@ export class ForoComponent implements OnInit, AfterViewInit {
     this.componentsService.updateSelectedUser(id);
     this.homeService.updateSelectedComponent('individual-post');
   }
-
 
 }

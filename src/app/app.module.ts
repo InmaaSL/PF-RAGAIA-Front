@@ -18,6 +18,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CalendarDateFormatter, CalendarModule, CalendarMomentDateFormatter, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ResetPasswordPageModule } from './reset-password/reset-password.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CustomAlertModule } from './services/customAlert.module';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,8 @@ import { ResetPasswordPageModule } from './reset-password/reset-password.module'
         },
       }
     ),
+    NgbModule,
+    CustomAlertModule
   ],
   providers: [
     AuthService,

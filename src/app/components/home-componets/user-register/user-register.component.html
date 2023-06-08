@@ -4,6 +4,7 @@
   </div>
 </div>
 
+<div class="component-container">
   <ng-container *ngIf="!userId && !myProfile ">
     <div>
       <h1 class="main-title"> Nuevo usuario: </h1>
@@ -14,7 +15,7 @@
       <div class="row">
           <div class="col-12 p-0">
               <div class="row gy-3">
-                <div class="col-12" *ngIf="!myProfile">
+                <div class="col-12" *ngIf="!myProfile && !userId">
                   <div class="form-switch p-0">
                     <label class="form-check-label pe-5" for="mainRoleSwitch"> NNA </label>
                     <input class="form-check-input" type="checkbox" role="switch" id="mainRoleSwitch" formControlName="mainRole" formControlName="mainRole" (change)="onMainRoleChange($event)" checked>
@@ -68,7 +69,7 @@
                       <input type="text" class="form-control" id="postal_code" formControlName="postal_code">
                   </div>
 
-                  <ng-container *ngIf="!workerRole">
+                  <ng-container *ngIf="!workerRole && !myProfile">
                     <!-- En caso de ser NNA -->
                     <div class="w-100 m-0"></div>
                     <div class="col-12 col-md-3">
@@ -137,9 +138,11 @@
           </div>
 
           <div class="col-12 my-5">
-              <div class="d-grid gap-3 col-6 mx-auto">
-                  <button type="button" class="btn btn-primary" (click)="submitRegister()"> Registrar </button>
+              <div class="d-flex justify-content-center p-3 col-6 mx-auto">
+                  <button type="button" class="btn-update-document" (click)="submitRegister()"> Registrar </button>
               </div>
           </div>
       </div>
   </form>
+</div>
+

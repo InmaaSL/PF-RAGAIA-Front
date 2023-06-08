@@ -133,6 +133,7 @@ ion-popover {
   border: solid 1px var(--secondary-color);
   border-radius: 5px;
   color: var(--secondary-color);
+  background-color: var(--white-color);
   font-weight: var(--fontWeight600);
   padding: 0.75rem 2.5rem;
   margin-bottom: 1.75rem;
@@ -268,7 +269,17 @@ ion-content {
   font-size: var(--font11);
   font-weight: var(--fontWeight400);
   font-family: var(--fontFamilyBebas);
+  color: var(--dark-color);
   margin-top: 0;
+}
+
+.secondary-title {
+  font-size: var(--font9);
+  font-weight: var(--fontWeight400);
+  font-family: var(--fontFamilyBebas);
+  color: var(--dark-color);
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .sub-title {
@@ -335,11 +346,6 @@ ion-content {
   }
 }
 
-.media-table {
-  width: 75%;
-  margin-inline: auto;
-}
-
 input[type="text"],
 textarea {
   width: 100%;
@@ -394,33 +400,22 @@ textarea {
   width: 200%;
 }
 
+.panel-filters {
+  margin-top: 1rem;
+}
 
 @media only screen and (max-width: 768px) {
-
   .header-img-logo {
     display: inline-flex;
     text-decoration: none;
     max-width: 100px;
   }
-
-  .media-table {
-    width: 100%;
-    margin-inline: auto;
-  }
-
 }
 
 @media only screen and (max-width: 576px) {
-
   .header-img-logo {
     display: inline-flex;
     text-decoration: none;
     max-width: 80px;
   }
-
-  .media-table {
-    width: 100%;
-    margin-inline: auto;
-  }
-
 }

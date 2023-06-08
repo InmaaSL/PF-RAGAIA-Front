@@ -23,9 +23,9 @@ export class AuthService {
 
   private userInfo: BehaviorSubject<JSON> = new BehaviorSubject<JSON>(null!);
   private userData: BehaviorSubject<JSON> = new BehaviorSubject<JSON>(null!);
-  private roles: Array<string> | undefined;
+  private roles: Array<string> = [];
 
-  currentAccessToken: string | undefined;
+  public currentAccessToken: string | undefined;
 
   constructor(
     public http: HttpClient,
@@ -48,6 +48,11 @@ export class AuthService {
       const token = await JSON.parse(tokenValue);
       if (token) {
         this.currentAccessToken = token;
+        if(this.currentAccessToken) {
+          this.setUserRoles(
+            JSON.parse(atob(this.currentAccessToken.split('.')[1]))['roles']
+          );
+        }
         this.isAuthenticated.next(true);
         this.getUserId();
         this.getUserInfoApi();
@@ -160,7 +165,6 @@ export class AuthService {
           JSON.stringify(res['refresh_token'])
         );
 
-
         this.currentAccessToken = res['token'];
 
         // const storeRefresh = localStorage.setItem( REFRESH_TOKEN_KEY, JSON.stringify(res['refresh_token']));
@@ -170,6 +174,7 @@ export class AuthService {
             JSON.parse(atob(this.currentAccessToken.split('.')[1]))['roles']
           );
         }
+        // return from(Promise.all([storeAccess]));
         return from(Promise.all([storeAccess, storeRefresh]));
       }),
       tap((_: any) => {
@@ -180,18 +185,16 @@ export class AuthService {
     );
   }
 
-  storeAccessToken(accessToken: string | undefined) {
+  public storeAccessToken(accessToken: string | undefined) {
     this.currentAccessToken = accessToken;
     return from(localStorage['setIem'](TOKEN_KEY, JSON.stringify(accessToken)));
   }
 
-  serverLogin(user: any, pass: any) {
+  public serverLogin(user: any, pass: any) {
     return this.http.post(this.urlApiLogin, { username: user, password: pass });
   }
 
-
-
-  async logout(url = '/login') {
+  public async logout(url = '/login') {
     this.currentAccessToken = '';
     // Remove all stored tokens
     this.isAuthenticated.next(false);
@@ -199,7 +202,7 @@ export class AuthService {
     this.router.navigateByUrl(url);
   }
 
-  clearLocalStorage(forced = false) {
+  public clearLocalStorage(forced = false) {
     if (
       forced ||
       localStorage.getItem('saveSession') === 'false' ||

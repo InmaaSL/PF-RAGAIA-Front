@@ -5,6 +5,7 @@ import { HomeService } from 'src/app/services/home.service';
 import { PostService } from 'src/app/services/post.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpParams } from '@angular/common/http';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-individual-post',
@@ -29,7 +30,7 @@ export class IndividualPostComponent implements OnInit {
     private componentsService: ComponentsService,
     public dialog: MatDialog,
     private formBuilder: FormBuilder,
-
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -51,8 +52,12 @@ export class IndividualPostComponent implements OnInit {
       .set('message', this.postForm.value.message ?? '' )
 
       this.postService.savePostMessage(this.post_id, messageInfo).subscribe({
-        error: (e) => console.log(e),
+        error: (e) => {
+          console.log(e);
+          this.alertService.setAlert('Error al guardar el mensaje.', 'danger');
+        },
         complete: () => {
+          this.alertService.setAlert('Mensaje publicado.', 'success');
           this.postForm.reset();
           this.getPostMessages();
         }
@@ -79,17 +84,19 @@ export class IndividualPostComponent implements OnInit {
     return postDate < twoWeeksAgo;
   }
 
-
   public getPostMessages(){
     this.postService.getPostMessages(this.post_id).subscribe({
       next: (postMessages: any) => {
         this.messages = postMessages;
       },
-      error: (e) => console.log(e)
+      error: (e) => {
+        console.log(e);
+        this.alertService.setAlert('Error al cargar los mensajes.', 'danger');
+      },
     })
   }
 
-  changeColor() {
+  public changeColor() {
     this.colorAlternative = !this.colorAlternative;
   }
 

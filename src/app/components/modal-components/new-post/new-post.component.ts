@@ -2,6 +2,7 @@ import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { AlertService } from 'src/app/services/alert.service';
 import { PostService } from 'src/app/services/post.service';
 
 @Component({
@@ -17,11 +18,11 @@ export class NewPostComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private postService: PostService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private alertService: AlertService
     ) { }
 
   ngOnInit() {
-
     this.postForm = this.formBuilder.group({
       topic: ['', Validators.required],
       title: ['', Validators.required],
@@ -40,8 +41,11 @@ export class NewPostComponent implements OnInit {
       .set('message', this.postForm.value.message ?? '' )
 
       this.postService.savePost(postInfo).subscribe({
-        error: (e) => console.log(e),
+        error: (e) => {
+          this.alertService.setAlert('Error al guardar el post.', 'danger');
+        },
         complete: () => {
+          this.alertService.setAlert('Post publicado.', 'success');
           this.postForm.reset();
           this.dialog.closeAll();
         }

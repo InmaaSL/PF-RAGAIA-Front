@@ -73,6 +73,7 @@
 .event-type {
   font-size: var(--font3);
   font-family: var(--fontFamilyBebas);
+  min-width: 75px;
 }
 
 .event-time {
@@ -102,7 +103,7 @@
 .line {
   flex-grow: 1;
   height: 2px;
-  background-color: var(--quaternary-color);
+  background-color: var(--dark-color);
 }
 
 .dot {

@@ -19,9 +19,11 @@ export class MainComponent  implements OnInit {
 
 
   public loading = false;
+  public loadingCalendar = false;
   public userName = '';
   public today = '';
   public events: any[] = [];
+  public authorizedCreate = false;
 
   constructor(
     private apiUserService: ApiUserService,
@@ -35,37 +37,16 @@ export class MainComponent  implements OnInit {
   ngOnInit() {
     this.today = moment().format('LL');
 
-
     this.authService.getUserInfo().subscribe({
       next: (next) => {
-        this.loadData();
+        if(next){
+          this.getEvents();
+          this.checkAuthorized();
+          this.loading = true;
+        }
       },
       error: (e) => console.log(e)
     });
-  }
-
-  public loadData(){
-    this.apiConnectService.getUserInfo().subscribe(
-      {
-        next: (userData:any) => {
-          if(userData) {
-            this.loading = true;
-            this.userName = userData.userData.name + ' ' + userData.userData.surname;
-            this.getEvents();
-          }
-        }
-
-      }
-    )
-    // this.authService.getUserData().subscribe({
-    //   next: (userData:any) => {
-    //     console.log(userData);
-    //     if(userData) {
-    //       this.userName = userData['name'] + ' ' + userData['surname'];
-    //       this.getEvents();
-    //     }
-    //   }
-    // });
   }
 
   public getEvents(){
@@ -74,16 +55,24 @@ export class MainComponent  implements OnInit {
 
     this.apiCalendarService.getDayCalendarEntry(convertedDate).subscribe({
       next: (events: any) => {
+        this.loadingCalendar = true;
         this.events = events;
       }
     })
-
-
   }
 
   public async goToEvent(event: any) {
-    this.componentsService.updateSelectedUser(event);
-    this.homeService.updateSelectedComponent('calendar');
+    if(this.authorizedCreate){
+      this.componentsService.updateSelectedUser(event);
+      this.homeService.updateSelectedComponent('calendar');
+    }
+  }
 
+  public checkAuthorized() {
+    const roles = this.authService.getUserRoles();
+
+    if (roles?.includes('ROLE_WORKER')) {
+        this.authorizedCreate = true;
+      }
   }
 }

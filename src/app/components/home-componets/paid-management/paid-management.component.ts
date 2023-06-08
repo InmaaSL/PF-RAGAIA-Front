@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { PaidService } from 'src/app/services/paid.service';
 import { EditPaidManagementComponent } from '../../modal-components/edit-paid-management/edit-paid-management.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-paid-management',
@@ -19,7 +20,8 @@ export class PaidManagementComponent implements OnInit {
   constructor(
     private paidService: PaidService,
     private formBuilder: FormBuilder,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -32,7 +34,10 @@ export class PaidManagementComponent implements OnInit {
         this.paidManagement = paidManagement;
         console.log(this.paidManagement);
       },
-      error: (e) => console.log(e)
+      error: (e) => {
+        console.log(e);
+        this.alertService.setAlert('Error al obtener los datos de registro de pagas.', 'danger');
+      },
     })
   }
 

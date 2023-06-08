@@ -2,7 +2,7 @@
 
   <div class="d-flex justify-content-around align-items-center">
     <!-- <h1 class="hello-title">{{ today }}</h1> -->
-    <h1 class="hello-title">¡Hola {{ userName }}! <span class="hello-date"> Hoy es {{ today }} </span>  </h1>
+    <h1 class="hello-title"> Hoy es {{ today }} </h1>
   </div>
 
   <div class="line-container">
@@ -14,15 +14,17 @@
   <div class="event-container">
     <h1 class="main-title"> Tareas diarias </h1>
 
-    <div [ngClass]="{'event': item.register_type === 'Evento', 'task' : item.register_type === 'Tarea', 'remain' : item.register_type === 'Recordatorio'}"
-    class="event-card" *ngFor="let item of events" (click)="goToEvent(item)">
-      <span class="event-type"> {{ item.register_type}} </span>
-      <span class="event-time"> {{ item.entry_time | date:'HH:ss'}} <span class="event-title"> {{ item.title}} </span> </span>
-      <span class="event-description"> {{ item?.description}} </span>
-      <!-- <span class="event-user"> {{ item.worker?.userData.name + ' ' + item.worker?.userData.surname}} </span>
-      <span class="event-user"> {{ item.user?.userData.name + ' ' + item.user?.userData.surname}}</span> -->
-      <!-- <span class="event-place"> {{ item?.place}}</span> -->
-    </div>
+    <ng-container *ngIf="loadingCalendar">
+      <div [ngClass]="{'event': item.register_type === 'Evento', 'task' : item.register_type === 'Tarea', 'remain' : item.register_type === 'Recordatorio'}"
+      class="event-card" *ngFor="let item of events" (click)="goToEvent(item)">
+        <span class="event-type"> {{ item.register_type}} </span>
+        <span class="event-time"> {{ item.entry_time | date:'HH:ss'}} <span class="event-title"> {{ item.title}} </span> </span>
+        <span class="event-description"> {{ item?.description}} </span>
+        <!-- <span class="event-user"> {{ item.worker?.userData.name + ' ' + item.worker?.userData.surname}} </span>
+        <span class="event-user"> {{ item.user?.userData.name + ' ' + item.user?.userData.surname}}</span> -->
+        <!-- <span class="event-place"> {{ item?.place}}</span> -->
+      </div>
+    </ng-container>
   </div>
 </div>
 
