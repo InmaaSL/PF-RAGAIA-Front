@@ -6,6 +6,7 @@ import { PostService } from 'src/app/services/post.service';
 import { HomeService } from 'src/app/services/home.service';
 import { ComponentsService } from 'src/app/services/components.service';
 import { AlertService } from 'src/app/services/alert.service';
+import { ApiConnectService } from 'src/app/services/api-connect.service';
 
 @Component({
   selector: 'app-foro',
@@ -18,6 +19,8 @@ export class ForoComponent implements OnInit, AfterViewInit {
 
   public loading: boolean = false;
 
+  public userId = '';
+
   constructor(
     public dialog: MatDialog,
     private http: HttpClient,
@@ -25,7 +28,8 @@ export class ForoComponent implements OnInit, AfterViewInit {
     private postService: PostService,
     private homeService: HomeService,
     private componentsService: ComponentsService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private apiConnectService: ApiConnectService
   ) { }
 
   ngOnInit() {
@@ -33,6 +37,14 @@ export class ForoComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(){
     this.getPost();
+
+    this.apiConnectService.getUserId().subscribe({
+      next: (id:any) => {
+        this.userId = id;
+        console.log(id)
+      }
+    })
+
   }
 
   public getPost(){
@@ -90,6 +102,15 @@ export class ForoComponent implements OnInit, AfterViewInit {
 
     const postDate = new Date(post.date);
     return postDate > twoWeeksAgo;
+  }
+
+  public checkAuthor(post_user_id : string){
+    console.log(post_user_id);
+    if(this.userId === post_user_id){
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public goToPost(id: string){

@@ -18,7 +18,9 @@
           <div class="d-flex flex-wrap ms-2">
             <span class="author"><i class="fa-solid fa-comment fa-flip-horizontal"></i> <span class="author-name"> {{ post['user']['userData']['name'] + ' ' + post['user']['userData']['surname'] }}</span>  </span>
             <span class="author"><i class="fa-solid fa-hashtag"></i> {{ post['date'] | date:'dd MMM YYYY, HH:mm' }}</span>
-            <span class="author ms-sm-auto" (click)="deletePost(post['id'])"><i class="fa-solid fa-trash-can"></i> <span class="same-author"> Eliminar </span> </span>
+            <ng-container *ngIf="checkAuthor(post['user']['id'])">
+              <span class="author ms-sm-auto" (click)="deletePost(post['id'])"><i class="fa-solid fa-trash-can"></i> <span class="same-author"> Eliminar </span> </span>
+            </ng-container>
           </div>
         </div>
       </ng-container>
