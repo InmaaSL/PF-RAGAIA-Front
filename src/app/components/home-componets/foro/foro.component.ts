@@ -105,7 +105,6 @@ export class ForoComponent implements OnInit, AfterViewInit {
   }
 
   public checkAuthor(post_user_id : string){
-    console.log(post_user_id);
     if(this.userId === post_user_id){
       return true;
     } else {

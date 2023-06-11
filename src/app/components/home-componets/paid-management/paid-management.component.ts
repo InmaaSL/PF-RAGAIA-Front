@@ -32,7 +32,6 @@ export class PaidManagementComponent implements OnInit {
     this.paidService.getPaidManagements().subscribe({
       next: (paidManagement: any) => {
         this.paidManagement = paidManagement;
-        console.log(this.paidManagement);
       },
       error: (e) => {
         console.log(e);
@@ -44,7 +43,6 @@ export class PaidManagementComponent implements OnInit {
 
   public editItem(item: any) {
     item.editing = true;
-    console.log('Edit item:', item);
 
     const dialogConfig = new MatDialogConfig();
 
@@ -68,7 +66,6 @@ export class PaidManagementComponent implements OnInit {
 
   public saveItem(item: any) {
     item.editing = false;
-    console.log('Edit item:', item);
   }
 
 }

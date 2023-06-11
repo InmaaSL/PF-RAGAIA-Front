@@ -34,7 +34,6 @@ export class NewPostComponent implements OnInit {
 
   public onSubmit() {
     if (this.postForm?.valid) {
-      console.log(this.postForm.value);
       const postInfo = new HttpParams()
       .set('topic', this.postForm.value.topic ?? '' )
       .set('title', this.postForm.value.title ?? '' )

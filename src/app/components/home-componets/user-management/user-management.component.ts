@@ -159,7 +159,6 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
 
   public nameFilterN(event: any) {
     this.restServiceN.filter[0].value = event.target.value ? event.target.value : null;
-    console.log(this.restServiceN.filter[0].value)
     this.nnaDataSource.loadData();
   }
 
@@ -202,7 +201,6 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
   }
 
   async resetPassword(email: string) {
-    console.log(email)
 
     const emailÏnfo = new HttpParams()
     .set('email', email );

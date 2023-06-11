@@ -26,7 +26,6 @@ export class PrintObjectiveComponent implements OnInit {
   ngOnInit() {
     if(this.data){
       this.objectives = this.data.objectives;
-      console.log(this.objectives)
 
       this.name = this.objectives[0].user.userData.name + ' ' + this.objectives[0].user.userData.surname;
     }

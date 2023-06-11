@@ -62,7 +62,6 @@ export class JwtInterceptor implements HttpInterceptor {
   private isInBlockedList(url: string): boolean {
     // Example: Filter out our login and logout API call
     if (url === this.urlApiLogin || url === this.urlApiRefresh ) {
-      // console.log('isInBlockedList', url);
       return true;
     } else {
       return false;

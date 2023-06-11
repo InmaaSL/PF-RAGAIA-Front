@@ -1,16 +1,17 @@
 <div class="card cascading-right login-container">
+  <h3 class="text-center mx-auto" *ngIf="alertErrorLogin">Correo o contraseña incorrecta, inténtelo de nuevo </h3>
   <div class="card-body p-4 shadow-5 text-center">
     <form [formGroup]="loginForm">
       <!-- Email input -->
       <div class="form-outline mb-4">
         <label class="form-label" for="email"> Correo electrónico </label>
-        <input type="email" id="email" class="form-control" formControlName="email" />
+        <input type="email" id="email" class="form-control" formControlName="email" (keyup)="onKeyUp()" />
       </div>
 
       <!-- Password input -->
       <div class="form-outline mb-4">
         <label class="form-label" for="password"> Contraseña </label>
-        <input type="password" id="password" class="form-control" formControlName="password"/>
+        <input type="password" id="password" class="form-control" formControlName="password" (keyup)="onKeyUp()"/>
       </div>
 
       <!-- Checkbox -->

@@ -17,8 +17,9 @@ export class ResetPasswordComponent  implements OnInit {
     email: new FormControl('', Validators.compose([Validators.email, Validators.required])),
   });
 
-  saveSession = new FormControl();
-  alertErrorLogin = false;
+  public saveSession = new FormControl();
+  public alertErrorLogin = false;
+  public registerSubmitted = false;
 
 
   constructor(
@@ -31,15 +32,23 @@ export class ResetPasswordComponent  implements OnInit {
   ngOnInit() {}
 
   async resetPassword() {
+    this.registerSubmitted = true;
     if(this.passwordForm.valid){
         const newPassword = new HttpParams()
         .set('email', this.passwordForm.value.email ?? '' );
 
         this.apiConnectService.resetPassword(newPassword).subscribe({
-          error: (e) => console.log(e),
+          error: (e) => {
+            console.log(e);
+            this.alertErrorLogin = true;
+          },
           complete: () => this.homeService.updateSelectedComponent('login')
         })
       }
+  }
+
+  public onKeyUp() {
+    this.alertErrorLogin = false;
   }
 
   public goBack(){

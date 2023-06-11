@@ -32,7 +32,7 @@ export class LoginComponent  implements OnInit {
   ngOnInit() {
   }
 
-  async login() {
+  public async login() {
 
     this.auth.login(this.loginForm.value.email, this.loginForm.value.password).subscribe({
       complete: () => {
@@ -52,10 +52,13 @@ export class LoginComponent  implements OnInit {
     });
   }
 
-  rememberPassword(){
+  public rememberPassword(){
     this.homeService.updateSelectedComponent('reset-password');
   }
 
+  public onKeyUp() {
+    this.alertErrorLogin = false;
+  }
 
 
 }

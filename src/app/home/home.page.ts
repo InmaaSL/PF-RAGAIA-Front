@@ -192,11 +192,8 @@ export class HomePage implements OnInit, AfterViewInit {
 
   public checkAccess(): void{
     this.showMenuItems = this.menuItems.filter(item => {
-      console.log(item.access.some(accessItem => this.roles?.includes(`ROLE_${accessItem.toUpperCase()}`)))
       return item.access.some(accessItem => this.roles?.includes(`ROLE_${accessItem.toUpperCase()}`));
     });
-
-    console.log(this.showMenuItems);
   }
 
 }

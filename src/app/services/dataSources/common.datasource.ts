@@ -33,7 +33,6 @@ export class CommonDataSource implements DataSource<any> {
     }
 
     connect(collectionViewer: CollectionViewer): Observable<any[]> {
-        // console.log("Connecting data source");
         return this.resultsSubject.asObservable();
     }
 

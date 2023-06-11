@@ -13,6 +13,7 @@ export class MyProfileComponent implements OnInit {
 
   public userId = '';
 
+  public alertErrorLogin = false;
 
   public passwordForm = new FormGroup({
     new_password: new FormControl('', Validators.required),
@@ -36,24 +37,29 @@ export class MyProfileComponent implements OnInit {
   async resetPassword() {
     if(this.passwordForm.valid){
 
-        if(this.passwordForm.controls.new_password.value === this.passwordForm.controls.repeat_password.value ){
-          const newPassword = new HttpParams()
-          .set('password', this.passwordForm.value.new_password ?? '' )
-          .set('confirmPassword', this.passwordForm.value.repeat_password ?? '' );
+      if(this.passwordForm.controls.new_password.value === this.passwordForm.controls.repeat_password.value ){
+        const newPassword = new HttpParams()
+        .set('password', this.passwordForm.value.new_password ?? '' )
+        .set('confirmPassword', this.passwordForm.value.repeat_password ?? '' );
 
-          this.apiConnectService.userChangeHisPassword(newPassword).subscribe({
-            error: (e) => {
-              console.log(e);
-              this.alertService.setAlert(e, 'danger');
-            },
-            complete: () => {
-              this.passwordForm.reset();
-              this.alertService.setAlert('Contraseña actualizada.', 'success');
-            }
-          })
-        }
-
+        this.apiConnectService.userChangeHisPassword(newPassword).subscribe({
+          error: (e) => {
+            console.log(e);
+            this.alertService.setAlert(e, 'danger');
+          },
+          complete: () => {
+            this.passwordForm.reset();
+            this.alertService.setAlert('Contraseña actualizada.', 'success');
+          }
+        })
+        } else {
+        this.alertErrorLogin = true;
       }
     }
+  }
 
+  public onKeyUp() {
+    this.alertErrorLogin = false;
+  }
 }
+

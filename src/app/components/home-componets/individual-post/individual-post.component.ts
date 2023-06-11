@@ -47,7 +47,6 @@ export class IndividualPostComponent implements OnInit {
 
   public onSubmit() {
     if (this.postForm?.valid) {
-      console.log(this.postForm.value);
       const messageInfo = new HttpParams()
       .set('message', this.postForm.value.message ?? '' )
 

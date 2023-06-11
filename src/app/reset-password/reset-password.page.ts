@@ -14,6 +14,7 @@ export class ResetPasswordPage implements OnInit {
 
   public confirmation_token: any = '' ;
   public password_request_token: any = '' ;
+  public alertErrorLogin = false;
 
   public passwordForm = new FormGroup({
     new_password: new FormControl('', Validators.required),
@@ -32,9 +33,6 @@ export class ResetPasswordPage implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.confirmation_token = params.get('confirmation_token');
       this.password_request_token = params.get('password_request_token');
-      // Aquí puedes utilizar el token como necesites
-      console.log(this.confirmation_token);
-      console.log(this.password_request_token);
     });
   }
 
@@ -50,6 +48,8 @@ export class ResetPasswordPage implements OnInit {
             error: (e) => console.log(e),
             complete: () => this.router.navigateByUrl('/login')
           })
+        } else {
+          this.alertErrorLogin = true;
         }
       }
 
@@ -63,16 +63,14 @@ export class ResetPasswordPage implements OnInit {
             error: (e) => console.log(e),
             complete: () => this.router.navigateByUrl('/login')
           })
+        } else {
+          this.alertErrorLogin = true;
         }
-
       }
     }
-
-
-
-
-
-
+  }
+  public onKeyUp() {
+    this.alertErrorLogin = false;
   }
 
 
